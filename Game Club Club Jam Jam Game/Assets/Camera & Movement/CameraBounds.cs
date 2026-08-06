@@ -42,7 +42,7 @@ public class CameraBounds : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.CompareTag(triggerTag))
+        if (collision.transform.CompareTag(triggerTag) && !collision.isTrigger)
         {
             // Override the camera's bounds
             _mainCameraControl.SetBounds(this);
@@ -51,7 +51,7 @@ public class CameraBounds : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.transform.CompareTag(triggerTag))
+        if (collision.transform.CompareTag(triggerTag) && !collision.isTrigger)
         {
             // Unbound the camera when leaving this bound's trigger and the camera hasn't entered another CameraBounds
             if (_mainCameraControl.GetBounds() == this)
