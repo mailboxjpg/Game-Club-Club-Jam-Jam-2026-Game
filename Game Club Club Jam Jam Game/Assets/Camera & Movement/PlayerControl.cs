@@ -10,7 +10,7 @@ public class PlayerControl : CharacterController2D
     private bool _jumpHeld;
 
     [Header("Player")]
-    [SerializeField] private bool jumpWithHold = true;
+    [SerializeField] private bool autoJumpWithHold = true;
     [SerializeField] private bool allowJumpCanceling = true;
 
     protected override void Awake()
@@ -51,11 +51,11 @@ public class PlayerControl : CharacterController2D
         return inputActions.Player.Move.ReadValue<Vector2>().x;
     }
  
-    protected override bool GetJumpInput() => _jumpPressedThisFrame;
+    protected override bool GetJumpInput() => _jumpPressedThisFrame || (autoJumpWithHold && _jumpHeld && IsGrounded && !IsJumping);
  
-    protected override bool GetJumpReleasedInput() => _jumpReleasedThisFrame;
+    protected override bool GetJumpReleasedInput() => allowJumpCanceling && _jumpReleasedThisFrame; // false defaults to never
  
-    protected override bool GetJumpInputHeld() => _jumpHeld;
+    protected override bool GetJumpInputHeld() => _jumpHeld || !allowJumpCanceling; // true defaults to always use unity gravity jumping up
  
     protected override bool GetCrouchInput() => inputActions.Player.Crouch.IsPressed();
  

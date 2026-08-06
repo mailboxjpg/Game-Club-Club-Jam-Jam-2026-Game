@@ -29,10 +29,42 @@ public abstract class CharacterController2D : MonoBehaviour
     [SerializeField] protected float fallGravityMultiplier = 2.2f; // snappier falls
     [SerializeField] protected float lowJumpGravityMultiplier = 2f; // short-hop when jump released early
 
+    [Header("Air Jumps")]
+    [Tooltip("Extra jumps allowed while airborne, on top of the normal ground jump. 0 = disabled, 1 = double jump, 2 = triple jump, etc.")]
+    [SerializeField] protected int maxAirJumps = 0;
+    [Tooltip("Force applied on an air jump. Defaults to the same as jumpForce if left at 0.")]
+    [SerializeField] protected float airJumpForce = 0f;
+
     [Header("Ground Detection")]
     [SerializeField] protected Transform groundCheck;
     [SerializeField] protected Vector2 groundCheckSize = new Vector2(0.6f, 0.1f);
     [SerializeField] protected LayerMask groundLayer;
+
+    [Header("Wall Detection")]
+    [Tooltip("Prevents sticking to walls when airborne and holding input into them (outside of an active wall slide).")]
+    [SerializeField] protected bool preventWallCling = true;
+    [SerializeField] protected Transform wallCheckRight;
+    [SerializeField] protected Transform wallCheckLeft;
+    [SerializeField] protected Vector2 wallCheckSize = new Vector2(0.1f, 0.9f);
+    [Tooltip("Layer(s) considered a wall for sliding/jumping. Usually the same as groundLayer.")]
+    [SerializeField] protected LayerMask wallLayer;
+
+    [Header("Wall Sliding")]
+    [SerializeField] protected bool enableWallSlide = true;
+    [Tooltip("Max downward speed while sliding on a wall.")]
+    [SerializeField] protected float wallSlideSpeed = 2f;
+    [Tooltip("How long the character can slide on a wall before detaching and free-falling.")]
+    [SerializeField] protected float wallSlideTime = 1f;
+
+    [Header("Wall Jumping")]
+    [SerializeField] protected bool enableWallJump = true;
+    [Tooltip("Horizontal force pushing away from the wall on a wall jump.")]
+    [SerializeField] protected float wallJumpHorizontalForce = 10f;
+    [Tooltip("Vertical force on a wall jump.")]
+    [SerializeField] protected float wallJumpVerticalForce = 13f;
+    [Tooltip("Seconds after a wall jump during which normal air-control input is suppressed, so the away-push isn't instantly cancelled by holding input back toward the wall.")]
+    [SerializeField] protected float wallJumpLockoutTime = 0.15f;
+    [SerializeField] protected int maxWallJumps = 2;
 
     protected Rigidbody2D rb;
     protected BoxCollider2D col;
@@ -42,12 +74,19 @@ public abstract class CharacterController2D : MonoBehaviour
     public bool IsFacingRight { get; private set; } = true;
     public bool IsCrouching { get; private set; }
     public bool IsRunning { get; private set; }
+    public bool IsTouchingWallRight { get; private set; }
+    public bool IsTouchingWallLeft { get; private set; }
+    public bool IsWallSliding { get; private set; }
+    public bool IsJumping { get; private set; } // true from the moment we jump until we've left the ground and landed again
+    public int AirJumpsRemaining { get; private set; }
+    public int WallJumpsRemaining { get; private set; }
     public Vector2 Velocity => rb.linearVelocity;
 
     private float _coyoteTimer;
     private float _jumpBufferTimer;
     private bool _wasGroundedLastFrame;
-    private bool _isJumping; // true from the moment we jump until we've left the ground and landed again
+    private float _wallSlideTimer;
+    private float _wallJumpLockoutTimer;
 
     // Captured once in Awake so we always know the "standing" size to restore to / check clearance against
     private Vector2 _standingScale;
@@ -62,6 +101,7 @@ public abstract class CharacterController2D : MonoBehaviour
         _standingScale = transform.localScale;
         _standingColliderSize = col.size;
         _standingColliderOffset = col.offset;
+        AirJumpsRemaining = maxAirJumps;
     }
 
     protected virtual void Update()
@@ -78,17 +118,24 @@ public abstract class CharacterController2D : MonoBehaviour
         if (GetJumpReleasedInput() && rb.linearVelocityY > 0f)
         {
             // Short-hop: cut upward velocity if jump button released early
-            rb.linearVelocity = new Vector2(rb.linearVelocityX, rb.linearVelocityY * 0.5f);
+            rb.linearVelocityY *= 0.5f;
         }
     }
 
     protected virtual void FixedUpdate()
     {
         CheckGrounded();
+        CheckWalls();
         UpdateCrouchState();
+        UpdateWallSlideState();
         ApplyHorizontalMovement(GetMoveInput());
         ApplyBetterGravity();
-        HandleJumpBuffering();
+        ApplyWallSlide();
+        if (!TryWallJump() && !TryGroundOrCoyoteJump())
+        {
+            TryAirJump();
+        }
+        _wallJumpLockoutTimer -= Time.fixedDeltaTime;
     }
 
     /// <summary>Return -1 (left) to 1 (right). Override to supply input from any source.</summary>
@@ -107,22 +154,48 @@ public abstract class CharacterController2D : MonoBehaviour
     protected virtual bool GetRunInput() => false;
 
     protected virtual void OnJump() { }
+    protected virtual void OnAirJump() { }
     protected virtual void OnLand() { }
     protected virtual void OnFlip(bool isFacingRight) { }
     protected virtual void OnCrouchStart() { }
     protected virtual void OnCrouchEnd() { }
+    protected virtual void OnWallSlideStart() { }
+    protected virtual void OnWallSlideEnd() { }
+    protected virtual void OnWallJump() { }
 
     protected void ApplyHorizontalMovement(float input)
     {
+        // Suppress normal air-control input briefly after a wall jump so the away-push isn't
+        // instantly cancelled out by the player still holding input back toward the wall.
+        if (_wallJumpLockoutTimer > 0f)
+        {
+            return;
+        }
+
+        if (preventWallCling && !IsGrounded)
+        {
+            if (input > 0f && IsTouchingWallRight)
+            {
+                rb.linearVelocityX = 0f;
+                return;
+            }
+            else if (input < 0f && IsTouchingWallLeft)
+            {
+                rb.linearVelocityX = 0f;
+                return;
+            }
+        }
+
         float currentSpeed = IsCrouching ? crouchSpeed : (IsRunning ? runSpeed : walkSpeed);
         float targetSpeed = input * currentSpeed;
         float speedDiff = targetSpeed - rb.linearVelocityX;
 
         float accelRate = Mathf.Abs(targetSpeed) > 0.01f ? acceleration : deceleration;
-        if (!IsGrounded) accelRate *= airControlMultiplier;
+        if (!IsGrounded)
+            accelRate *= airControlMultiplier;
 
         float movement = speedDiff * accelRate * Time.fixedDeltaTime;
-        rb.linearVelocity = new Vector2(rb.linearVelocityX + movement, rb.linearVelocityY);
+        rb.linearVelocityX += movement;
 
         if (Mathf.Abs(input) > 0.01f)
         {
@@ -199,17 +272,39 @@ public abstract class CharacterController2D : MonoBehaviour
         return hit == null;
     }
 
-    protected void HandleJumpBuffering()
+    /// <summary>Returns true if a normal ground/coyote-time jump fired this frame.</summary>
+    protected bool TryGroundOrCoyoteJump()
     {
-        bool canJump = !_isJumping && _coyoteTimer > 0f && _jumpBufferTimer > 0f;
+        bool canJump = !IsJumping && _coyoteTimer > 0f && _jumpBufferTimer > 0f;
         if (canJump)
         {
             _coyoteTimer = 0f;
             _jumpBufferTimer = 0f;
-            _isJumping = true; // block coyote time from re-arming a second jump until we land
-            rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpForce);
+            IsJumping = true; // block coyote time from re-arming a second jump until we land
+            rb.linearVelocityY = jumpForce;
             OnJump();
         }
+        return canJump;
+    }
+
+    /// <summary>
+    /// Fires an extra mid-air jump if any are remaining. Only reachable when a ground/coyote/wall
+    /// jump did NOT fire this frame, so a single press never consumes more than one jump type.
+    /// </summary>
+    protected bool TryAirJump()
+    {
+        if (AirJumpsRemaining <= 0 || _jumpBufferTimer <= 0f)
+        {
+            return false;
+        }
+
+        AirJumpsRemaining--;
+        _jumpBufferTimer = 0f;
+        float force = airJumpForce > 0f ? airJumpForce : jumpForce;
+        rb.linearVelocityY = force;
+        OnJump();
+        OnAirJump();
+        return true;
     }
 
     protected void ApplyBetterGravity()
@@ -237,16 +332,109 @@ public abstract class CharacterController2D : MonoBehaviour
             IsGrounded = Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0f, groundLayer);
         }
 
-        if (IsGrounded && !_isJumping)
+        if (IsGrounded && !IsJumping)
         {
             _coyoteTimer = coyoteTime;
         }
 
         if (IsGrounded && !_wasGroundedLastFrame)
         {
-            _isJumping = false; // touched ground again; a new jump is now allowed
+            _wallSlideTimer = 0f; // reset wall slide timer once grounded
+            IsJumping = false; // touched ground again; a new jump is now allowed
+            AirJumpsRemaining = maxAirJumps; // refill air jumps on landing
+            WallJumpsRemaining = maxWallJumps; // refill wall jumps on landing
             OnLand();
         }
+    }
+
+    protected void CheckWalls()
+    {
+        bool checkRightHit = wallCheckRight != null && Physics2D.OverlapBox(wallCheckRight.position, wallCheckSize, 0f, wallLayer);
+        bool checkLeftHit = wallCheckLeft != null && Physics2D.OverlapBox(wallCheckLeft.position, wallCheckSize, 0f, wallLayer);
+
+        if (IsFacingRight)
+        {
+            IsTouchingWallRight = checkRightHit;
+            IsTouchingWallLeft = checkLeftHit;
+        }
+        else
+        {
+            IsTouchingWallRight = checkLeftHit;
+            IsTouchingWallLeft = checkRightHit;
+        }
+    }
+
+    /// <summary>
+    /// Determines whether the character should be considered "wall sliding" this frame:
+    /// airborne, falling, touching a wall, and holding input into that wall. Also runs the
+    /// slide duration timer and detaches once wallSlideTime is exceeded.
+    /// </summary>
+    protected void UpdateWallSlideState()
+    {
+        bool wasWallSliding = IsWallSliding;
+
+        if (!enableWallSlide || IsGrounded || _wallJumpLockoutTimer > 0f)
+        {
+            IsWallSliding = false;
+        }
+        else
+        {
+            float input = GetMoveInput();
+            bool pressingIntoWall = (input > 0f && IsTouchingWallRight) || (input < 0f && IsTouchingWallLeft);
+            bool falling = rb.linearVelocityY <= 0f;
+
+            if (pressingIntoWall && falling && _wallSlideTimer < wallSlideTime)
+            {
+                IsWallSliding = true;
+                _wallSlideTimer += Time.fixedDeltaTime;
+            }
+            else
+            {
+                IsWallSliding = false;
+            }
+        }
+
+        if (IsWallSliding && !wasWallSliding)
+            OnWallSlideStart();
+        if (!IsWallSliding && wasWallSliding)
+            OnWallSlideEnd();
+    }
+
+    /// <summary>Caps fall speed while wall sliding. Runs after ApplyBetterGravity so it clamps the final velocity.</summary>
+    protected void ApplyWallSlide()
+    {
+        if (IsWallSliding && rb.linearVelocityY < -wallSlideSpeed)
+        {
+            rb.linearVelocityY = -wallSlideSpeed;
+        }
+    }
+
+    /// <summary>
+    /// Fires a wall jump if sliding and jump was pressed. Returns true if it fired, so FixedUpdate
+    /// can skip normal ground/coyote jump handling this frame (they're mutually exclusive per-frame).
+    /// </summary>
+    protected bool TryWallJump()
+    {
+        if (!enableWallJump || !IsWallSliding || _jumpBufferTimer <= 0f || WallJumpsRemaining <= 0)
+        {
+            return false;
+        }
+
+        // Jump away from whichever wall we're sliding on
+        int wallJumpDirection = IsTouchingWallRight ? -1 : 1;
+        rb.linearVelocity = new Vector2(wallJumpDirection * wallJumpHorizontalForce, wallJumpVerticalForce);
+
+        _wallJumpLockoutTimer = wallJumpLockoutTime;
+        IsWallSliding = false;
+        _wallSlideTimer = 0f;
+        IsJumping = true; // reuse the same guard as a normal jump so coyote/ground checks don't immediately re-trigger
+        _jumpBufferTimer = 0f;
+        AirJumpsRemaining = maxAirJumps; // wall contact refills air jumps, same as touching the ground
+        WallJumpsRemaining--;
+
+        OnJump();
+        OnWallJump();
+        return true;
     }
 
     protected void Flip()
@@ -257,8 +445,13 @@ public abstract class CharacterController2D : MonoBehaviour
 
     protected virtual void OnDrawGizmosSelected()
     {
-        if (groundCheck == null) return;
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(groundCheck.position, groundCheckSize);
+        if (groundCheck != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireCube(groundCheck.position, groundCheckSize);
+        }
+        Gizmos.color = Color.magenta;
+        if (wallCheckRight != null) Gizmos.DrawWireCube(wallCheckRight.position, wallCheckSize);
+        if (wallCheckLeft != null) Gizmos.DrawWireCube(wallCheckLeft.position, wallCheckSize);
     }
 }

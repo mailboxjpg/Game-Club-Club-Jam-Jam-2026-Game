@@ -34,6 +34,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8361584526106133034}
+  - {fileID: 6943898067037860001}
+  - {fileID: 8264828480151457267}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8893061482099365969
@@ -182,7 +184,8 @@ MonoBehaviour:
   acceleration: 60
   deceleration: 60
   airControlMultiplier: 0.6
-  crouchColliderHeightMultiplier: 0.5
+  crouchHeightMultiplier: 0.5
+  crouchResizesScale: 1
   ceilingLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -192,13 +195,92 @@ MonoBehaviour:
   jumpBufferTime: 0.1
   fallGravityMultiplier: 1.4
   lowJumpGravityMultiplier: 2
+  maxAirJumps: 1
+  airJumpForce: 6
   groundCheck: {fileID: 8361584526106133034}
   groundCheckSize: {x: 0.6, y: 0.1}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
+  preventWallCling: 1
+  wallCheckRight: {fileID: 8264828480151457267}
+  wallCheckLeft: {fileID: 6943898067037860001}
+  wallCheckSize: {x: 0.1, y: 1.9}
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  enableWallSlide: 1
+  wallSlideSpeed: 2
+  wallSlideTime: 1
+  enableWallJump: 1
+  wallJumpHorizontalForce: 10
+  wallJumpVerticalForce: 13
+  wallJumpLockoutTime: 0.15
+  maxWallJumps: 2
   jumpWithHold: 1
   allowJumpCanceling: 1
+--- !u!1 &3098306076434388870
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6943898067037860001}
+  m_Layer: 0
+  m_Name: WallCheckLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6943898067037860001
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3098306076434388870}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.5, y: 0.05, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4920763322575275609}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5450992371267662631
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8264828480151457267}
+  m_Layer: 0
+  m_Name: WallCheckRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8264828480151457267
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5450992371267662631}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5, y: 0.05, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4920763322575275609}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8205767238075209237
 GameObject:
   m_ObjectHideFlags: 0
