@@ -6,7 +6,7 @@ public class echo_wave_visuals : MonoBehaviour
     [SerializeField] int expansion_rate;
     [SerializeField] float max_radius;
     [SerializeField] int segments;
-    [SerializeField] Vector2 direction;
+    [SerializeField] public Vector2 direction;
     [SerializeField] float radian_width;
 
     bool active_expanding = false;
@@ -14,7 +14,7 @@ public class echo_wave_visuals : MonoBehaviour
     Vector2 current_origin;
     public void _Makewave()
     {
-        print("attempt create ring");
+        print("attempt create wave");
         current_radius = 0;
         active_expanding = true;
         current_origin = transform.position;
@@ -26,9 +26,9 @@ public class echo_wave_visuals : MonoBehaviour
         {
             current_radius = Mathf.Lerp(current_radius, max_radius, expansion_rate * Time.deltaTime);
             MakeWave(lineRenderer, current_radius, segments, current_origin, direction);
-            if (current_radius > max_radius)
+            if (current_radius > max_radius*0.95)
             {
-                active_expanding = false;
+                GameObject.Destroy(gameObject);
             }
         }
     }
