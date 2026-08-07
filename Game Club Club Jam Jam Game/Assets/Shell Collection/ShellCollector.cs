@@ -5,18 +5,16 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class ShellCollector : MonoBehaviour
 {
-    [Tooltip("Maximum number of shells to collect.")]
-    [SerializeField] private int maxShells;
     [Tooltip("Tags to try collection trigger check on.")]
     [SerializeField] private string[] collectTags;
 
-    private int _numShells;
     private HashSet<string> _collectTagsSet = new HashSet<string>();
 
+    public CharacterController2D characterController2D;
     public HealthSystem healthSystem;
-    public Action<Collectable> OnCollect;
-    public Action OnMaxCollected;
-    
+    public Action<Collectible> OnCollect;
+    public int numShells;
+
     private void Start()
     {
         foreach(string collectTag in collectTags)
@@ -32,27 +30,18 @@ public class ShellCollector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (_numShells >= maxShells)
-            return;
-        if (_collectTagsSet.Contains(collision.tag) && collision.TryGetComponent<Collectable>(out var collectable))
+        if (_collectTagsSet.Contains(collision.tag) && collision.TryGetComponent<Collectible>(out var collectible))
         {
-            int shellsCollected = collectable.Collect(this);
+            int shellsCollected = collectible.Collect(this);
             if (shellsCollected < 0) // collection failed
                 return;
-            _numShells += shellsCollected;
-            OnCollect?.Invoke(collectable);
-            if (_numShells == maxShells)
-                OnMaxCollected?.Invoke();
+            numShells += shellsCollected;
+            OnCollect?.Invoke(collectible);
         }
-    }
-
-    public void SetMaxShells(int max)
-    {
-        maxShells = max;
     }
 
     public void ResetShells()
     {
-        _numShells = 0;
+        numShells = 0;
     }
 }

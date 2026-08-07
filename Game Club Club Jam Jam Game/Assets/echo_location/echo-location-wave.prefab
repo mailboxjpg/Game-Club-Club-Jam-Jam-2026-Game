@@ -78,9 +78,7 @@ LineRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Positions:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
+  m_Positions: []
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -153,9 +151,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 3490141080939395888}
+  light: {fileID: 4233877486904484965, guid: 8510625d75967c64d92ea242263c2136, type: 3}
   expansion_rate: 2
   max_radius: 15
-  segments: 10
+  segments: 8
   direction: {x: 1, y: 0}
   radian_width: 0.5
   delay: 0
