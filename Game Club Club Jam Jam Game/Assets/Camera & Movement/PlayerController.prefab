@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4920763322575275609}
   - component: {fileID: 8893061482099365969}
-  - component: {fileID: 6082449228178778619}
+  - component: {fileID: 5520368942542558833}
   - component: {fileID: 726812338302851515}
   - component: {fileID: 7121374073756744338}
   m_Layer: 0
-  m_Name: Player
+  m_Name: PlayerController
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,8 +94,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &6082449228178778619
-BoxCollider2D:
+--- !u!70 &5520368942542558833
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -129,17 +129,8 @@ BoxCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 2}
-    newSize: {x: 1, y: 2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
   m_Size: {x: 1, y: 2}
-  m_EdgeRadius: 0
+  m_Direction: 0
 --- !u!50 &726812338302851515
 Rigidbody2D:
   serializedVersion: 5
@@ -179,7 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0074626376085e8468f8f07bdff5b43d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 5
+  walkSpeed: 4
   runSpeed: 8
   crouchSpeed: 2.5
   acceleration: 60
@@ -199,14 +190,14 @@ MonoBehaviour:
   maxAirJumps: 1
   airJumpForce: 6
   groundCheck: {fileID: 8361584526106133034}
-  groundCheckSize: {x: 0.6, y: 0.1}
+  groundCheckSize: {x: 0.75, y: 0.1}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
   preventWallCling: 1
   wallCheckRight: {fileID: 8264828480151457267}
   wallCheckLeft: {fileID: 6943898067037860001}
-  wallCheckSize: {x: 0.1, y: 1.9}
+  wallCheckSize: {x: 0.1, y: 1.75}
   wallLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -218,6 +209,8 @@ MonoBehaviour:
   wallJumpVerticalForce: 13
   wallJumpLockoutTime: 0.15
   maxWallJumps: 2
+  shellCollector: {fileID: 8359469680256994884}
+  runByDefault: 1
   autoJumpWithHold: 1
   allowJumpCanceling: 1
 --- !u!1 &3098306076434388870
@@ -245,7 +238,7 @@ Transform:
   m_GameObject: {fileID: 3098306076434388870}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0.05, z: 0}
+  m_LocalPosition: {x: -0.5, y: 0.125, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -332,7 +325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 652f130e83316314eb52d85d99f819cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAllowedShells: 100
+  maxShells: 0
   collectTags:
   - Shell
 --- !u!1 &5450992371267662631
@@ -360,7 +353,7 @@ Transform:
   m_GameObject: {fileID: 5450992371267662631}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0.05, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0.125, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

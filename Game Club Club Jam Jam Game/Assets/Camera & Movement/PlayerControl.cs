@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerControl : CharacterController2D
 {
-    public static PlayerControl instance;
+    public static PlayerControl Instance { get; private set; }
     public InputSystem_Actions inputActions;
 
     private bool _jumpPressedThisFrame;
@@ -10,30 +10,33 @@ public class PlayerControl : CharacterController2D
     private bool _jumpHeld;
 
     [Header("Player")]
+    public ShellCollector shellCollector;
+
+    [Tooltip("When true, the Player is always running and pressing Sprint keybind (left shift) makes the player walk.")]
+    [SerializeField] private bool runByDefault = false;
     [SerializeField] private bool autoJumpWithHold = true;
     [SerializeField] private bool allowJumpCanceling = true;
 
     protected override void Awake()
     {
-        if (instance != null)
+        if (Instance != null)
         {
-            Debug.LogWarning($"[{name}: PlayerControl] A PlayerControl instance already exists. Deleting this instance's gameObject.");
+            Debug.Log($"[{name}: PlayerControl] A PlayerControl instance already exists. Setting original's position and rotation here and destroying this instance's gameObject.");
+            Instance.transform.SetPositionAndRotation(transform.position, transform.rotation);
             Destroy(gameObject);
             return;
         }
         base.Awake();
         inputActions = new InputSystem_Actions();
-        instance = this;
-    }
-
-    private void OnEnable()
-    {
+        Instance = this;
         inputActions.Enable();
+        DontDestroyOnLoad(gameObject);
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
-        inputActions.Disable();
+        if (Instance == this)
+            inputActions.Disable();
     }
 
     protected override void Update()
@@ -59,7 +62,7 @@ public class PlayerControl : CharacterController2D
  
     protected override bool GetCrouchInput() => inputActions.Player.Crouch.IsPressed();
  
-    protected override bool GetRunInput() => inputActions.Player.Sprint.IsPressed();
+    protected override bool GetRunInput() => runByDefault ^ inputActions.Player.Sprint.IsPressed();
  
     protected override void OnJump()
     {

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(Collider2D))]
 public abstract class CharacterController2D : MonoBehaviour
 {
     [Header("Movement")]
@@ -67,7 +67,7 @@ public abstract class CharacterController2D : MonoBehaviour
     [SerializeField] protected int maxWallJumps = 2;
 
     protected Rigidbody2D rb;
-    protected BoxCollider2D col;
+    protected Collider2D col;
 
     // Runtime state; exposed as read-only properties so subclasses / other scripts can react to them
     public bool IsGrounded { get; private set; }
@@ -96,10 +96,10 @@ public abstract class CharacterController2D : MonoBehaviour
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        col = GetComponent<BoxCollider2D>();
+        col = GetComponent<Collider2D>();
         rb.freezeRotation = true;
         _standingScale = transform.localScale;
-        _standingColliderSize = col.size;
+        _standingColliderSize = col.bounds.size;
         _standingColliderOffset = col.offset;
         AirJumpsRemaining = maxAirJumps;
     }
@@ -239,24 +239,42 @@ public abstract class CharacterController2D : MonoBehaviour
         IsRunning = !IsCrouching && GetRunInput();
     }
 
+    private void ResizeScale(float heightMultiplier)
+    {
+        float newHeight = _standingScale.y * heightMultiplier;
+        float heightDiff = transform.localScale.y - newHeight;
+
+        transform.localScale = new Vector3(_standingScale.x, newHeight, transform.localScale.z);
+        // Shift transform down by height difference so the character's feet stay on the ground
+        transform.position -= new Vector3(0f, heightDiff, 0f);
+    }
+
     private void ResizeCollider(float heightMultiplier)
     {
         if (crouchResizesScale)
         {
-            float newHeight = _standingScale.y * heightMultiplier;
-            float heightDiff = transform.localScale.y - newHeight;
-
-            transform.localScale = new Vector3(_standingScale.x, newHeight, transform.localScale.z);
-            // Shift transform down by height difference so the character's feet stay on the ground
-            transform.position -= new Vector3(0f, heightDiff, 0f);
+            ResizeScale(heightMultiplier);
         }
         else
         {
             float newHeight = _standingColliderSize.y * heightMultiplier;
             float heightDiff = _standingColliderSize.y - newHeight;
 
-            col.size = new Vector2(_standingColliderSize.x, newHeight);
-            col.offset = new Vector2(_standingColliderOffset.x, _standingColliderOffset.y - heightDiff * 0.5f);
+            switch (col.GetType().Name)
+            {
+                case nameof(BoxCollider2D):
+                    col.GetComponent<BoxCollider2D>().size = new Vector2(_standingColliderSize.x, newHeight);
+                    col.offset = new Vector2(_standingColliderOffset.x, _standingColliderOffset.y - heightDiff * 0.5f);
+                    break;
+                case nameof(CapsuleCollider2D):
+                    col.GetComponent<CapsuleCollider2D>().size = new Vector2(_standingColliderSize.x, newHeight);
+                    col.offset = new Vector2(_standingColliderOffset.x, _standingColliderOffset.y - heightDiff * 0.5f);
+                    break;
+                default:
+                    // Cant resize height individually, just defer to scale
+                    ResizeScale(heightMultiplier);
+                    break;
+            }
         }
     }
 
@@ -349,8 +367,15 @@ public abstract class CharacterController2D : MonoBehaviour
 
     protected void CheckWalls()
     {
-        bool checkRightHit = wallCheckRight != null && Physics2D.OverlapBox(wallCheckRight.position, wallCheckSize, 0f, wallLayer);
-        bool checkLeftHit = wallCheckLeft != null && Physics2D.OverlapBox(wallCheckLeft.position, wallCheckSize, 0f, wallLayer);
+        Vector2 scaledWallCheckSize = wallCheckSize;
+        Vector3 wallCheckOffset = Vector3.zero;
+        if (IsCrouching)
+        {
+            scaledWallCheckSize.y *= crouchHeightMultiplier;
+            wallCheckOffset.y = -crouchHeightMultiplier * 0.5f * _standingColliderSize.y;
+        }
+        bool checkRightHit = wallCheckRight != null && Physics2D.OverlapBox(wallCheckRight.position + wallCheckOffset, scaledWallCheckSize, 0f, wallLayer);
+        bool checkLeftHit = wallCheckLeft != null && Physics2D.OverlapBox(wallCheckLeft.position + wallCheckOffset, scaledWallCheckSize, 0f, wallLayer);
 
         if (IsFacingRight)
         {
@@ -451,7 +476,15 @@ public abstract class CharacterController2D : MonoBehaviour
             Gizmos.DrawWireCube(groundCheck.position, groundCheckSize);
         }
         Gizmos.color = Color.magenta;
-        if (wallCheckRight != null) Gizmos.DrawWireCube(wallCheckRight.position, wallCheckSize);
-        if (wallCheckLeft != null) Gizmos.DrawWireCube(wallCheckLeft.position, wallCheckSize);
+        
+        Vector2 scaledWallCheckSize = wallCheckSize;
+        Vector3 wallCheckOffset = Vector3.zero;
+        if (IsCrouching)
+        {
+            scaledWallCheckSize.y *= crouchHeightMultiplier;
+            wallCheckOffset.y = -crouchHeightMultiplier * 0.5f * _standingColliderSize.y;
+        }
+        if (wallCheckRight != null) Gizmos.DrawWireCube(wallCheckRight.position + wallCheckOffset, scaledWallCheckSize);
+        if (wallCheckLeft != null) Gizmos.DrawWireCube(wallCheckLeft.position + wallCheckOffset, scaledWallCheckSize);
     }
 }

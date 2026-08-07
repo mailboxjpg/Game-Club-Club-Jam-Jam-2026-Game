@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Camera))]
 public class CameraControl : MonoBehaviour
 {
+    public static CameraControl Instance {get; private set;}
+
     private Camera _camera;
 
     // For cutscenes/events that require the camera to focus on something
@@ -27,15 +29,22 @@ public class CameraControl : MonoBehaviour
     [Tooltip("Mouse sensitivity when moving the focus position around.")]
     [SerializeField] private float focusSensitivity = 0.02f;
 
-    private void Start()
+    private void Awake()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
         _camera = GetComponent<Camera>();
-        PlayerControl.instance.inputActions.Player.CameraFocus.performed += SetFocusPoint;
+        PlayerControl.Instance.inputActions.Player.CameraFocus.performed += SetFocusPoint;
+        DontDestroyOnLoad(gameObject);
+        Instance = this;
     }
 
     private void OnDestroy()
     {
-        PlayerControl.instance.inputActions.Player.CameraFocus.performed -= SetFocusPoint;
+        PlayerControl.Instance.inputActions.Player.CameraFocus.performed -= SetFocusPoint;
     }
 
     private void FixedUpdate()
@@ -48,7 +57,7 @@ public class CameraControl : MonoBehaviour
         }
         else
         {
-            if (PlayerControl.instance.inputActions.Player.CameraFocus.IsPressed())
+            if (PlayerControl.Instance.inputActions.Player.CameraFocus.IsPressed())
             {
                 // Camera moves to wherever the player's mouse started clicking + mouse's delta
                 Vector2 mouseDelta = Mouse.current.delta.ReadValue();
