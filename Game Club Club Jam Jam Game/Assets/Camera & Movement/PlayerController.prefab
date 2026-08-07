@@ -86,7 +86,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
+  m_Sprite: {fileID: 8007924364678164663, guid: e22b4c48aa1dd0b4d85204b300200445, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -132,7 +132,7 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 0.7, y: 1}
   m_Direction: 0
 --- !u!50 &726812338302851515
 Rigidbody2D:
@@ -180,8 +180,9 @@ MonoBehaviour:
   deceleration: 60
   airControlMultiplier: 0.6
   friction: 0.2
+  sprite: {fileID: 8893061482099365969}
   crouchHeightMultiplier: 0.5
-  crouchResizesScale: 1
+  crouchResizesScale: 0
   ceilingLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -194,7 +195,7 @@ MonoBehaviour:
   maxAirJumps: 0
   airJumpForce: 6
   groundCheck: {fileID: 8361584526106133034}
-  groundCheckSize: {x: 0.75, y: 0.1}
+  groundCheckSize: {x: 0.5, y: 0.05}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -202,14 +203,13 @@ MonoBehaviour:
   preventWallCling: 1
   wallCheckRight: {fileID: 8264828480151457267}
   wallCheckLeft: {fileID: 6943898067037860001}
-  wallCheckSize: {x: 0.1, y: 1.75}
+  wallCheckSize: {x: 0.05, y: 0.5}
   wallLayer:
     serializedVersion: 2
     m_Bits: 8
   enableWallSlide: 1
   wallSlideSpeed: 2
   wallSlideTime: 1
-  enableWallJump: 1
   wallJumpHorizontalForce: 10
   wallJumpVerticalForce: 13
   wallJumpLockoutTime: 0.15
@@ -406,7 +406,7 @@ Transform:
   m_GameObject: {fileID: 3098306076434388870}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0.125, z: 0}
+  m_LocalPosition: {x: -0.35, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -493,11 +493,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 652f130e83316314eb52d85d99f819cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxShells: 0
   collectTags:
   - Collectible
   characterController2D: {fileID: 7121374073756744338}
   healthSystem: {fileID: 731122144605664964}
+  numShells: 0
 --- !u!1 &4951354343210567507
 GameObject:
   m_ObjectHideFlags: 0
@@ -612,7 +612,7 @@ Transform:
   m_GameObject: {fileID: 5450992371267662631}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0.125, z: 0}
+  m_LocalPosition: {x: 0.35, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -747,7 +747,7 @@ Transform:
   m_GameObject: {fileID: 8205767238075209237}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
