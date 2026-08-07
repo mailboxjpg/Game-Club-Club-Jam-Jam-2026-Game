@@ -3,11 +3,6 @@ using UnityEngine;
 public class PlayerControl : CharacterController2D
 {
     public static PlayerControl Instance { get; private set; }
-    public InputSystem_Actions inputActions;
-
-    private bool _jumpPressedThisFrame;
-    private bool _jumpReleasedThisFrame;
-    private bool _jumpHeld;
 
     [Header("Player")]
     public ShellCollector shellCollector;
@@ -16,6 +11,12 @@ public class PlayerControl : CharacterController2D
     [SerializeField] private bool runByDefault = false;
     [SerializeField] private bool autoJumpWithHold = true;
     [SerializeField] private bool allowJumpCanceling = true;
+
+    public InputSystem_Actions inputActions;
+
+    private bool _jumpPressedThisFrame;
+    private bool _jumpReleasedThisFrame;
+    private bool _jumpHeld;
 
     protected override void Awake()
     {
@@ -66,21 +67,22 @@ public class PlayerControl : CharacterController2D
  
     protected override void OnJump()
     {
+        base.OnJump();
         // Play sound or something
     }
  
-    protected override void OnLand()
+    protected override void OnLand(Collider2D ground, float speed)
     {
-        // Play sound or something
+        base.OnLand(ground, speed);
     }
 
     protected override void OnCrouchStart()
     {
-        
+        base.OnCrouchStart();
     }
 
     protected override void OnCrouchEnd()
     {
-        
+        base.OnCrouchEnd();
     }
 }

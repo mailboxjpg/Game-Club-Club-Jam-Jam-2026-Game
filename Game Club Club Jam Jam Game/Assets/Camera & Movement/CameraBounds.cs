@@ -3,13 +3,14 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class CameraBounds : MonoBehaviour
 {
-    private Collider2D _triggerCollider;
-    private CameraControl _mainCameraControl;
 
     [Tooltip("Uses the trigger collider's bounds for min and max when true.")]
     [SerializeField] private bool boundsMatchCollider = true;
     [Tooltip("Set CameraControl's bounds from trigger events with this tag.")]
     [SerializeField] private string triggerTag;
+    
+    private Collider2D _triggerCollider;
+    private CameraControl _mainCameraControl;
 
     public Vector2 min;
     public Vector2 max;

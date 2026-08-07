@@ -1,39 +1,44 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Collectable : MonoBehaviour
 {
+    [Header("Collectable")]
     [Tooltip("Amount of shells to award when collected.")]
-    [SerializeField] private int shellAmount = 1;
-    [SerializeField] private bool destroyOnCollect = true;
+    [SerializeField] protected int shellAmount = 1;
+    [SerializeField] protected bool destroyOnCollect = true;
     [Tooltip("Audio clip to play when collected.")]
-    [SerializeField] private AudioClip collectAudioClip;
+    [SerializeField] protected AudioClip collectAudioClip;
     [Tooltip("Particle system to instantiate when collected.")]
-    [SerializeField] private ParticleSystem collectParticlesPrefab;
+    [SerializeField] protected ParticleSystem collectParticlesPrefab;
+    [SerializeField] protected bool overrideParticleColor;
+    [SerializeField] protected Color particleColor;
 
-    public Action OnCollect;
+    public UnityEvent OnCollect;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public int Collect()
+    public virtual int Collect(ShellCollector collector)
     {
         if (collectAudioClip != null)
             AudioSource.PlayClipAtPoint(collectAudioClip, transform.position);
         if (collectParticlesPrefab != null)
-            Instantiate(collectParticlesPrefab, transform.position, transform.rotation);
+        {
+            ParticleSystem particles = Instantiate(collectParticlesPrefab, transform.position, transform.rotation);
+            if (overrideParticleColor)
+            {
+                ParticleSystem.MainModule particleMain = particles.main;
+                particleMain.startColor = particleColor;
+            }
+        }
         OnCollect?.Invoke();
         if (destroyOnCollect)
             Destroy(gameObject);
         return shellAmount;
+    }
+
+    // Functions that can be used for events
+    public void SpawnPrefab(GameObject target)
+    {
+        Instantiate(target, transform.position, transform.rotation);
     }
 }
