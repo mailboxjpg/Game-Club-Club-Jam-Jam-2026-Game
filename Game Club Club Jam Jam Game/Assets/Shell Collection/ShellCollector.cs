@@ -5,12 +5,13 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class ShellCollector : MonoBehaviour
 {
+    private int _numShells;
+    private HashSet<string> _collectTagsSet = new HashSet<string>();
+
     [Tooltip("Maximum number of shells to collect.")]
     [SerializeField] private int maxShells;
     [Tooltip("Tags to try collection trigger check on.")]
     [SerializeField] private string[] collectTags;
-    private int numShells;
-    private HashSet<string> collectTagsSet = new HashSet<string>();
 
     public Action<Collectable> OnCollect;
     public Action OnMaxCollected;
@@ -19,7 +20,7 @@ public class ShellCollector : MonoBehaviour
     {
         foreach(string collectTag in collectTags)
         {
-            collectTagsSet.Add(collectTag);
+            _collectTagsSet.Add(collectTag);
         }
     }
 
@@ -30,13 +31,13 @@ public class ShellCollector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (numShells >= maxShells)
+        if (_numShells >= maxShells)
             return;
-        if (collectTagsSet.Contains(collision.tag) && collision.TryGetComponent<Collectable>(out var collectable))
+        if (_collectTagsSet.Contains(collision.tag) && collision.TryGetComponent<Collectable>(out var collectable))
         {
-            numShells += collectable.Collect();
+            _numShells += collectable.Collect();
             OnCollect?.Invoke(collectable);
-            if (numShells == maxShells)
+            if (_numShells == maxShells)
                 OnMaxCollected?.Invoke();
         }
     }
@@ -48,6 +49,6 @@ public class ShellCollector : MonoBehaviour
 
     public void ResetShells()
     {
-        numShells = 0;
+        _numShells = 0;
     }
 }

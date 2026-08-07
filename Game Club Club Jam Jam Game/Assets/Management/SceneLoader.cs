@@ -9,7 +9,7 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] private CanvasGroup fadeScreenGroup;
     [SerializeField] private float fadeDuration = 0.5f;
 
-    private bool loadingScene;
+    private bool _loadingScene;
 
     private void Awake()
     {
@@ -25,21 +25,21 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadScene(string sceneName)
     {
-        if (loadingScene)
+        if (_loadingScene)
             return;
         StartCoroutine(TransitionRoutine(sceneName));
     }
     
     public void LoadScene(int buildIndex)
     {
-        if (loadingScene)
+        if (_loadingScene)
             return;
         StartCoroutine(TransitionRoutine(SceneManager.GetSceneByBuildIndex(buildIndex).name));
     }
 
     private IEnumerator TransitionRoutine(string sceneName)
     {
-        loadingScene = true;
+        _loadingScene = true;
         if (PlayerControl.Instance != null)
             PlayerControl.Instance.enabled = false;
 
@@ -55,7 +55,7 @@ public class SceneLoader : MonoBehaviour
 
         if (PlayerControl.Instance != null)
             PlayerControl.Instance.enabled = true;
-        loadingScene = false;
+        _loadingScene = false;
 
         yield return StartCoroutine(Fade(0f));
     }
