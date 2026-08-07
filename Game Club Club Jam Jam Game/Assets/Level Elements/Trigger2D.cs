@@ -34,4 +34,9 @@ public class Trigger2D : MonoBehaviour
     {
         SceneLoader.Instance.LoadScene(sceneName);
     }
+
+    public void SpawnPrefab(GameObject prefab)
+    {
+        Instantiate(prefab, transform.position, transform.rotation);
+    }
 }

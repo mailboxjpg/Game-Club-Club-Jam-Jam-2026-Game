@@ -259,17 +259,20 @@ public class RoomCreator : MonoBehaviour
 
         Vector2 localPosition;
         Vector2 scale;
+        Quaternion localRotation = Quaternion.identity;
 
         switch (side)
         {
             case Side.North:
                 // Runs along X at y = maxBounds.y, extended by thickness on both ends
                 localPosition = new Vector2(minBounds.x - wallThickness + centerOffset, maxBounds.y + wallThickness * 0.5f);
-                scale = new Vector2(length, doorThickness);
+                scale = new Vector2(doorThickness, length);
+                localRotation = Quaternion.LookRotation(Vector3.forward, transform.right); // Assuming door opens along its local y axis
                 break;
             case Side.South:
                 localPosition = new Vector2(minBounds.x - wallThickness + centerOffset, minBounds.y - wallThickness * 0.5f);
-                scale = new Vector2(length, doorThickness);
+                scale = new Vector2(doorThickness, length);
+                localRotation = Quaternion.LookRotation(Vector3.forward, transform.right); // Assuming door opens along its local y axis
                 break;
             case Side.East:
                 // Runs along Y at x = maxBounds.x, extended by thickness on both ends
@@ -286,7 +289,7 @@ public class RoomCreator : MonoBehaviour
 
         GameObject door = Instantiate(doorPrefab, parent);
         door.name = $"Door_{side}_{offsetStart:F1}-{offsetEnd:F1}";
-        door.transform.SetLocalPositionAndRotation(localPosition, Quaternion.identity);
+        door.transform.SetLocalPositionAndRotation(localPosition, localRotation);
 
         // Assumes doorPrefab is a 1x1 unit quad/sprite at its base scale; stretch it to fill the segment.
         door.transform.localScale = new Vector3(scale.x, scale.y, 1f);
