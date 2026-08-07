@@ -8,6 +8,7 @@ public class echo_wave_visuals : MonoBehaviour
     [SerializeField] int segments;
     [SerializeField] public Vector2 direction;
     [SerializeField] float radian_width;
+    [SerializeField] public float delay;
 
     bool active_expanding = false;
     float current_radius;
@@ -22,7 +23,7 @@ public class echo_wave_visuals : MonoBehaviour
 
     private void Update()
     {
-        if (active_expanding)
+        if (active_expanding && delay<0)
         {
             current_radius = Mathf.Lerp(current_radius, max_radius, expansion_rate * Time.deltaTime);
             MakeWave(lineRenderer, current_radius, segments, current_origin, direction);
@@ -31,6 +32,7 @@ public class echo_wave_visuals : MonoBehaviour
                 GameObject.Destroy(gameObject);
             }
         }
+        delay -= Time.deltaTime;
     }
 
     public void MakeWave(LineRenderer lineRenderer, float radius, int segments, Vector2 origin, Vector2 direction)

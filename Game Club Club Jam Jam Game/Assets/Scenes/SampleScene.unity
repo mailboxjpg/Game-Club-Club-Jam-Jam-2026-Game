@@ -1558,6 +1558,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wave_prefab: {fileID: 5969337076408762519, guid: ade98468fdbb95046a5f90393f974718, type: 3}
+  cooldown: 1
+  wave_count: 1
+  interval: 1
 --- !u!1 &1807499245
 GameObject:
   m_ObjectHideFlags: 0
