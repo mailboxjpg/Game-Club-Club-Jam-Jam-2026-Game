@@ -178,7 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerCollider: {fileID: 4254278548325335712}
-  pushForce: 32
+  pushForce: 42
   burstTime: 5
   burstCooldown: 4
   burstMinHeight: 0.5
