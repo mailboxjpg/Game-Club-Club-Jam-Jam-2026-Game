@@ -15,7 +15,7 @@ public class EchoLocationTool : MonoBehaviour
     [SerializeField] private float max_pulse_intensity = 1.5f;
 
     private float current_cooldown = 0;
-    private float t;
+    private float pulseT;
     private Vector3 mouse_dir;
     private Camera cam;
 
@@ -27,8 +27,11 @@ public class EchoLocationTool : MonoBehaviour
     private void Update()
     {
         current_cooldown -= Time.deltaTime;
-        t += Time.deltaTime * pulse_speed;
-        pulse_light.intensity = Mathf.Lerp(min_pulse_intensity, max_pulse_intensity, Mathf.PingPong(t, 1f));
+        
+        float pulse = (Mathf.Sin(pulseT) + 1f) * 0.5f;
+        pulse_light.intensity = Mathf.Lerp(min_pulse_intensity, max_pulse_intensity, pulse);
+        pulseT += Time.deltaTime * pulse_speed;
+        
         Vector2 mouse_pos = cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         mouse_dir = (mouse_pos - (Vector2)PlayerControl.Instance.transform.position).normalized;
         transform.SetPositionAndRotation(

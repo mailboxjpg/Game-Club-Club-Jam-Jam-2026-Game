@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Rendering.Universal;
 
 public class Collectible : MonoBehaviour
 {
@@ -15,7 +16,25 @@ public class Collectible : MonoBehaviour
     [SerializeField] protected bool overrideParticleColor;
     [SerializeField] protected Color particleColor;
 
+    [Header("Pulse")]
+    [SerializeField] private Light2D pulseLight;
+    [SerializeField] private float pulseSpeed = 2f;
+    [SerializeField] private float minPulseIntensity = 0.5f;
+    [SerializeField] private float maxPulseIntensity = 1f;
+
     public UnityEvent OnCollect;
+
+    private float pulseT;
+
+    private void Update()
+    {
+        if (pulseLight == null)
+            return;
+
+        float pulse = (Mathf.Sin(pulseT) + 1f) * 0.5f;
+        pulseLight.intensity = Mathf.Lerp(minPulseIntensity, maxPulseIntensity, pulse);
+        pulseT += Time.deltaTime * pulseSpeed;
+    }
 
     public virtual int Collect(ShellCollector collector)
     {
