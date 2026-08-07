@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class echo_wave_visuals : MonoBehaviour
 {
     [SerializeField] LineRenderer lineRenderer;
+    [SerializeField] GameObject light;
     [SerializeField] float expansion_rate;
     [SerializeField] float max_radius;
     [SerializeField] int segments;
@@ -13,12 +15,23 @@ public class echo_wave_visuals : MonoBehaviour
     bool active_expanding = false;
     float current_radius;
     Vector2 current_origin;
+    GameObject[] lights;
+    Light2D[] light_components;
     public void _Makewave()
     {
         print("attempt create wave");
         current_radius = 0;
         active_expanding = true;
         current_origin = transform.position;
+        //create lights
+        lights = new GameObject[segments];
+        light_components = new Light2D[segments];
+        for (int i = 0; i < segments; i++)
+        {
+            lights[i] = Instantiate(light,transform);
+            light_components[i] = lights[i].GetComponent<Light2D>();
+            light_components[i].enabled = false;
+        }
     }
 
     private void Update()
@@ -49,7 +62,11 @@ public class echo_wave_visuals : MonoBehaviour
             float x = origin.x + point_vector.x * radius;
             float y = origin.y + point_vector.y * radius;
 
-            points[i] = new Vector3(x, y, 5);
+            Vector3 point_position = new Vector3(x, y, 5);
+
+            points[i] = point_position;
+            light_components[i].enabled = true;
+            lights[i].transform.position = point_position;
         }
 
         lineRenderer.positionCount = segments;
