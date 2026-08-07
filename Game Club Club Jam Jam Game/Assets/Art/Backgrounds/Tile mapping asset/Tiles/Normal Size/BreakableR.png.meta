@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: af13a00153f408e4ca1453fda3c990ab
+guid: 025582027ff6bb94793db707eedd374d
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 267
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,15 +113,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Breakable_0
+      name: Breakable_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 8
-        width: 710
-        height: 277
+        x: 441
+        y: 10
+        width: 267
+        height: 267
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 18f65d763001d12458dbfbee6219f4bc
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Breakable_0: 4098156409588004937
+      Breakable_2: 4098156409588004937
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
