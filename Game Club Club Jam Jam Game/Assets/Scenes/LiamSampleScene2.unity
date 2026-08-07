@@ -965,6 +965,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 842885340}
     m_Modifications:
+    - target: {fileID: 1198021197183829688, guid: 0f194bf43853bdb48939abe0b703c1a2, type: 3}
+      propertyPath: wave_count
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3941176275402898721, guid: 0f194bf43853bdb48939abe0b703c1a2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
