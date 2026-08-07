@@ -3,7 +3,7 @@ using UnityEngine;
 public class echo_wave_visuals : MonoBehaviour
 {
     [SerializeField] LineRenderer lineRenderer;
-    [SerializeField] int expansion_rate;
+    [SerializeField] float expansion_rate;
     [SerializeField] float max_radius;
     [SerializeField] int segments;
     [SerializeField] public Vector2 direction;
