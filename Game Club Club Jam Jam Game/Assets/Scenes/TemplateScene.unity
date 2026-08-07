@@ -400,9 +400,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7121374073756744338, guid: 667586b6a08bb934789c9d2d1e9d9f5a, type: 3}
-      propertyPath: crouchResizesScale
-      value: 1
+    - target: {fileID: 6470868922720699196, guid: 667586b6a08bb934789c9d2d1e9d9f5a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7305029569871956300, guid: 667586b6a08bb934789c9d2d1e9d9f5a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8359469680256994884, guid: 667586b6a08bb934789c9d2d1e9d9f5a, type: 3}
       propertyPath: maxShells
