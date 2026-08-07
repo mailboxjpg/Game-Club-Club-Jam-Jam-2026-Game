@@ -3,11 +3,6 @@ using UnityEngine;
 public class PlayerControl : CharacterController2D
 {
     public static PlayerControl Instance { get; private set; }
-    public InputSystem_Actions inputActions;
-
-    private bool _jumpPressedThisFrame;
-    private bool _jumpReleasedThisFrame;
-    private bool _jumpHeld;
 
     [Header("Player")]
     public ShellCollector shellCollector;
@@ -16,6 +11,13 @@ public class PlayerControl : CharacterController2D
     [SerializeField] private bool runByDefault = false;
     [SerializeField] private bool autoJumpWithHold = true;
     [SerializeField] private bool allowJumpCanceling = true;
+
+    public InputSystem_Actions inputActions;
+
+    private bool _jumpPressedThisFrame;
+    private bool _jumpReleasedThisFrame;
+    private bool _jumpHeld;
+    private bool _dashHeld;
 
     protected override void Awake()
     {
@@ -45,14 +47,12 @@ public class PlayerControl : CharacterController2D
         _jumpPressedThisFrame = inputActions.Player.Jump.WasPressedThisFrame();
         _jumpReleasedThisFrame = inputActions.Player.Jump.WasReleasedThisFrame();
         _jumpHeld = inputActions.Player.Jump.IsPressed();
+        _dashHeld = inputActions.Player.Dash.IsPressed();
 
-        base.Update(); // let base handle timers / short-hop using the values above
+        base.Update();
     }
 
-    protected override float GetMoveInput()
-    {
-        return inputActions.Player.Move.ReadValue<Vector2>().x;
-    }
+    protected override Vector2 GetMoveInput() => inputActions.Player.Move.ReadValue<Vector2>();
  
     protected override bool GetJumpInput() => _jumpPressedThisFrame || (autoJumpWithHold && _jumpHeld && IsGrounded && !IsJumping);
  
@@ -63,24 +63,27 @@ public class PlayerControl : CharacterController2D
     protected override bool GetCrouchInput() => inputActions.Player.Crouch.IsPressed();
  
     protected override bool GetRunInput() => runByDefault ^ inputActions.Player.Sprint.IsPressed();
+
+    protected override bool GetDashInput() => _dashHeld;
  
     protected override void OnJump()
     {
+        base.OnJump();
         // Play sound or something
     }
  
-    protected override void OnLand()
+    protected override void OnLand(Collider2D ground, float speed)
     {
-        // Play sound or something
+        base.OnLand(ground, speed);
     }
 
     protected override void OnCrouchStart()
     {
-        
+        base.OnCrouchStart();
     }
 
     protected override void OnCrouchEnd()
     {
-        
+        base.OnCrouchEnd();
     }
 }
