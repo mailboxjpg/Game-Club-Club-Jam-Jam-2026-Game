@@ -7,8 +7,8 @@ public class Trigger2D : MonoBehaviour
 {
     [SerializeField] private LayerMask targetLayers;
 
-    public UnityEvent onTriggerEnter;
-    public UnityEvent onTriggerExit;
+    public UnityEvent OnTriggerEnter;
+    public UnityEvent OnTriggerExit;
 
     private void Awake()
     {
@@ -22,12 +22,12 @@ public class Trigger2D : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        onTriggerEnter?.Invoke();
+        OnTriggerEnter?.Invoke();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        onTriggerExit?.Invoke();
+        OnTriggerExit?.Invoke();
     }
 
     public void LoadScene(string sceneName)

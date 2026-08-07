@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 1717968658185748419}
   - component: {fileID: 2988124993089498286}
   m_Layer: 0
-  m_Name: Physics Shell
-  m_TagString: Shell
+  m_Name: Physics Shell Collectable
+  m_TagString: Collectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106,6 +106,10 @@ MonoBehaviour:
   destroyOnCollect: 1
   collectAudioClip: {fileID: 0}
   collectParticlesPrefab: {fileID: 7902217387627548903, guid: 2258e05e89735f1478f52b85884f72b5, type: 3}
+  toolPrefab: {fileID: 0}
+  OnCollect:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!50 &1717968658185748419
 Rigidbody2D:
   serializedVersion: 5

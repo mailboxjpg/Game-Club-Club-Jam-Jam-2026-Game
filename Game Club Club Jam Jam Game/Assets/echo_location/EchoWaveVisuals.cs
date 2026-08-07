@@ -1,25 +1,19 @@
 using UnityEngine;
 
-public class echo_wave_visuals : MonoBehaviour
+public class EchoWaveVisuals : MonoBehaviour
 {
-    [SerializeField] LineRenderer lineRenderer;
-    [SerializeField] int expansion_rate;
-    [SerializeField] float max_radius;
-    [SerializeField] int segments;
-    [SerializeField] public Vector2 direction;
-    [SerializeField] float radian_width;
-    [SerializeField] public float delay;
+    [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private int expansion_rate;
+    [SerializeField] private float max_radius;
+    [SerializeField] private int segments;
+    [SerializeField] private float radian_width;
 
-    bool active_expanding = false;
-    float current_radius;
-    Vector2 current_origin;
-    public void _Makewave()
-    {
-        print("attempt create wave");
-        current_radius = 0;
-        active_expanding = true;
-        current_origin = transform.position;
-    }
+    private bool active_expanding = false;
+    private float current_radius;
+    private Vector2 current_origin;
+
+    public Vector2 direction;
+    public float delay;
 
     private void Update()
     {
@@ -29,10 +23,18 @@ public class echo_wave_visuals : MonoBehaviour
             MakeWave(lineRenderer, current_radius, segments, current_origin, direction);
             if (current_radius > max_radius*0.95)
             {
-                GameObject.Destroy(gameObject);
+                Destroy(gameObject);
             }
         }
         delay -= Time.deltaTime;
+    }
+
+    public void MakeWave()
+    {
+        print("attempt create wave");
+        current_radius = 0;
+        active_expanding = true;
+        current_origin = transform.position;
     }
 
     public void MakeWave(LineRenderer lineRenderer, float radius, int segments, Vector2 origin, Vector2 direction)

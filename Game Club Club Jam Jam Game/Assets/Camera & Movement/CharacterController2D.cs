@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -82,6 +83,16 @@ public abstract class CharacterController2D : MonoBehaviour
     public int WallJumpsRemaining { get; private set; }
     public Vector2 Velocity => rb.linearVelocity;
 
+    public event Action OnJumped;
+    public event Action OnAirJumped;
+    public event Action<Collider2D, float> OnLanded;
+    public event Action<bool> OnFlipped;
+    public event Action OnCrouchStarted;
+    public event Action OnCrouchEnded;
+    public event Action OnWallSlideStarted;
+    public event Action OnWallSlideEnded;
+    public event Action OnWallJumped;
+
     private float _coyoteTimer;
     private float _jumpBufferTimer;
     private bool _wasGroundedLastFrame;
@@ -153,15 +164,42 @@ public abstract class CharacterController2D : MonoBehaviour
     /// <summary>Return true while the run/sprint input is held. Default: never runs. Override to enable running.</summary>
     protected virtual bool GetRunInput() => false;
 
-    protected virtual void OnJump() { }
-    protected virtual void OnAirJump() { }
-    protected virtual void OnLand() { }
-    protected virtual void OnFlip(bool isFacingRight) { }
-    protected virtual void OnCrouchStart() { }
-    protected virtual void OnCrouchEnd() { }
-    protected virtual void OnWallSlideStart() { }
-    protected virtual void OnWallSlideEnd() { }
-    protected virtual void OnWallJump() { }
+    protected virtual void OnJump()
+    {
+        OnJumped?.Invoke();
+    }
+    protected virtual void OnAirJump()
+    {
+        OnAirJumped?.Invoke();
+    }
+    protected virtual void OnLand(Collider2D ground, float speed)
+    {
+        OnLanded?.Invoke(ground, speed);
+    }
+    protected virtual void OnFlip(bool isFacingRight)
+    {
+        OnFlipped?.Invoke(isFacingRight);
+    }
+    protected virtual void OnCrouchStart()
+    {
+        OnCrouchStarted?.Invoke();
+    }
+    protected virtual void OnCrouchEnd()
+    {
+        OnCrouchEnded?.Invoke();
+    }
+    protected virtual void OnWallSlideStart()
+    {
+        OnWallSlideStarted?.Invoke();
+    }
+    protected virtual void OnWallSlideEnd()
+    {
+        OnWallSlideEnded?.Invoke();
+    }
+    protected virtual void OnWallJump()
+    {
+        OnWallJumped?.Invoke();
+    }
 
     protected void ApplyHorizontalMovement(float input)
     {
@@ -351,9 +389,11 @@ public abstract class CharacterController2D : MonoBehaviour
     {
         _wasGroundedLastFrame = IsGrounded;
 
+        Collider2D ground = null;
         if (groundCheck != null)
         {
-            IsGrounded = Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0f, groundLayer);
+            ground = Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0f, groundLayer);
+            IsGrounded = ground != null;
         }
 
         if (IsGrounded && !IsJumping)
@@ -367,7 +407,7 @@ public abstract class CharacterController2D : MonoBehaviour
             IsJumping = false; // touched ground again; a new jump is now allowed
             AirJumpsRemaining = maxAirJumps; // refill air jumps on landing
             WallJumpsRemaining = maxWallJumps; // refill wall jumps on landing
-            OnLand();
+            OnLand(ground, -rb.linearVelocityY); // speed going into ground (negative) should be the speed we use for checks
         }
     }
 

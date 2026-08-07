@@ -3,12 +3,6 @@ using UnityEngine;
 
 public class BubbleColumn : MonoBehaviour
 {
-    private Coroutine _burstRoutine;
-    private bool _isEmitting;
-    private Vector2 _originalSize;
-    private Vector2 _originalOffset;
-    private ParticleSystem.MainModule _bubbleParticlesMain;
-
     [SerializeField] private BoxCollider2D triggerCollider;
     [SerializeField] private float pushForce = 16f;
     [Tooltip("Time in seconds the bubble column is active.")]
@@ -24,6 +18,12 @@ public class BubbleColumn : MonoBehaviour
     [Tooltip("Particle lifetime is set to height*particleLifetimeScale.")]
     [SerializeField] private float particleLifetimeScale = 0.1f;
     [SerializeField] private AudioSource bubbleAudioSource;
+
+    private Coroutine _burstRoutine;
+    private bool _isEmitting;
+    private Vector2 _originalSize;
+    private Vector2 _originalOffset;
+    private ParticleSystem.MainModule _bubbleParticlesMain;
 
     private void Awake()
     {

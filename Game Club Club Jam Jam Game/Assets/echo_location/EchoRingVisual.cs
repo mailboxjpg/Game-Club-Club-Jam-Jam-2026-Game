@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class echo_ring_visual : MonoBehaviour
+public class EchoRingVisual : MonoBehaviour
 {
     [SerializeField] LineRenderer lineRenderer;
     [SerializeField] int expansion_rate;
@@ -12,13 +12,6 @@ public class echo_ring_visual : MonoBehaviour
     bool active_expanding = false;
     float current_radius;
     Vector2 current_origin;
-    public void _Makering()
-    {
-        print("attempt create ring");
-        current_radius = 0;
-        active_expanding=true;
-        current_origin = transform.position;
-    }
 
     private void Update()
     {
@@ -31,6 +24,14 @@ public class echo_ring_visual : MonoBehaviour
                 active_expanding = false;
             }
         }
+    }
+    
+    public void MakeRing()
+    {
+        print("attempt create ring");
+        current_radius = 0;
+        active_expanding=true;
+        current_origin = transform.position;
     }
 
     public void MakeRing(LineRenderer lineRenderer, float radius, int segments, Vector2 origin, Vector2 direction)
