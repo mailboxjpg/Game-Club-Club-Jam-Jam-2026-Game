@@ -299,7 +299,10 @@ public abstract class CharacterController2D : MonoBehaviour
             _coyoteTimer = 0f;
             _jumpBufferTimer = 0f;
             IsJumping = true; // block coyote time from re-arming a second jump until we land
-            rb.linearVelocityY = jumpForce;
+            if (rb.linearVelocityY < jumpForce)
+                rb.linearVelocityY = jumpForce;
+            else
+                rb.linearVelocityY += jumpForce;
             OnJump();
         }
         return canJump;
@@ -319,7 +322,10 @@ public abstract class CharacterController2D : MonoBehaviour
         AirJumpsRemaining--;
         _jumpBufferTimer = 0f;
         float force = airJumpForce > 0f ? airJumpForce : jumpForce;
-        rb.linearVelocityY = force;
+        if (rb.linearVelocityY < force)
+            rb.linearVelocityY = force;
+        else
+            rb.linearVelocityY += force;
         OnJump();
         OnAirJump();
         return true;
@@ -447,7 +453,11 @@ public abstract class CharacterController2D : MonoBehaviour
 
         // Jump away from whichever wall we're sliding on
         int wallJumpDirection = IsTouchingWallRight ? -1 : 1;
-        rb.linearVelocity = new Vector2(wallJumpDirection * wallJumpHorizontalForce, wallJumpVerticalForce);
+        rb.linearVelocityX = wallJumpDirection * wallJumpHorizontalForce;
+        if (rb.linearVelocityY < wallJumpVerticalForce)
+            rb.linearVelocityY = wallJumpVerticalForce;
+        else
+            rb.linearVelocityY += wallJumpVerticalForce;
 
         _wallJumpLockoutTimer = wallJumpLockoutTime;
         IsWallSliding = false;
