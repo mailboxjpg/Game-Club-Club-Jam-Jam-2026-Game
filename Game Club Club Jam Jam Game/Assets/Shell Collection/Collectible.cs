@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Collectable : MonoBehaviour
+public class Collectible : MonoBehaviour
 {
     [Header("Collectable")]
     [Tooltip("Amount of shells to award when collected.")]

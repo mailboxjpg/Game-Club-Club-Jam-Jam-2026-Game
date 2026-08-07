@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ArmorCollectable : Collectable
+public class ArmorCollectible : Collectible
 {
     [Header("Armor")]
     [Tooltip("Whether this collectable adds the armor amount or raises the collector's armor to the amount.")]
@@ -17,16 +17,25 @@ public class ArmorCollectable : Collectable
     {
         if (collector.healthSystem == null)
             return -1;
-        bool reducesDurability = setDurability && durability < collector.healthSystem.armorDurability;
-        bool reducesArmor = !addsArmor && armorAmount <= collector.healthSystem.GetArmor();
-        if (!overrideCurrentArmor && (reducesDurability || reducesArmor))
-            return -1;
+        bool shouldCollect = false;
         if (addsArmor)
+        {
             collector.healthSystem.AddArmor(armorAmount);
-        else
+            shouldCollect = true;
+        }
+        else if (armorAmount > collector.healthSystem.GetArmor())
+        {
             collector.healthSystem.SetArmor(armorAmount);
-        if (setDurability)
+            shouldCollect = true;
+        }
+
+        if (setDurability && durability > collector.healthSystem.armorDurability)
+        {
             collector.healthSystem.armorDurability = durability;
+            shouldCollect = true;
+        }
+        if (!shouldCollect)
+            return -1;
         return base.Collect(collector);
     }
 }

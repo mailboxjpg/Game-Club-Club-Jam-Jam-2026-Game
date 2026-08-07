@@ -13,8 +13,9 @@ public class ShellCollector : MonoBehaviour
     private int _numShells;
     private HashSet<string> _collectTagsSet = new HashSet<string>();
 
+    public CharacterController2D characterController2D;
     public HealthSystem healthSystem;
-    public Action<Collectable> OnCollect;
+    public Action<Collectible> OnCollect;
     public Action OnMaxCollected;
     
     private void Start()
@@ -34,13 +35,13 @@ public class ShellCollector : MonoBehaviour
     {
         if (_numShells >= maxShells)
             return;
-        if (_collectTagsSet.Contains(collision.tag) && collision.TryGetComponent<Collectable>(out var collectable))
+        if (_collectTagsSet.Contains(collision.tag) && collision.TryGetComponent<Collectible>(out var collectible))
         {
-            int shellsCollected = collectable.Collect(this);
+            int shellsCollected = collectible.Collect(this);
             if (shellsCollected < 0) // collection failed
                 return;
             _numShells += shellsCollected;
-            OnCollect?.Invoke(collectable);
+            OnCollect?.Invoke(collectible);
             if (_numShells == maxShells)
                 OnMaxCollected?.Invoke();
         }

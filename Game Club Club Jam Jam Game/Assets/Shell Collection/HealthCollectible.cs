@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HealthCollectable : Collectable
+public class HealthCollectible : Collectible
 {
     [Header("Health")]
     [Tooltip("Whether this collectable adds the health amount or raises the collector's health to the amount.")]
@@ -15,20 +15,31 @@ public class HealthCollectable : Collectable
     {
         if (collector.healthSystem == null)
             return -1;
-        float collectorMaxHealth = collector.healthSystem.GetMaxHealth();
-        bool doesNotIncreaseMaxHealth = !addsMaxHealth && maxHealthAmount <= collectorMaxHealth;
-        float collectorHealth = collector.healthSystem.GetHealth();
-        bool doesNotIncreaseHealth = collectorHealth >= collectorMaxHealth || (!addsHealth && healthAmount <= collectorHealth);
-        if (doesNotIncreaseMaxHealth || doesNotIncreaseHealth)
-            return -1;
-        if (addsHealth)
-            collector.healthSystem.AddHealth(healthAmount);
-        else
-            collector.healthSystem.SetHealth(healthAmount);
+        bool shouldCollect = false;
         if (addsMaxHealth)
+        {
             collector.healthSystem.AddMaxHealth(maxHealthAmount);
-        else
+            shouldCollect = true;
+        }
+        else if (maxHealthAmount > collector.healthSystem.GetMaxHealth())
+        {
             collector.healthSystem.SetMaxHealth(maxHealthAmount);
+            shouldCollect = true;
+        }
+
+        if (addsHealth)
+        {
+            collector.healthSystem.AddHealth(maxHealthAmount);
+            shouldCollect = true;
+
+        }
+        else if (healthAmount > collector.healthSystem.GetHealth())
+        {
+            collector.healthSystem.SetHealth(maxHealthAmount);
+            shouldCollect = true;
+        }
+        if (!shouldCollect)
+            return -1;
         return base.Collect(collector);
     }
 }

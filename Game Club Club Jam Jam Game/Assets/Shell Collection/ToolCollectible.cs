@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ToolCollectable : Collectable
+public class ToolCollectible : Collectible
 {
     [Header("Tool")]
     [Tooltip("Tool to spawn on the player when collected.")]
