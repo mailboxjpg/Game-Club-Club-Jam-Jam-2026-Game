@@ -12,6 +12,8 @@ public abstract class CharacterController2D : MonoBehaviour
     [SerializeField] protected float acceleration = 60f; // ground responsiveness
     [SerializeField] protected float deceleration = 60f; // stopping responsiveness
     [SerializeField] protected float airControlMultiplier = 0.6f; // how much control you keep in air
+    [Tooltip("Rate at which to slow down if already moving in desired direction.")]
+    [SerializeField] protected float friction = 0.1f;
 
     [Header("Crouching")]
     [Tooltip("Multiplier applied to the original height while crouching (e.g. 0.5 = half height).")]
@@ -32,7 +34,7 @@ public abstract class CharacterController2D : MonoBehaviour
 
     [Header("Air Jumps")]
     [Tooltip("Extra jumps allowed while airborne, on top of the normal ground jump. 0 = disabled, 1 = double jump, 2 = triple jump, etc.")]
-    [SerializeField] protected int maxAirJumps = 0;
+    public int maxAirJumps = 0;
     [Tooltip("Force applied on an air jump. Defaults to the same as jumpForce if left at 0.")]
     [SerializeField] protected float airJumpForce = 0f;
 
@@ -40,6 +42,8 @@ public abstract class CharacterController2D : MonoBehaviour
     [SerializeField] protected Transform groundCheck;
     [SerializeField] protected Vector2 groundCheckSize = new Vector2(0.6f, 0.1f);
     [SerializeField] protected LayerMask groundLayer;
+    [Tooltip("Time needed to be on the ground to allow things to reset.")]
+    [SerializeField] protected float groundedLandTime = 0.1f;
 
     [Header("Wall Detection")]
     [Tooltip("Prevents sticking to walls when airborne and holding input into them (outside of an active wall slide).")]
@@ -58,14 +62,21 @@ public abstract class CharacterController2D : MonoBehaviour
     [SerializeField] protected float wallSlideTime = 1f;
 
     [Header("Wall Jumping")]
-    [SerializeField] protected bool enableWallJump = true;
     [Tooltip("Horizontal force pushing away from the wall on a wall jump.")]
     [SerializeField] protected float wallJumpHorizontalForce = 10f;
     [Tooltip("Vertical force on a wall jump.")]
     [SerializeField] protected float wallJumpVerticalForce = 13f;
     [Tooltip("Seconds after a wall jump during which normal air-control input is suppressed, so the away-push isn't instantly cancelled by holding input back toward the wall.")]
     [SerializeField] protected float wallJumpLockoutTime = 0.15f;
-    [SerializeField] protected int maxWallJumps = 2;
+    public int maxWallJumps = 2;
+
+    [Header("Dashing")]
+    [SerializeField] protected float dashSpeed = 20f;
+    [SerializeField] protected float dashDuration = 0.15f;
+    [SerializeField] protected float dashCooldown = 0.15f;
+    public int maxDashes = 1;
+    [SerializeField] protected bool preserveMomentum = false;
+    [SerializeField] protected bool waveDashEnabled = true;
 
     protected Rigidbody2D rb;
     protected Collider2D col;
@@ -82,6 +93,9 @@ public abstract class CharacterController2D : MonoBehaviour
     public int AirJumpsRemaining { get; private set; }
     public int WallJumpsRemaining { get; private set; }
     public Vector2 Velocity => rb.linearVelocity;
+    public bool IsDashing { get; private set; }
+    public bool IsWaveDashing { get; private set; }
+    public int DashesRemaining { get; private set; }
 
     public event Action OnJumped;
     public event Action OnAirJumped;
@@ -95,7 +109,6 @@ public abstract class CharacterController2D : MonoBehaviour
 
     private float _coyoteTimer;
     private float _jumpBufferTimer;
-    private bool _wasGroundedLastFrame;
     private float _wallSlideTimer;
     private float _wallJumpLockoutTimer;
 
@@ -103,6 +116,11 @@ public abstract class CharacterController2D : MonoBehaviour
     private Vector2 _standingScale;
     private Vector2 _standingColliderSize;
     private Vector2 _standingColliderOffset;
+    private float _dashTimer;
+    private float _dashCooldownTimer;
+    private Vector2 _dashDirection;
+    private float _originalGravityScale;
+    private float _groundedTimer;
 
     protected virtual void Awake()
     {
@@ -113,6 +131,8 @@ public abstract class CharacterController2D : MonoBehaviour
         _standingColliderSize = col.bounds.size;
         _standingColliderOffset = col.offset;
         AirJumpsRemaining = maxAirJumps;
+        DashesRemaining = maxDashes;
+        _originalGravityScale = rb.gravityScale;
     }
 
     protected virtual void Update()
@@ -137,20 +157,22 @@ public abstract class CharacterController2D : MonoBehaviour
     {
         CheckGrounded();
         CheckWalls();
+        ApplyHorizontalMovement(GetMoveInput().x);
         UpdateCrouchState();
         UpdateWallSlideState();
-        ApplyHorizontalMovement(GetMoveInput());
         ApplyBetterGravity();
         ApplyWallSlide();
         if (!TryWallJump() && !TryGroundOrCoyoteJump())
         {
             TryAirJump();
         }
+        UpdateDash();
+        TryDash();
         _wallJumpLockoutTimer -= Time.fixedDeltaTime;
     }
 
-    /// <summary>Return -1 (left) to 1 (right). Override to supply input from any source.</summary>
-    protected abstract float GetMoveInput();
+    /// <summary>Return x -1 (left) to 1 (right) y -1 (down) to 1 (up). Override to supply input from any source.</summary>
+    protected abstract Vector2 GetMoveInput();
 
     /// <summary>Return true on the frame jump was pressed.</summary>
     protected abstract bool GetJumpInput();
@@ -163,6 +185,8 @@ public abstract class CharacterController2D : MonoBehaviour
 
     /// <summary>Return true while the run/sprint input is held. Default: never runs. Override to enable running.</summary>
     protected virtual bool GetRunInput() => false;
+
+    protected abstract bool GetDashInput();
 
     protected virtual void OnJump()
     {
@@ -190,6 +214,7 @@ public abstract class CharacterController2D : MonoBehaviour
     }
     protected virtual void OnWallSlideStart()
     {
+        DashesRemaining = maxDashes; // refill dashes
         OnWallSlideStarted?.Invoke();
     }
     protected virtual void OnWallSlideEnd()
@@ -203,6 +228,8 @@ public abstract class CharacterController2D : MonoBehaviour
 
     protected void ApplyHorizontalMovement(float input)
     {
+        if (IsDashing || IsWaveDashing)
+            return;
         // Suppress normal air-control input briefly after a wall jump so the away-push isn't
         // instantly cancelled out by the player still holding input back toward the wall.
         if (_wallJumpLockoutTimer > 0f)
@@ -227,6 +254,11 @@ public abstract class CharacterController2D : MonoBehaviour
         float currentSpeed = IsCrouching ? crouchSpeed : (IsRunning ? runSpeed : walkSpeed);
         float targetSpeed = input * currentSpeed;
         float speedDiff = targetSpeed - rb.linearVelocityX;
+        if ((targetSpeed > 0f && speedDiff < 0f) || (targetSpeed < 0f && speedDiff > 0f)) // already going in target direction past targetSpeed
+        {
+            targetSpeed = rb.linearVelocityX * (1f-friction);
+            speedDiff *= friction;
+        }
 
         float accelRate = Mathf.Abs(targetSpeed) > 0.01f ? acceleration : deceleration;
         if (!IsGrounded)
@@ -331,19 +363,18 @@ public abstract class CharacterController2D : MonoBehaviour
     /// <summary>Returns true if a normal ground/coyote-time jump fired this frame.</summary>
     protected bool TryGroundOrCoyoteJump()
     {
-        bool canJump = !IsJumping && _coyoteTimer > 0f && _jumpBufferTimer > 0f;
-        if (canJump)
-        {
-            _coyoteTimer = 0f;
-            _jumpBufferTimer = 0f;
-            IsJumping = true; // block coyote time from re-arming a second jump until we land
-            if (rb.linearVelocityY < jumpForce)
-                rb.linearVelocityY = jumpForce;
-            else
-                rb.linearVelocityY += jumpForce;
-            OnJump();
-        }
-        return canJump;
+        if (IsDashing || IsJumping || _coyoteTimer <= 0f || _jumpBufferTimer <= 0f)
+            return false;
+        _coyoteTimer = 0f;
+        _jumpBufferTimer = 0f;
+        _groundedTimer = 0f;
+        IsJumping = true; // block coyote time from re-arming a second jump until we land
+        if (rb.linearVelocityY < jumpForce)
+            rb.linearVelocityY = jumpForce;
+        else
+            rb.linearVelocityY += jumpForce;
+        OnJump();
+        return true;
     }
 
     /// <summary>
@@ -352,13 +383,12 @@ public abstract class CharacterController2D : MonoBehaviour
     /// </summary>
     protected bool TryAirJump()
     {
-        if (AirJumpsRemaining <= 0 || _jumpBufferTimer <= 0f)
-        {
+        if (IsGrounded || IsDashing || AirJumpsRemaining <= 0 || _jumpBufferTimer <= 0f)
             return false;
-        }
 
         AirJumpsRemaining--;
         _jumpBufferTimer = 0f;
+        _groundedTimer = 0f;
         float force = airJumpForce > 0f ? airJumpForce : jumpForce;
         if (rb.linearVelocityY < force)
             rb.linearVelocityY = force;
@@ -371,6 +401,8 @@ public abstract class CharacterController2D : MonoBehaviour
 
     protected void ApplyBetterGravity()
     {
+        if (IsDashing)
+            return;
         // Snappier, more "game feel"-y jump arc than default uniform gravity
         if (rb.linearVelocityY < 0f)
         {
@@ -387,8 +419,6 @@ public abstract class CharacterController2D : MonoBehaviour
 
     protected void CheckGrounded()
     {
-        _wasGroundedLastFrame = IsGrounded;
-
         Collider2D ground = null;
         if (groundCheck != null)
         {
@@ -396,18 +426,43 @@ public abstract class CharacterController2D : MonoBehaviour
             IsGrounded = ground != null;
         }
 
-        if (IsGrounded && !IsJumping)
+        if (IsGrounded)
         {
-            _coyoteTimer = coyoteTime;
-        }
+            if (!IsJumping)
+            {
+                _coyoteTimer = coyoteTime;
+            }
 
-        if (IsGrounded && !_wasGroundedLastFrame)
+            if (_groundedTimer <= 0f) // landed this frame
+            {
+                if (IsDashing)
+                {
+                    OnLand(ground, 0f); // Dash negates fall speed
+                    _dashTimer = 0f; // cancel dash
+                    if (waveDashEnabled)
+                    {
+                        TryWaveDash();
+                    }
+                }
+                else
+                {
+                    OnLand(ground, -rb.linearVelocityY); // fall speed going into ground (negative) should be the speed we use for checks
+                }
+            }
+
+            if (_groundedTimer > groundedLandTime)
+            {
+                _wallSlideTimer = 0f; // reset wall slide timer once grounded
+                IsJumping = false; // touched ground again; a new jump is now allowed
+                AirJumpsRemaining = maxAirJumps; // refill air jumps on landing
+                WallJumpsRemaining = maxWallJumps; // refill wall jumps on landing
+                DashesRemaining = maxDashes; // refill dashes
+            }
+            _groundedTimer += Time.deltaTime;
+        }
+        else
         {
-            _wallSlideTimer = 0f; // reset wall slide timer once grounded
-            IsJumping = false; // touched ground again; a new jump is now allowed
-            AirJumpsRemaining = maxAirJumps; // refill air jumps on landing
-            WallJumpsRemaining = maxWallJumps; // refill wall jumps on landing
-            OnLand(ground, -rb.linearVelocityY); // speed going into ground (negative) should be the speed we use for checks
+            _groundedTimer = 0f;
         }
     }
 
@@ -444,14 +499,14 @@ public abstract class CharacterController2D : MonoBehaviour
     {
         bool wasWallSliding = IsWallSliding;
 
-        if (!enableWallSlide || IsGrounded || _wallJumpLockoutTimer > 0f)
+        if (!enableWallSlide || _wallJumpLockoutTimer > 0f)
         {
             IsWallSliding = false;
         }
         else
         {
-            float input = GetMoveInput();
-            bool pressingIntoWall = (input > 0f && IsTouchingWallRight) || (input < 0f && IsTouchingWallLeft);
+            float inputX = GetMoveInput().x;
+            bool pressingIntoWall = (inputX > 0f && IsTouchingWallRight) || (inputX < 0f && IsTouchingWallLeft);
             bool falling = rb.linearVelocityY <= 0f;
 
             if (pressingIntoWall && falling && _wallSlideTimer < wallSlideTime)
@@ -486,10 +541,10 @@ public abstract class CharacterController2D : MonoBehaviour
     /// </summary>
     protected bool TryWallJump()
     {
-        if (!enableWallJump || !IsWallSliding || _jumpBufferTimer <= 0f || WallJumpsRemaining <= 0)
-        {
+        if (IsDashing || maxWallJumps <= 0 || !IsWallSliding || _jumpBufferTimer <= 0f || WallJumpsRemaining <= 0)
             return false;
-        }
+
+        _groundedTimer = 0f;
 
         // Jump away from whichever wall we're sliding on
         int wallJumpDirection = IsTouchingWallRight ? -1 : 1;
@@ -499,17 +554,86 @@ public abstract class CharacterController2D : MonoBehaviour
         else
             rb.linearVelocityY += wallJumpVerticalForce;
 
+        AirJumpsRemaining = maxAirJumps; // refill air jumps
         _wallJumpLockoutTimer = wallJumpLockoutTime;
         IsWallSliding = false;
         _wallSlideTimer = 0f;
         IsJumping = true; // reuse the same guard as a normal jump so coyote/ground checks don't immediately re-trigger
         _jumpBufferTimer = 0f;
-        AirJumpsRemaining = maxAirJumps; // wall contact refills air jumps, same as touching the ground
         WallJumpsRemaining--;
 
         OnJump();
         OnWallJump();
         return true;
+    }
+
+    protected virtual bool TryWaveDash()
+    {
+        if (!GetDashInput() || !waveDashEnabled)
+            return false;
+
+        Vector2 dir = GetMoveInput();
+        if (dir.x == 0f || dir.y >= 0f)
+            return false;
+        IsWaveDashing = true;
+        DashesRemaining--;
+        _dashTimer = dashDuration;
+        _dashCooldownTimer = dashCooldown;
+        dir.y = 0f;
+        _dashDirection = dir.normalized;
+        rb.linearVelocityX = _dashDirection.x * dashSpeed;
+        rb.linearVelocityY = jumpForce;
+        rb.gravityScale = _originalGravityScale;
+
+        return true;
+    }
+
+    protected virtual bool TryDash()
+    {
+        if (_dashCooldownTimer > 0f || !GetDashInput() || DashesRemaining <= 0)
+            return false;
+
+        Vector2 dir = GetMoveInput();
+        if (dir == Vector2.zero)
+            return false;
+        IsDashing = true;
+        DashesRemaining--;
+        _dashTimer = dashDuration;
+        _dashCooldownTimer = dashCooldown;
+        _dashDirection = dir.normalized;
+        rb.linearVelocity = _dashDirection * dashSpeed;
+        rb.gravityScale = 0f;
+
+        return true;
+    }
+
+    protected virtual void UpdateDash()
+    {
+        if (!IsDashing)
+        {
+            _dashCooldownTimer -= Time.fixedDeltaTime;
+        }
+        else
+        {
+            _dashTimer -= Time.fixedDeltaTime;
+
+            if (IsWaveDashing)
+                rb.linearVelocityX = _dashDirection.x * dashSpeed;
+            else
+                rb.linearVelocity = _dashDirection * dashSpeed;
+
+            if (_dashTimer <= 0f)
+            {
+                if (!preserveMomentum && !IsWaveDashing) // wave dash preserves momentum
+                {
+                    rb.linearVelocity = Vector2.zero;
+                }
+
+                rb.gravityScale = _originalGravityScale;
+                IsDashing = false;
+                IsWaveDashing = false;
+            }
+        }
     }
 
     protected void Flip()
@@ -534,7 +658,9 @@ public abstract class CharacterController2D : MonoBehaviour
             scaledWallCheckSize.y *= crouchHeightMultiplier;
             wallCheckOffset.y = -crouchHeightMultiplier * 0.5f * _standingColliderSize.y;
         }
-        if (wallCheckRight != null) Gizmos.DrawWireCube(wallCheckRight.position + wallCheckOffset, scaledWallCheckSize);
-        if (wallCheckLeft != null) Gizmos.DrawWireCube(wallCheckLeft.position + wallCheckOffset, scaledWallCheckSize);
+        if (wallCheckRight != null)
+            Gizmos.DrawWireCube(wallCheckRight.position + wallCheckOffset, scaledWallCheckSize);
+        if (wallCheckLeft != null)
+            Gizmos.DrawWireCube(wallCheckLeft.position + wallCheckOffset, scaledWallCheckSize);
     }
 }

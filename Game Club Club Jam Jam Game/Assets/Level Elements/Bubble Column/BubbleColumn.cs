@@ -31,7 +31,8 @@ public class BubbleColumn : MonoBehaviour
         _originalOffset = triggerCollider.offset;
         if (bubbleParticles != null)
             _bubbleParticlesMain = bubbleParticles.main;
-        _burstRoutine = StartCoroutine(BurstLoop());
+        if (playOnAwake)
+            Play();
     }
 
     // Update is called once per frame
