@@ -7,6 +7,12 @@ public class CameraControl : MonoBehaviour
 {
     public static CameraControl Instance {get; private set;}
 
+    [Tooltip("Thing that the camera will track (like the player).")]
+    [SerializeField] private Transform followTarget;
+    [SerializeField] private float lerpSpeed = 1f;
+    [Tooltip("Mouse sensitivity when moving the focus position around.")]
+    [SerializeField] private float focusSensitivity = 0.02f;
+
     private Camera _camera;
 
     // For cutscenes/events that require the camera to focus on something
@@ -22,12 +28,6 @@ public class CameraControl : MonoBehaviour
     // The bounds in world space that define the area the camera can move around in
     // null means the camera is unbounded (can move freely anywhere)
     private CameraBounds _cameraBounds;
-
-    [Tooltip("Thing that the camera will track (like the player).")]
-    [SerializeField] private Transform followTarget;
-    [SerializeField] private float lerpSpeed = 1f;
-    [Tooltip("Mouse sensitivity when moving the focus position around.")]
-    [SerializeField] private float focusSensitivity = 0.02f;
 
     private void Awake()
     {
