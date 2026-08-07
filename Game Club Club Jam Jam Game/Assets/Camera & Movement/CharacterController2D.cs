@@ -1,4 +1,6 @@
 using System;
+using Microsoft.Unity.VisualStudio.Editor;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -14,6 +16,7 @@ public abstract class CharacterController2D : MonoBehaviour
     [SerializeField] protected float airControlMultiplier = 0.6f; // how much control you keep in air
     [Tooltip("Rate at which to slow down if already moving in desired direction.")]
     [SerializeField] protected float friction = 0.1f;
+    [SerializeField] protected SpriteRenderer sprite;
 
     [Header("Crouching")]
     [Tooltip("Multiplier applied to the original height while crouching (e.g. 0.5 = half height).")]
@@ -129,6 +132,8 @@ public abstract class CharacterController2D : MonoBehaviour
         rb.freezeRotation = true;
         _standingScale = transform.localScale;
         _standingColliderSize = col.bounds.size;
+        _standingColliderSize.x /= _standingScale.x;
+        _standingColliderSize.y /= _standingScale.y;
         _standingColliderOffset = col.offset;
         AirJumpsRemaining = maxAirJumps;
         DashesRemaining = maxDashes;
@@ -329,6 +334,10 @@ public abstract class CharacterController2D : MonoBehaviour
         {
             float newHeight = _standingColliderSize.y * heightMultiplier;
             float heightDiff = _standingColliderSize.y - newHeight;
+            wallCheckLeft.localScale = Vector2.one * heightMultiplier;
+            wallCheckRight.localScale = Vector2.one * heightMultiplier;
+            // wallCheckLeft.localPosition = new Vector2(wallCheckLeft.localPosition.x, _standingWallCheckY - heightDiff * 0.5f * _standingScale.y);
+            // wallCheckRight.localPosition = new Vector2(wallCheckRight.localPosition.x, _standingWallCheckY - heightDiff * 0.5f * _standingScale.y);
 
             switch (col.GetType().Name)
             {
@@ -337,7 +346,14 @@ public abstract class CharacterController2D : MonoBehaviour
                     col.offset = new Vector2(_standingColliderOffset.x, _standingColliderOffset.y - heightDiff * 0.5f);
                     break;
                 case nameof(CapsuleCollider2D):
-                    col.GetComponent<CapsuleCollider2D>().size = new Vector2(_standingColliderSize.x, newHeight);
+                    Vector2 newSize = new Vector2(_standingColliderSize.x, newHeight);
+                    if (newHeight < _standingColliderSize.x)
+                        newSize.x = newHeight;
+                    col.GetComponent<CapsuleCollider2D>().size = newSize;
+                    col.offset = new Vector2(_standingColliderOffset.x, _standingColliderOffset.y - heightDiff * 0.5f);
+                    break;
+                case nameof(CircleCollider2D):
+                    col.GetComponent<CircleCollider2D>().radius = newHeight;
                     col.offset = new Vector2(_standingColliderOffset.x, _standingColliderOffset.y - heightDiff * 0.5f);
                     break;
                 default:
@@ -351,9 +367,14 @@ public abstract class CharacterController2D : MonoBehaviour
     /// <summary>Checks whether there's room directly above the character to return to standing height.</summary>
     private bool CanStandUp()
     {
+        // This code is a fucking mess just to undo all the scaling and transformations applied on the collider
         float heightDiff = _standingColliderSize.y - (_standingColliderSize.y * crouchHeightMultiplier);
-        Vector2 checkSize = new Vector2(_standingColliderSize.x, heightDiff + standUpCheckBuffer);
-        Vector2 checkCenter = (Vector2)transform.position + _standingColliderOffset + Vector2.up * (_standingColliderSize.y * 0.5f - heightDiff * 0.5f);
+        Vector2 checkSize = new Vector2(_standingColliderSize.x, heightDiff + (standUpCheckBuffer / _standingScale.y));
+        Vector2 offset = _standingColliderOffset + Vector2.up * (_standingColliderSize.y * 0.5f - heightDiff * 0.5f);
+        offset.y *= _standingScale.y;
+        checkSize.x *= _standingScale.x;
+        checkSize.y *= _standingScale.y;
+        Vector2 checkCenter = (Vector2)transform.position + offset;
 
         // Overlap the strip of space between "top of crouch collider" and "top of standing collider"
         Collider2D hit = Physics2D.OverlapBox(checkCenter, checkSize, 0f, ceilingLayer);
@@ -473,21 +494,13 @@ public abstract class CharacterController2D : MonoBehaviour
         if (IsCrouching)
         {
             scaledWallCheckSize.y *= crouchHeightMultiplier;
-            wallCheckOffset.y = -crouchHeightMultiplier * 0.5f * _standingColliderSize.y;
+            wallCheckOffset.y = -crouchHeightMultiplier * 0.5f * _standingColliderSize.y * _standingScale.y;
         }
         bool checkRightHit = wallCheckRight != null && Physics2D.OverlapBox(wallCheckRight.position + wallCheckOffset, scaledWallCheckSize, 0f, wallLayer);
         bool checkLeftHit = wallCheckLeft != null && Physics2D.OverlapBox(wallCheckLeft.position + wallCheckOffset, scaledWallCheckSize, 0f, wallLayer);
 
-        if (IsFacingRight)
-        {
-            IsTouchingWallRight = checkRightHit;
-            IsTouchingWallLeft = checkLeftHit;
-        }
-        else
-        {
-            IsTouchingWallRight = checkLeftHit;
-            IsTouchingWallLeft = checkRightHit;
-        }
+        IsTouchingWallRight = checkRightHit;
+        IsTouchingWallLeft = checkLeftHit;
     }
 
     /// <summary>
@@ -638,7 +651,8 @@ public abstract class CharacterController2D : MonoBehaviour
 
     protected void Flip()
     {
-        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        if (sprite != null)
+            sprite.flipX = !IsFacingRight;
         OnFlip(IsFacingRight);
     }
 
@@ -656,11 +670,21 @@ public abstract class CharacterController2D : MonoBehaviour
         if (IsCrouching)
         {
             scaledWallCheckSize.y *= crouchHeightMultiplier;
-            wallCheckOffset.y = -crouchHeightMultiplier * 0.5f * _standingColliderSize.y;
+            wallCheckOffset.y = -crouchHeightMultiplier * 0.5f * _standingColliderSize.y * _standingScale.y;
         }
         if (wallCheckRight != null)
             Gizmos.DrawWireCube(wallCheckRight.position + wallCheckOffset, scaledWallCheckSize);
         if (wallCheckLeft != null)
             Gizmos.DrawWireCube(wallCheckLeft.position + wallCheckOffset, scaledWallCheckSize);
+
+        // Ceiling check
+        float heightDiff = _standingColliderSize.y - (_standingColliderSize.y * crouchHeightMultiplier);
+        Vector2 checkSize = new Vector2(_standingColliderSize.x, heightDiff + (standUpCheckBuffer / _standingScale.y));
+        Vector2 offset = _standingColliderOffset + Vector2.up * (_standingColliderSize.y * 0.5f - heightDiff * 0.5f);
+        offset.y *= _standingScale.y;
+        checkSize.x *= _standingScale.x;
+        checkSize.y *= _standingScale.y;
+        Vector2 checkCenter = (Vector2)transform.position + offset;
+        Gizmos.DrawWireCube(checkCenter, checkSize);
     }
 }

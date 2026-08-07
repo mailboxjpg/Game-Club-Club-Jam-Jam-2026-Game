@@ -7,6 +7,8 @@ public class Door : MonoBehaviour
     [Tooltip("Transform of the model to apply the lerp to.")]
     [SerializeField] private Transform model;
     [SerializeField] private float lerpSpeed = 1f;
+    [Tooltip("Min number of shells needed to be collected before opening.")]
+    [SerializeField] private int minShells = 1;
 
     private bool open = false;
     private float timer = 0f;
@@ -14,12 +16,12 @@ public class Door : MonoBehaviour
     private void Start()
     {
         model.SetPositionAndRotation(closedState.position, closedState.rotation);
-        PlayerControl.Instance.shellCollector.OnMaxCollected += Open;
+        PlayerControl.Instance.shellCollector.OnCollect += TryOpen;
     }
 
     private void OnDestroy()
     {
-        PlayerControl.Instance.shellCollector.OnMaxCollected -= Open;
+        PlayerControl.Instance.shellCollector.OnCollect -= TryOpen;
     }
 
     private void Update()
@@ -40,8 +42,9 @@ public class Door : MonoBehaviour
             Quaternion.Slerp(closedState.rotation, openedState.rotation, timer));
     }
 
-    private void Open()
+    private void TryOpen(Collectible _)
     {
-        open = true;
+        if (PlayerControl.Instance.shellCollector.numShells >= minShells)
+            open = true;
     }
 }
