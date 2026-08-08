@@ -10,7 +10,7 @@ public class Trigger2D : MonoBehaviour
     [SerializeField] private string[] targetTags;
     [SerializeField] private bool ignoreOtherTriggers;
 
-    private HashSet<string> _targetTags;
+    private HashSet<string> _targetTags = new HashSet<string>();
 
     public UnityEvent OnTriggerEnter;
     public UnityEvent OnTriggerExit;
@@ -18,9 +18,12 @@ public class Trigger2D : MonoBehaviour
     private void Awake()
     {
         GetComponent<Collider2D>().isTrigger = true;
-        foreach(string tag in targetTags)
+        if (targetTags != null)
         {
-            _targetTags.Add(tag);
+            foreach(string tag in targetTags)
+            {
+                _targetTags.Add(tag);
+            }
         }
     }
 
@@ -31,7 +34,7 @@ public class Trigger2D : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!_targetTags.Contains(collision.tag) || (targetLayers.value & (1 << gameObject.layer)) <= 0)
+        if (!_targetTags.Contains(collision.tag) || (targetLayers.value & (1 << collision.gameObject.layer)) <= 0)
             return;
         if (ignoreOtherTriggers && collision.isTrigger)
             return;
@@ -40,7 +43,7 @@ public class Trigger2D : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (!_targetTags.Contains(collision.tag) || (targetLayers.value & (1 << gameObject.layer)) <= 0)
+        if (!_targetTags.Contains(collision.tag) || (targetLayers.value & (1 << collision.gameObject.layer)) <= 0)
             return;
         if (ignoreOtherTriggers && collision.isTrigger)
             return;
