@@ -11,6 +11,8 @@ public class BubbleColumn : MonoBehaviour
     [SerializeField] private float burstCooldown = 4f;
     [Tooltip("Percentage of original height to lerp towards during burst.")]
     [SerializeField, Range(0, 1)] private float burstMinHeight = 1f;
+    [Tooltip("Speed at which to expand the trigger collider's height.")]
+    [SerializeField] private float burstHeightSpeed = 2f;
     [SerializeField] private bool playOnAwake = true;
     [SerializeField] private ParticleSystem bubbleParticles;
     [Tooltip("Particle speed is set to pushForce*particleSpeedScale.")]
@@ -70,12 +72,12 @@ public class BubbleColumn : MonoBehaviour
             while (time > 0)
             {
                 float t = time / burstTime;
-                bubbleAudioSource.volume = t;
                 float heightPercent = Mathf.Lerp(burstMinHeight, 1f, t);
                 float targetHeight = _originalSize.y * heightPercent;
-                float heightDiff = _originalSize.y - targetHeight;
+                float newHeight = Mathf.Lerp(triggerCollider.size.y, targetHeight, burstHeightSpeed * Time.deltaTime);
+                float heightDiff = _originalSize.y - newHeight;
                 float targetOffsetY = _originalOffset.y - heightDiff * 0.5f;
-                triggerCollider.size = new Vector2(_originalSize.x, targetHeight);
+                triggerCollider.size = new Vector2(_originalSize.x, newHeight);
                 triggerCollider.offset = new Vector2(_originalOffset.x, targetOffsetY);
                 _bubbleParticlesMain.startLifetime = targetHeight * particleLifetimeScale;
 
@@ -85,6 +87,7 @@ public class BubbleColumn : MonoBehaviour
             _isEmitting = false;
             bubbleAudioSource.Stop();
             bubbleParticles.Stop();
+            triggerCollider.size = new Vector2(_originalSize.x, 0f);
 
             yield return new WaitForSeconds(burstCooldown);
         }

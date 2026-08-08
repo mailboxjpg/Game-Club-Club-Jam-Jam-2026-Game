@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1077036629936276173}
   - component: {fileID: 1198124682246688739}
-  - component: {fileID: 7829055476731673290}
   - component: {fileID: 5557012115768342852}
+  - component: {fileID: -919666029875708243}
   m_Layer: 3
   m_Name: Max Health Collectible
   m_TagString: Collectible
@@ -78,8 +78,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -712631045867808456, guid: b670ab75dde984907b8570040daa08c5, type: 3}
-  m_Color: {r: 1, g: 0, b: 0.60582066, a: 1}
+  m_Sprite: {fileID: -8630923909508717717, guid: 7f0b7cc48e58e0f4593a6f08eb9d986f, type: 3}
+  m_Color: {r: 1, g: 0.99861836, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -89,7 +89,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &7829055476731673290
+--- !u!114 &5557012115768342852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1727655993977787870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd630d0afb128434fbef690cf9e3416d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shellAmount: 1
+  destroyOnCollect: 1
+  collectAudioClip: {fileID: 0}
+  collectParticlesPrefab: {fileID: 4147807085855834338, guid: 2c9d871b5e69434439c19012f20251bb, type: 3}
+  overrideParticleColor: 1
+  particleColor: {r: 1, g: 0, b: 0.6039216, a: 1}
+  pulseLight: {fileID: 0}
+  pulseSpeed: 2
+  minPulseIntensity: 0.5
+  maxPulseIntensity: 1
+  OnCollect:
+    m_PersistentCalls:
+      m_Calls: []
+  addsHealth: 0
+  healthAmount: 0
+  addsMaxHealth: 1
+  maxHealthAmount: 5
+--- !u!61 &-919666029875708243
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,7 +148,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -127,36 +156,11 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 0.8828125}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 0.8828125}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 0.8828125}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &5557012115768342852
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1727655993977787870}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd630d0afb128434fbef690cf9e3416d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shellAmount: 1
-  destroyOnCollect: 1
-  collectAudioClip: {fileID: 0}
-  collectParticlesPrefab: {fileID: 4147807085855834338, guid: 2c9d871b5e69434439c19012f20251bb, type: 3}
-  overrideParticleColor: 1
-  particleColor: {r: 1, g: 0, b: 0.6039216, a: 1}
-  OnCollect:
-    m_PersistentCalls:
-      m_Calls: []
-  addsHealth: 0
-  healthAmount: 0
-  addsMaxHealth: 1
-  maxHealthAmount: 5
