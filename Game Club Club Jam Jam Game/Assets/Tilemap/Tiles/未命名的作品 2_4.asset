@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: Coral3_Blue
+  m_Name: "\u672A\u547D\u540D\u7684\u4F5C\u54C1 2_4"
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: -6429493399158520243, guid: 61ab329613b353f408f206da2a1ee369, type: 3}
+  m_Sprite: {fileID: 297367706271427222, guid: 53eaefbebdc37894e95f344761dd170e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

@@ -427,11 +427,11 @@ public abstract class CharacterController2D : MonoBehaviour
         // Snappier, more "game feel"-y jump arc than default uniform gravity
         if (rb.linearVelocityY < 0f)
         {
-            rb.linearVelocityY += Physics2D.gravity.y * fallGravityMultiplier * Time.fixedDeltaTime;
+            rb.gravityScale = fallGravityMultiplier;
         }
         else if (rb.linearVelocityY > 0f && !GetJumpInputHeld())
         {
-            rb.linearVelocityY += Physics2D.gravity.y * lowJumpGravityMultiplier * Time.fixedDeltaTime;
+            rb.gravityScale = lowJumpGravityMultiplier;
         }
     }
 

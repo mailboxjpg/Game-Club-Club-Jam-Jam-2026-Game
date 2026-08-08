@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 919
+  spritePixelsToUnits: 456
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,23 +113,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Pink_0
+      name: Pink2x2_0
       rect:
         serializedVersion: 2
-        x: 63
-        y: 24
-        width: 433
-        height: 918
+        x: 0
+        y: 457
+        width: 456
+        height: 456
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d19ad6c5573c09990800000000000000
-      internalID: -7381184880430962403
+      spriteID: 0bea87bfd2364e444a788996c6ed7511
+      internalID: -1354620267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pink2x2_1
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 457
+        width: 456
+        height: 456
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ece7276f82f605a47be685f67cd3f2ca
+      internalID: -493881862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pink2x2_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1
+        width: 456
+        height: 456
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 087a510603a906f42bce1bc31e90113b
+      internalID: -167459653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pink2x2_3
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 1
+        width: 456
+        height: 456
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e58d45ad90647b04abbb7964f992815f
+      internalID: -796804998
       vertices: []
       indices: 
       edges: []
@@ -138,7 +204,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 314fb4d790ef82b45aac0f520b29741e
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +214,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Pink_0: -7381184880430962403
+      Pink2x2_0: -1354620267
+      Pink2x2_1: -493881862
+      Pink2x2_2: -167459653
+      Pink2x2_3: -796804998
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
