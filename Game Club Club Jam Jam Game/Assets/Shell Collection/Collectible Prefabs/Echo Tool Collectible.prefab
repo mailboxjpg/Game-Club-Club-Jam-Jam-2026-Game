@@ -79,12 +79,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -712631045867808456, guid: b670ab75dde984907b8570040daa08c5, type: 3}
-  m_Color: {r: 1, g: 0.7541219, b: 0, a: 1}
+  m_Sprite: {fileID: -855298285791758126, guid: ce099ed214968d14e8eef00db21eba7c, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 0.8828125}
+  m_Size: {x: 1, y: 0.6447559}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -128,8 +128,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 0.8828125}
-    newSize: {x: 1, y: 0.8828125}
+    oldSize: {x: 1, y: 0.6447559}
+    newSize: {x: 1, y: 0.6447559}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -154,14 +154,14 @@ MonoBehaviour:
   collectParticlesPrefab: {fileID: 4147807085855834338, guid: 2c9d871b5e69434439c19012f20251bb, type: 3}
   overrideParticleColor: 1
   particleColor: {r: 1, g: 0.7529412, b: 0, a: 1}
+  pulseLight: {fileID: 4279346750472018724}
+  pulseSpeed: 3
+  minPulseIntensity: 0
+  maxPulseIntensity: 0.25
   OnCollect:
     m_PersistentCalls:
       m_Calls: []
   toolPrefab: {fileID: 6329352520326668795, guid: 0f194bf43853bdb48939abe0b703c1a2, type: 3}
-  pulseLight: {fileID: 4279346750472018724}
-  pulseSpeed: 3
-  minPulseIntensity: 0
-  maxPulseIntensity: 1
 --- !u!1 &8194667919818637418
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,9 +211,9 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 1, g: 0.7529412, b: 0, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.25
   m_LightVolumeIntensity: 1
-  m_LightVolumeEnabled: 0
+  m_LightVolumeEnabled: 1
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}

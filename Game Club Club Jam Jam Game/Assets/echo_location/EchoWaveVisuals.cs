@@ -17,28 +17,14 @@ public class EchoWaveVisuals : MonoBehaviour
     Vector2 current_origin;
     GameObject[] lights;
     Light2D[] light_components;
-    public void _Makewave()
-    {
-        print("attempt create wave");
-        current_radius = 0;
-        active_expanding = true;
-        current_origin = transform.position;
-        //create lights
-        lights = new GameObject[segments];
-        light_components = new Light2D[segments];
-        for (int i = 0; i < segments; i++)
-        {
-            lights[i] = Instantiate(light,transform);
-            light_components[i] = lights[i].GetComponent<Light2D>();
-            light_components[i].enabled = false;
-        }
-    }
+    float expandT;
 
     private void Update()
     {
         if (active_expanding && delay<0)
         {
-            current_radius = Mathf.Lerp(current_radius, max_radius, expansion_rate * Time.deltaTime);
+            expandT += Time.deltaTime * expansion_rate;
+            current_radius = Mathf.Lerp(current_radius, max_radius, expandT);
             MakeWave(lineRenderer, current_radius, segments, current_origin, direction);
             if (current_radius > max_radius*0.95)
             {
