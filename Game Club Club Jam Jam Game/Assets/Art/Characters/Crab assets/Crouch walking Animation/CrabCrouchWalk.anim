@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CrabCrouch
+  m_Name: CrabCrouchWalk
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,13 +21,9 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -3650583512549082271, guid: c20e5f7278004924885d6437900fccef, type: 3}
-    - time: 0.11666667
-      value: {fileID: -8321942990177862807, guid: 8ba11502515cb704496488b2b86f986a, type: 3}
-    - time: 0.18333334
-      value: {fileID: 3850695547376032163, guid: 0652cf2353d6ba3499e9cb30c68e7ce0, type: 3}
-    - time: 0.25
-      value: {fileID: -5358761258116790869, guid: fb8fb2f17b6fb5e4990521471adcbea1, type: 3}
+      value: {fileID: -3524828749204523372, guid: 8cb81f3cf73422449b9b0a1865c82d4e, type: 3}
+    - time: 0.15
+      value: {fileID: -1690056045379726542, guid: b878877109505f443a4cc6a385c81f0f, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -50,16 +46,14 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -3650583512549082271, guid: c20e5f7278004924885d6437900fccef, type: 3}
-    - {fileID: -8321942990177862807, guid: 8ba11502515cb704496488b2b86f986a, type: 3}
-    - {fileID: 3850695547376032163, guid: 0652cf2353d6ba3499e9cb30c68e7ce0, type: 3}
-    - {fileID: -5358761258116790869, guid: fb8fb2f17b6fb5e4990521471adcbea1, type: 3}
+    - {fileID: -3524828749204523372, guid: 8cb81f3cf73422449b9b0a1865c82d4e, type: 3}
+    - {fileID: -1690056045379726542, guid: b878877109505f443a4cc6a385c81f0f, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.26666668
+    m_StopTime: 0.16666667
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
