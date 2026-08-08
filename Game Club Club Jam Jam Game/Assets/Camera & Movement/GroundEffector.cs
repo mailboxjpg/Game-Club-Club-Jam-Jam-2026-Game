@@ -7,6 +7,9 @@ public class GroundEffector : MonoBehaviour
     [SerializeField] private CharacterController2D characterController;
     [SerializeField] private HealthSystem healthSystem;
     [SerializeField] private AudioSource walkAudioSource;
+    [SerializeField] private AudioClip defaultWalkClip;
+    [SerializeField] private AudioClip defaultJumpClip;
+    [SerializeField] private AudioClip defaultLandClip;
     [Tooltip("Lerp between min and max based on move speed to set walk audio volume.")]
     [SerializeField] private Vector2 walkVolumeRange;
     [Tooltip("Lerp between min and max based on move speed to set walk audio pitch.")]
@@ -22,51 +25,99 @@ public class GroundEffector : MonoBehaviour
         _originalBounciness = characterController.GetBounciness();
         _currentCell = TilemapManager.Instance.WorldToCollisionCell(characterController.transform.position);
         _currentCell.y -= 1;
-        UpdateSurfaceTile();
+        TryGetSurfaceTile();
+        characterController.OnJumped += Jump;
+        characterController.OnLanded += Land;
     }
 
     private void FixedUpdate()
     {
+        // if (walkAudioSource != null)
+        //     Debug.Log(walkAudioSource.isPlaying);
         if (!characterController.IsGrounded)
+        {
+            if (walkAudioSource != null)
+            {
+                walkAudioSource.Stop();
+            }
             return;
+        }
+
         if (characterController.Velocity.sqrMagnitude > 0.001f)
         {
-            Vector3Int newCell = TilemapManager.Instance.WorldToCollisionCell(characterController.transform.position);
-            newCell.y -= 1;
-            if (_currentCell != newCell)
-            {
-                _currentCell = newCell;
-                UpdateSurfaceTile();
-            }
+            TryGetSurfaceTile();
         }
 
         if (_currentTile != null)
         {
             healthSystem.AddHealth(-_currentTile.damagePerSecond * Time.fixedDeltaTime);
-            if (walkAudioSource != null && _currentTile.walkClip != null)
+        }
+        if (walkAudioSource != null)
+        {
+            if (!walkAudioSource.isPlaying)
             {
-                float t = Mathf.Clamp01(Mathf.Abs(characterController.Velocity.x) / maxSpeed);
-                walkAudioSource.volume = Mathf.Lerp(walkVolumeRange.x, walkVolumeRange.y, t);
-                walkAudioSource.pitch = Mathf.Lerp(walkPitchRange.x, walkPitchRange.y, t);
+                walkAudioSource.Play();
             }
+            float t = Mathf.Clamp01(Mathf.Abs(characterController.Velocity.x) / maxSpeed);
+            walkAudioSource.volume = Mathf.Lerp(walkVolumeRange.x, walkVolumeRange.y, t);
+            walkAudioSource.pitch = Mathf.Lerp(walkPitchRange.x, walkPitchRange.y, t);
         }
     }
 
-    private void UpdateSurfaceTile()
+    private void TryGetSurfaceTile()
     {
+        Vector3Int newCell = TilemapManager.Instance.WorldToCollisionCell(characterController.transform.position);
+        newCell.y -= 1;
+        if (_currentCell == newCell)
+            return;
+        _currentCell = newCell;
         _currentTile = TilemapManager.Instance.GetCollisionTileAt(_currentCell) as SurfaceTile;
         if (_currentTile == null)
-            return;
-        characterController.movementMultiplier = _currentTile.movementMultiplier;
-        characterController.SetBounciness(_originalBounciness + _currentTile.bouncinessAddition);
-        if (walkAudioSource != null)
         {
-            walkAudioSource.Stop();
-            if (_currentTile.walkClip != null)
+            if (walkAudioSource != null)
             {
-                walkAudioSource.clip = _currentTile.walkClip;
+                walkAudioSource.Stop();
+                walkAudioSource.clip = defaultWalkClip;
                 walkAudioSource.Play();
             }
+            return;
+        }
+        characterController.movementMultiplier = _currentTile.movementMultiplier;
+        characterController.SetBounciness(_originalBounciness + _currentTile.bouncinessAddition);
+        if (walkAudioSource != null && _currentTile.walkClip != null && _currentTile.walkClip != walkAudioSource.clip)
+        {
+            walkAudioSource.Stop();
+            walkAudioSource.clip = _currentTile.walkClip;
+            walkAudioSource.Play();
+        }
+    }
+
+    private void Land(Collider2D ground, float speed)
+    {
+        if (walkAudioSource == null)
+            return;
+        TryGetSurfaceTile();
+        if (_currentTile != null && _currentTile.landClip != null)
+        {
+            walkAudioSource.PlayOneShot(_currentTile.landClip);
+        }
+        else if (defaultLandClip != null)
+        {
+            walkAudioSource.PlayOneShot(defaultLandClip);
+        }
+    }
+
+    private void Jump()
+    {
+        if (walkAudioSource == null)
+            return;
+        if (_currentTile != null && _currentTile.jumpClip != null)
+        {
+            walkAudioSource.PlayOneShot(_currentTile.jumpClip);
+        }
+        else if (defaultJumpClip != null)
+        {
+            walkAudioSource.PlayOneShot(defaultJumpClip);
         }
     }
 }

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02d52e0a8147e92499c5c41fffdeee4a, type: 3}
-  m_Name: BorderTile
+  m_Name: BigVentTileTopLeft 1
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 2625335008915489563, guid: 1c43588f6b0fbfa4ba65be6338a62016, type: 3}
+  m_Sprite: {fileID: 8764500939085050721, guid: 231df57f754c9af4dabc705f5b806846, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
@@ -31,7 +31,7 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 1
-  m_InstancedGameObject: {fileID: 0}
+  m_InstancedGameObject: {fileID: 1669986565388319483, guid: 9a75d918aecf0c44dbf520e0f08a6fed, type: 3}
   m_Flags: 1
   m_ColliderType: 1
   surfaceType: 2
