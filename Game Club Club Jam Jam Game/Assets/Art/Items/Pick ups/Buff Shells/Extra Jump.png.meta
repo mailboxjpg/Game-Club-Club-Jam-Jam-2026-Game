@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: fb8fb2f17b6fb5e4990521471adcbea1
+guid: 60c20b63d3f9d3242b00d4abf5aee004
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5358761258116790869
-    second: Crouch_4_0
+      213: 777740998332426942
+    second: Extra Jump_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 1006
+  spritePixelsToUnits: 377
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Crouch_4_0
+      name: Extra Jump_0
       rect:
         serializedVersion: 2
-        x: 1060
-        y: 746
-        width: 1384
-        height: 1006
+        x: 84
+        y: 118
+        width: 377
+        height: 377
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ba5c2d5170bd1a5b0800000000000000
-      internalID: -5358761258116790869
+      spriteID: ebaacdc31571bca00800000000000000
+      internalID: 777740998332426942
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 8ae439ce337d4a2409ccffebf58e8a73
+    spriteID: 865f7628af6649748b1cda93bb81be98
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Crouch_4_0: -5358761258116790869
+      Extra Jump_0: 777740998332426942
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
