@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 8015692030914362972}
   - component: {fileID: 3483199598312607892}
   m_Layer: 0
-  m_Name: PlayerController
+  m_Name: Goobie
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -331,6 +331,8 @@ MonoBehaviour:
   healthSystem: {fileID: 731122144605664964}
   walkAudioSource: {fileID: 8015692030914362972}
   defaultWalkClip: {fileID: 8300000, guid: aff8b6bb43d803c4ebc8bda75ce2eb61, type: 3}
+  defaultJumpClip: {fileID: 0}
+  defaultLandClip: {fileID: 0}
   walkVolumeRange: {x: 0, y: 1}
   walkPitchRange: {x: 0.75, y: 1.25}
   maxSpeed: 16
