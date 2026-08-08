@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2437708051553147853}
   - component: {fileID: 2132472311146379262}
   m_Layer: 0
-  m_Name: Light changer
+  m_Name: PlayerLightChanger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
