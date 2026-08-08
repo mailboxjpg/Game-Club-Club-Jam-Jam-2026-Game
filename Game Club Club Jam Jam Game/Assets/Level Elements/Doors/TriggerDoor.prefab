@@ -218,6 +218,7 @@ MonoBehaviour:
   closedState: {fileID: 6574443149815110895}
   model: {fileID: 2505366985327715564}
   lerpSpeed: 1
+  minShells: 1
 --- !u!61 &2048502223822611441
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -279,10 +280,25 @@ MonoBehaviour:
   targetLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  onTriggerEnter:
+  targetTags:
+  - Player
+  ignoreOtherTriggers: 1
+  OnTriggerEnter:
     m_PersistentCalls:
-      m_Calls: []
-  onTriggerExit:
+      m_Calls:
+      - m_Target: {fileID: 6313153976092236815}
+        m_TargetAssemblyTypeName: Trigger2D, Assembly-CSharp
+        m_MethodName: LoadScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnTriggerExit:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &5485926041834920501

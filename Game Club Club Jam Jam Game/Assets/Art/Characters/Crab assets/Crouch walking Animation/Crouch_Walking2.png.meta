@@ -116,37 +116,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Crouch_Walking2_0
-      rect:
-        serializedVersion: 2
-        x: 1054
-        y: 866
-        width: 6
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4d20f9e8448e23c00800000000000000
-      internalID: 879020258438873812
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Crouch_Walking2_1
       rect:
         serializedVersion: 2
         x: 1056
         y: 746
         width: 1450
-        height: 495
+        height: 1006
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -163,7 +141,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: cd65b3038d739694da6323dbfcbe3b25
     internalID: 0
     vertices: []
     indices: 

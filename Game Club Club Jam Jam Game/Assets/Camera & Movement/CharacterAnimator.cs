@@ -24,7 +24,8 @@ public class CharacterAnimator : MonoBehaviour
 
     private void OnDestroy()
     {
-        _characterController.OnJumped -= PlayJump;
+        if (_characterController != null)
+            _characterController.OnJumped -= PlayJump;
     }
 
     private void Update()
