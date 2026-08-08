@@ -10,7 +10,6 @@ public class CameraBounds : MonoBehaviour
     [SerializeField] private string triggerTag;
     
     private Collider2D _triggerCollider;
-    private CameraControl _mainCameraControl;
 
     public Vector2 min;
     public Vector2 max;
@@ -18,7 +17,6 @@ public class CameraBounds : MonoBehaviour
     private void Start()
     {
         _triggerCollider = GetComponent<Collider2D>();
-        _mainCameraControl = Camera.main.GetComponent<CameraControl>();
         if (boundsMatchCollider)
         {
             min = _triggerCollider.bounds.min;
@@ -46,7 +44,7 @@ public class CameraBounds : MonoBehaviour
         if (collision.transform.CompareTag(triggerTag) && !collision.isTrigger)
         {
             // Override the camera's bounds
-            _mainCameraControl.SetBounds(this);
+            CameraControl.Instance.SetBounds(this);
         }
     }
 
@@ -55,9 +53,9 @@ public class CameraBounds : MonoBehaviour
         if (collision.transform.CompareTag(triggerTag) && !collision.isTrigger)
         {
             // Unbound the camera when leaving this bound's trigger and the camera hasn't entered another CameraBounds
-            if (_mainCameraControl.GetBounds() == this)
+            if (CameraControl.Instance.GetBounds() == this)
             {
-                _mainCameraControl.SetBounds(null);
+                CameraControl.Instance.SetBounds(null);
             }
         }
     }
