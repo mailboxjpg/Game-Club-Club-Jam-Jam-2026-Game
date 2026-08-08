@@ -620,6 +620,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SkipPopup",
+                    "type": "Button",
+                    "id": "f6da1f7a-a7b0-4207-a508-c2ee8d9a4392",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1038,6 +1047,17 @@
                     "processors": "",
                     "groups": "XR",
                     "action": "TrackedDeviceOrientation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "757eb50f-c625-4a66-8c16-a6b7de2a4e89",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SkipPopup",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -227,4 +227,19 @@ public class HealthSystem : MonoBehaviour
         if (armorIndicator != null)
             armorIndicator.UpdateUI(this.armor, maxArmor);
     }
+
+    public void OnPlayerDeath()
+    {
+        if (PlayerControl.Instance.numLives <= 0)
+        {
+            // Go back to start (reset)
+            PlayerControl.Instance.numLives = 0;
+            SceneLoader.Instance.LoadScene("MenuScene");
+            return;
+        }
+        // Respawn
+        PlayerControl.Instance.numLives--;
+        PlayerControl.Instance.Respawn(1f);
+        screenTint.StartTint(Color.black, 0.25f, 0.5f);
+    }
 }

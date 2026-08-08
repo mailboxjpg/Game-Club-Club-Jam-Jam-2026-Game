@@ -22,6 +22,20 @@ public class Collectible : MonoBehaviour
     [SerializeField] private float minPulseIntensity = 0.5f;
     [SerializeField] private float maxPulseIntensity = 1f;
 
+    [Header("Popup")]    
+    [Tooltip("Popup to instantiate when the player collects this.")]
+    [SerializeField] private Popup popupPrefab;
+    [SerializeField] private float popupFadeTime = 0.15f;
+    [Tooltip("Seconds the popup is active before getting destroyed.")]
+    [SerializeField] private float popupActiveTime = 2f;
+    [Tooltip("Alpha of the popup box lerps between min (x) and max (y).")]
+    [SerializeField] private Vector2 popupFadeAlphaRange = new Vector2(0f, 1f);
+    [SerializeField] private string popupMessage;
+    [Tooltip("Sets the popup's world space target to this transform.")]
+    [SerializeField] private bool popupIsWorldSpace;
+    [Tooltip("Popup drifts with this velocity (world space only).")]
+    public Vector3 popupDriftVelocity;
+
     public UnityEvent OnCollect;
 
     private float pulseT;
@@ -48,6 +62,22 @@ public class Collectible : MonoBehaviour
                 ParticleSystem.MainModule particleMain = particles.main;
                 particleMain.startColor = particleColor;
             }
+        }
+        if (popupPrefab != null)
+        {
+            Popup newPopup = Instantiate(popupPrefab);
+            if (popupIsWorldSpace)
+                newPopup.worldSpaceTarget = transform;
+            newPopup.fadeTime = popupFadeTime;
+            newPopup.activeTime = popupActiveTime;
+            newPopup.fadeAlphaRange = popupFadeAlphaRange;
+            newPopup.driftVelocity = popupDriftVelocity;
+            newPopup.Init();
+            if (!string.IsNullOrEmpty(popupMessage))
+            {
+                newPopup.SetText(popupMessage);
+            }
+            newPopup.StartPopup();
         }
         OnCollect?.Invoke();
         if (destroyOnCollect)
