@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d56fd7173c1a7ce45b16f4c888455391
+guid: 0d46ae43a33ab7849a7429665d228236
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8923911374754931897
-    second: Purple_0
+      213: -4987337320017983735
+    second: Green_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 456
+  spritePixelsToUnits: 313
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -109,106 +109,27 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WindowsStoreApps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Purple3_0
+      name: Green_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 456
-        width: 456
-        height: 456
+        x: 125
+        y: 35
+        width: 313
+        height: 313
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 7aa5ea4100f17fe45a93189b744e9cf1
-      internalID: -671329387
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Purple3_1
-      rect:
-        serializedVersion: 2
-        x: 456
-        y: 456
-        width: 456
-        height: 456
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 040b27a4f3aae3a439e8a5d18a47b582
-      internalID: 1855863624
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Purple3_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 456
-        height: 456
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 230eb780a1ba1af4dadade48a3f7b2dd
-      internalID: -1166575773
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Purple3_3
-      rect:
-        serializedVersion: 2
-        x: 456
-        y: 0
-        width: 456
-        height: 456
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 672c707f68b41dd439949bd9c8eb889c
-      internalID: 863049987
+      spriteID: 9078749a12b69cab0800000000000000
+      internalID: -4987337320017983735
       vertices: []
       indices: 
       edges: []
@@ -217,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 9ca0e97a79db42e4ea514ea8d0d323fd
+    spriteID: 3630c890c2f575e449b0a2adabc96b01
     internalID: 0
     vertices: []
     indices: 
@@ -227,10 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Purple3_0: -671329387
-      Purple3_1: 1855863624
-      Purple3_2: -1166575773
-      Purple3_3: 863049987
+      Green_0: -4987337320017983735
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

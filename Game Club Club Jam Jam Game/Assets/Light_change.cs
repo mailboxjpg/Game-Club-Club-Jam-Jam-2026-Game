@@ -6,6 +6,8 @@ public class Light_change : MonoBehaviour
     Light2D player_light;
     [SerializeField] float intensity;
     [SerializeField] float falloff_strength;
+    [SerializeField] float inner_radius = 0;
+    [SerializeField] float outer_radius = 4;
     //[SerializeField] Color color;
     [SerializeField] float change_interval;
     float time;
@@ -39,6 +41,8 @@ public class Light_change : MonoBehaviour
             float progress = 1 - time / change_interval;
             player_light.intensity = Mathf.Lerp(player_light.intensity, intensity, progress);
             player_light.falloffIntensity = Mathf.Lerp(player_light.falloffIntensity, falloff_strength, progress);
+            player_light.pointLightInnerRadius = Mathf.Lerp(player_light.pointLightInnerRadius, inner_radius, progress);
+            player_light.pointLightOuterRadius = Mathf.Lerp(player_light.pointLightOuterRadius, outer_radius, progress);
             //player_light.color = Color.Lerp(player_light.color, color, progress);
             time -= Time.deltaTime;
         }
