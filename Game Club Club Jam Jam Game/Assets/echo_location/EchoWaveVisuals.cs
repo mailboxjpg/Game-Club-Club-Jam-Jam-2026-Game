@@ -1,25 +1,32 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class EchoWaveVisuals : MonoBehaviour
 {
-    [SerializeField] private LineRenderer lineRenderer;
-    [SerializeField] private int expansion_rate;
-    [SerializeField] private float max_radius;
-    [SerializeField] private int segments;
-    [SerializeField] private float radian_width;
+    [SerializeField] LineRenderer lineRenderer;
+    [SerializeField] GameObject light;
+    [SerializeField] float expansion_rate;
+    [SerializeField] float max_radius;
+    [SerializeField] int segments;
+    [SerializeField] public Vector2 direction;
+    [SerializeField] float radian_width;
+    [SerializeField] public float delay;
+    [Tooltip("Lerp from max (y) to min (x) with time to simulate wave dissipating.")]
+    [SerializeField] private Vector2 intensityRange;
 
-    private bool active_expanding = false;
-    private float current_radius;
-    private Vector2 current_origin;
-
-    public Vector2 direction;
-    public float delay;
+    bool active_expanding = false;
+    float current_radius;
+    Vector2 current_origin;
+    GameObject[] lights;
+    Light2D[] light_components;
+    float expandT;
 
     private void Update()
     {
         if (active_expanding && delay<0)
         {
-            current_radius = Mathf.Lerp(current_radius, max_radius, expansion_rate * Time.deltaTime);
+            expandT += Time.deltaTime * expansion_rate;
+            current_radius = expandT * max_radius;
             MakeWave(lineRenderer, current_radius, segments, current_origin, direction);
             if (current_radius > max_radius*0.95)
             {
@@ -35,6 +42,15 @@ public class EchoWaveVisuals : MonoBehaviour
         current_radius = 0;
         active_expanding = true;
         current_origin = transform.position;
+        //create lights
+        lights = new GameObject[segments];
+        light_components = new Light2D[segments];
+        for (int i = 0; i < segments; i++)
+        {
+            lights[i] = Instantiate(light,transform);
+            light_components[i] = lights[i].GetComponent<Light2D>();
+            light_components[i].enabled = false;
+        }
     }
 
     public void MakeWave(LineRenderer lineRenderer, float radius, int segments, Vector2 origin, Vector2 direction)
@@ -51,7 +67,12 @@ public class EchoWaveVisuals : MonoBehaviour
             float x = origin.x + point_vector.x * radius;
             float y = origin.y + point_vector.y * radius;
 
-            points[i] = new Vector3(x, y, 5);
+            Vector3 point_position = new Vector3(x, y, 5);
+
+            points[i] = point_position;
+            light_components[i].enabled = true;
+            lights[i].transform.position = point_position;
+            light_components[i].intensity = Mathf.Lerp(intensityRange.y, intensityRange.x, expandT);
         }
 
         lineRenderer.positionCount = segments;

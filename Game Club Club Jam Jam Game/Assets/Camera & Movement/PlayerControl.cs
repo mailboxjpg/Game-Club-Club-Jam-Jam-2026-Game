@@ -17,12 +17,13 @@ public class PlayerControl : CharacterController2D
     private bool _jumpPressedThisFrame;
     private bool _jumpReleasedThisFrame;
     private bool _jumpHeld;
+    private bool _dashHeld;
 
     protected override void Awake()
     {
         if (Instance != null)
         {
-            Debug.Log($"[{name}: PlayerControl] A PlayerControl instance already exists. Setting original's position and rotation here and destroying this instance's gameObject.");
+            Debug.Log($"[{name}: PlayerControl] A instance already exists. Setting original's position and rotation here and destroying this instance's gameObject.");
             Instance.transform.SetPositionAndRotation(transform.position, transform.rotation);
             Destroy(gameObject);
             return;
@@ -46,14 +47,12 @@ public class PlayerControl : CharacterController2D
         _jumpPressedThisFrame = inputActions.Player.Jump.WasPressedThisFrame();
         _jumpReleasedThisFrame = inputActions.Player.Jump.WasReleasedThisFrame();
         _jumpHeld = inputActions.Player.Jump.IsPressed();
+        _dashHeld = inputActions.Player.Dash.IsPressed();
 
-        base.Update(); // let base handle timers / short-hop using the values above
+        base.Update();
     }
 
-    protected override float GetMoveInput()
-    {
-        return inputActions.Player.Move.ReadValue<Vector2>().x;
-    }
+    protected override Vector2 GetMoveInput() => inputActions.Player.Move.ReadValue<Vector2>();
  
     protected override bool GetJumpInput() => _jumpPressedThisFrame || (autoJumpWithHold && _jumpHeld && IsGrounded && !IsJumping);
  
@@ -64,6 +63,8 @@ public class PlayerControl : CharacterController2D
     protected override bool GetCrouchInput() => inputActions.Player.Crouch.IsPressed();
  
     protected override bool GetRunInput() => runByDefault ^ inputActions.Player.Sprint.IsPressed();
+
+    protected override bool GetDashInput() => _dashHeld;
  
     protected override void OnJump()
     {

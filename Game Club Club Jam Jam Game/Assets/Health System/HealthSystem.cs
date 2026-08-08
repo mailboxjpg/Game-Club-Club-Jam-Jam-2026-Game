@@ -30,6 +30,10 @@ public class HealthSystem : MonoBehaviour
     [SerializeField] private float damageShakeIntensity = 0.1f;
     [SerializeField] private float damageShakeSpeed = 1.5f;
     [SerializeField] private float damageShakeDuration = 0.1f;
+    [Tooltip("Interval in seconds that damage can be applied.")]
+    [SerializeField] private float damageCooldown = 0.25f;
+    [Tooltip("If false, damage between frames accumulates and is applied at the end of cooldown.")]
+    [SerializeField] private bool immuneDuringCooldown = false;
 
     [System.Serializable]
     private struct FallDamageSetting
@@ -42,7 +46,8 @@ public class HealthSystem : MonoBehaviour
         public float minSpeed;
     }
     private Dictionary<string, FallDamageSetting> _fallDamageSettings = new Dictionary<string, FallDamageSetting>();
-    private CameraControl _mainCameraControl;
+    private float _damageCooldown;
+    private float _accumulatedDamage;
 
     public UnityEvent OnDeath;
     public UnityEvent OnArmorBreak;
@@ -55,7 +60,6 @@ public class HealthSystem : MonoBehaviour
         {
             _fallDamageSettings.Add(fallDamageSetting.tag, fallDamageSetting);
         }
-        _mainCameraControl = Camera.main.GetComponent<CameraControl>();
         if (healthIndicator != null)
             healthIndicator.UpdateUI(this.health, maxHealth);
         if (armorIndicator != null)
@@ -70,7 +74,15 @@ public class HealthSystem : MonoBehaviour
 
     private void Update()
     {
-        
+        if (_damageCooldown > 0f)
+        {
+            _damageCooldown -= Time.deltaTime;
+            if (_damageCooldown <= 0f && !immuneDuringCooldown)
+            {
+                AddHealth(_accumulatedDamage);
+                _accumulatedDamage = 0f;
+            }
+        }
     }
 
     private void CheckFallDamage(Collider2D ground, float speed)
@@ -105,17 +117,27 @@ public class HealthSystem : MonoBehaviour
 
     public void AddHealth(float amount)
     {
+        if (amount == 0f)
+            return;
         if (amount < 0f)
         {
+            if (_damageCooldown > 0f)
+            {
+                if (!immuneDuringCooldown)
+                    _accumulatedDamage += amount;
+                return;
+            }
+            _damageCooldown = damageCooldown;
+                
             float newAmount = amount * Mathf.Max(1f - armorDamageReductionFactor * armor, 0f);
             AddArmor(amount); // Apply damage to armor
             amount = newAmount;
 
             if (amount >= 0f)
                 return;
-            if (shakeCameraOnDamage && _mainCameraControl != null)
+            if (shakeCameraOnDamage)
             {
-                _mainCameraControl.StartCameraShake(-amount * damageShakeIntensity, damageShakeSpeed, damageShakeDuration);
+                CameraControl.Instance.StartCameraShake(-amount * damageShakeIntensity, damageShakeSpeed, damageShakeDuration);
             }
             if (screenTint != null)
                 screenTint.StartTint(damageColor, damageTintFadeSpeed, 0f);
