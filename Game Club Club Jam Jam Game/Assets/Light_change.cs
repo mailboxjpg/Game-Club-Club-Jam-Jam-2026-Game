@@ -1,10 +1,5 @@
-using System.Collections;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
-using UnityEngine.Subsystems;
-using static UnityEngine.UI.Image;
 
 public class Light_change : MonoBehaviour
 {
@@ -19,12 +14,12 @@ public class Light_change : MonoBehaviour
 
     private void Start()
     {
+        player_light = PlayerControl.Instance.GetComponentInChildren<Light2D>();
         light_changers = GameObject.FindObjectsByType<Light_change>(FindObjectsSortMode.None);
     }
 
     public void change_light()
     {
-        player_light = GameObject.Find("Player Light 2D").GetComponent<Light2D>();
         foreach (Light_change i in light_changers)
         {
             i.cancel_light_change();
