@@ -1,6 +1,5 @@
 using System;
-using Microsoft.Unity.VisualStudio.Editor;
-using Unity.VisualScripting;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -17,6 +16,8 @@ public abstract class CharacterController2D : MonoBehaviour
     [Tooltip("Rate at which to slow down if already moving in desired direction.")]
     [SerializeField] protected float friction = 0.1f;
     [SerializeField] protected SpriteRenderer sprite;
+    [Tooltip("Final multiplier on top of movement speed.")]
+    public float movementMultiplier = 1f;
 
     [Header("Crouching")]
     [Tooltip("Multiplier applied to the original height while crouching (e.g. 0.5 = half height).")]
@@ -97,7 +98,6 @@ public abstract class CharacterController2D : MonoBehaviour
     public int WallJumpsRemaining { get; private set; }
     public Vector2 Velocity => rb.linearVelocity;
     public bool IsDashing { get; private set; }
-    public bool IsWaveDashing { get; private set; }
     public int DashesRemaining { get; private set; }
 
     public event Action OnJumped;
@@ -114,6 +114,7 @@ public abstract class CharacterController2D : MonoBehaviour
     private float _jumpBufferTimer;
     private float _wallSlideTimer;
     private float _wallJumpLockoutTimer;
+    private bool _isWaveDashing;
 
     // Captured once in Awake so we always know the "standing" size to restore to / check clearance against
     private Vector2 _standingScale;
@@ -124,7 +125,7 @@ public abstract class CharacterController2D : MonoBehaviour
     private Vector2 _dashDirection;
     private float _originalGravityScale;
     private float _groundedTimer;
-
+    
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -233,7 +234,7 @@ public abstract class CharacterController2D : MonoBehaviour
 
     protected void ApplyHorizontalMovement(float input)
     {
-        if (IsDashing || IsWaveDashing)
+        if (IsDashing || _isWaveDashing)
             return;
         // Suppress normal air-control input briefly after a wall jump so the away-push isn't
         // instantly cancelled out by the player still holding input back toward the wall.
@@ -257,7 +258,7 @@ public abstract class CharacterController2D : MonoBehaviour
         }
 
         float currentSpeed = IsCrouching ? crouchSpeed : (IsRunning ? runSpeed : walkSpeed);
-        float targetSpeed = input * currentSpeed;
+        float targetSpeed = input * currentSpeed * movementMultiplier;
         float speedDiff = targetSpeed - rb.linearVelocityX;
         if ((targetSpeed > 0f && speedDiff < 0f) || (targetSpeed < 0f && speedDiff > 0f)) // already going in target direction past targetSpeed
         {
@@ -588,7 +589,7 @@ public abstract class CharacterController2D : MonoBehaviour
         Vector2 dir = GetMoveInput();
         if (dir.x == 0f || dir.y >= 0f)
             return false;
-        IsWaveDashing = true;
+        _isWaveDashing = true;
         DashesRemaining--;
         _dashTimer = dashDuration;
         _dashCooldownTimer = dashCooldown;
@@ -630,21 +631,21 @@ public abstract class CharacterController2D : MonoBehaviour
         {
             _dashTimer -= Time.fixedDeltaTime;
 
-            if (IsWaveDashing)
+            if (_isWaveDashing)
                 rb.linearVelocityX = _dashDirection.x * dashSpeed;
             else
                 rb.linearVelocity = _dashDirection * dashSpeed;
 
             if (_dashTimer <= 0f)
             {
-                if (!preserveMomentum && !IsWaveDashing) // wave dash preserves momentum
+                if (!preserveMomentum && !_isWaveDashing) // wave dash preserves momentum
                 {
                     rb.linearVelocity = Vector2.zero;
                 }
 
                 rb.gravityScale = _originalGravityScale;
                 IsDashing = false;
-                IsWaveDashing = false;
+                _isWaveDashing = false;
             }
         }
     }
@@ -686,5 +687,24 @@ public abstract class CharacterController2D : MonoBehaviour
         checkSize.y *= _standingScale.y;
         Vector2 checkCenter = (Vector2)transform.position + offset;
         Gizmos.DrawWireCube(checkCenter, checkSize);
+    }
+
+    public Vector3 GetGroundCheckPosition()
+    {
+        return groundCheck.position;
+    }
+
+    public float GetBounciness()
+    {
+        if (rb.sharedMaterial == null)
+            return 0;
+        return rb.sharedMaterial.bounciness;
+    }
+
+    public void SetBounciness(float bounciness)
+    {
+        if (rb.sharedMaterial == null)
+            return;
+        rb.sharedMaterial.bounciness = bounciness;
     }
 }
