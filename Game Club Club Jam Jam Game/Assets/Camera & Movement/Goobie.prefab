@@ -179,7 +179,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 4
-  runSpeed: 8
+  runSpeed: 6
   crouchSpeed: 2.5
   acceleration: 60
   deceleration: 60
@@ -215,11 +215,11 @@ MonoBehaviour:
     m_Bits: 8
   enableWallSlide: 1
   wallSlideSpeed: 2
-  wallSlideTime: 1
-  wallJumpHorizontalForce: 10
-  wallJumpVerticalForce: 13
+  wallSlideTime: 9999
+  wallJumpHorizontalForce: 7
+  wallJumpVerticalForce: 8
   wallJumpLockoutTime: 0.15
-  maxWallJumps: 0
+  maxWallJumps: 9999
   dashSpeed: 30
   dashDuration: 0.15
   dashCooldown: 0.15
