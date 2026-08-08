@@ -1,6 +1,5 @@
 using System;
-using Microsoft.Unity.VisualStudio.Editor;
-using Unity.VisualScripting;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -17,6 +16,8 @@ public abstract class CharacterController2D : MonoBehaviour
     [Tooltip("Rate at which to slow down if already moving in desired direction.")]
     [SerializeField] protected float friction = 0.1f;
     [SerializeField] protected SpriteRenderer sprite;
+    [Tooltip("Final multiplier on top of movement speed.")]
+    public float movementMultiplier = 1f;
 
     [Header("Crouching")]
     [Tooltip("Multiplier applied to the original height while crouching (e.g. 0.5 = half height).")]
@@ -124,7 +125,7 @@ public abstract class CharacterController2D : MonoBehaviour
     private Vector2 _dashDirection;
     private float _originalGravityScale;
     private float _groundedTimer;
-
+    
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -257,7 +258,7 @@ public abstract class CharacterController2D : MonoBehaviour
         }
 
         float currentSpeed = IsCrouching ? crouchSpeed : (IsRunning ? runSpeed : walkSpeed);
-        float targetSpeed = input * currentSpeed;
+        float targetSpeed = input * currentSpeed * movementMultiplier;
         float speedDiff = targetSpeed - rb.linearVelocityX;
         if ((targetSpeed > 0f && speedDiff < 0f) || (targetSpeed < 0f && speedDiff > 0f)) // already going in target direction past targetSpeed
         {
@@ -686,5 +687,24 @@ public abstract class CharacterController2D : MonoBehaviour
         checkSize.y *= _standingScale.y;
         Vector2 checkCenter = (Vector2)transform.position + offset;
         Gizmos.DrawWireCube(checkCenter, checkSize);
+    }
+
+    public Vector3 GetGroundCheckPosition()
+    {
+        return groundCheck.position;
+    }
+
+    public float GetBounciness()
+    {
+        if (rb.sharedMaterial == null)
+            return 0;
+        return rb.sharedMaterial.bounciness;
+    }
+
+    public void SetBounciness(float bounciness)
+    {
+        if (rb.sharedMaterial == null)
+            return;
+        rb.sharedMaterial.bounciness = bounciness;
     }
 }

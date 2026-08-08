@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: BorderTile
+  m_Script: {fileID: 11500000, guid: 02d52e0a8147e92499c5c41fffdeee4a, type: 3}
+  m_Name: PoisonTile
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 3205569294631726174, guid: bc63051de53e49344acac98875a58ea7, type: 3}
+  m_Sprite: {fileID: -4347532159779508366, guid: fd8f87a585f83a945b49628d0dc99685, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
@@ -34,3 +34,7 @@ MonoBehaviour:
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
   m_ColliderType: 1
+  surfaceType: 1
+  damagePerSecond: 1
+  movementMultiplier: 0.9
+  bounceForce: 0

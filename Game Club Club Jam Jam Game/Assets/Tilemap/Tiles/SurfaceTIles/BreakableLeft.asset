@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: NormalTile
+  m_Script: {fileID: 11500000, guid: 02d52e0a8147e92499c5c41fffdeee4a, type: 3}
+  m_Name: BreakableLeft
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 9095853184155359625, guid: a15dc340f5f863440bf541486bf86cb7, type: 3}
+  m_Sprite: {fileID: 4098156409588004937, guid: af13a00153f408e4ca1453fda3c990ab, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
@@ -34,3 +34,7 @@ MonoBehaviour:
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
   m_ColliderType: 1
+  surfaceType: 4
+  damagePerSecond: 0
+  movementMultiplier: 1
+  bounceForce: 0

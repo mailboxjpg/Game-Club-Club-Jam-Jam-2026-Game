@@ -12,12 +12,14 @@ public class EchoRingVisual : MonoBehaviour
     bool active_expanding = false;
     float current_radius;
     Vector2 current_origin;
+    float expandT;
 
     private void Update()
     {
         if(active_expanding)
         {
-            current_radius = Mathf.Lerp(current_radius,max_radius,expansion_rate*Time.deltaTime);
+            expandT += Time.deltaTime * expansion_rate;
+            current_radius = expandT * max_radius;
             MakeRing(lineRenderer, current_radius, segments, current_origin, direction);
             if(current_radius > max_radius)
             {

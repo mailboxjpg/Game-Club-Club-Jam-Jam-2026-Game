@@ -134,7 +134,7 @@ MonoBehaviour:
   cooldown: 1
   wave_count: 1
   interval: 1
-  hold_radius: 0.75
+  hold_radius: 0.55
   pulse_light: {fileID: 137295669732303466}
   pulse_speed: 3
   min_pulse_intensity: 0

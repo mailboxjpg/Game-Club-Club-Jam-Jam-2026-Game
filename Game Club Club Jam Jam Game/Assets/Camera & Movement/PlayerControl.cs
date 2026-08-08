@@ -11,7 +11,7 @@ public class PlayerControl : CharacterController2D
     [SerializeField] private bool runByDefault = false;
     [SerializeField] private bool autoJumpWithHold = true;
     [SerializeField] private bool allowJumpCanceling = true;
-    
+
     public InputSystem_Actions inputActions;
 
     private bool _jumpPressedThisFrame;
@@ -23,7 +23,7 @@ public class PlayerControl : CharacterController2D
     {
         if (Instance != null)
         {
-            Debug.Log($"[{name}: PlayerControl] A PlayerControl instance already exists. Setting original's position and rotation here and destroying this instance's gameObject.");
+            Debug.Log($"[{name}: PlayerControl] A instance already exists. Setting original's position and rotation here and destroying this instance's gameObject.");
             Instance.transform.SetPositionAndRotation(transform.position, transform.rotation);
             Destroy(gameObject);
             return;

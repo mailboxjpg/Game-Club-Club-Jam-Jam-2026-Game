@@ -11,6 +11,8 @@ public class EchoWaveVisuals : MonoBehaviour
     [SerializeField] public Vector2 direction;
     [SerializeField] float radian_width;
     [SerializeField] public float delay;
+    [Tooltip("Lerp from max (y) to min (x) with time to simulate wave dissipating.")]
+    [SerializeField] private Vector2 intensityRange;
 
     bool active_expanding = false;
     float current_radius;
@@ -24,7 +26,7 @@ public class EchoWaveVisuals : MonoBehaviour
         if (active_expanding && delay<0)
         {
             expandT += Time.deltaTime * expansion_rate;
-            current_radius = Mathf.Lerp(current_radius, max_radius, expandT);
+            current_radius = expandT * max_radius;
             MakeWave(lineRenderer, current_radius, segments, current_origin, direction);
             if (current_radius > max_radius*0.95)
             {
@@ -70,6 +72,7 @@ public class EchoWaveVisuals : MonoBehaviour
             points[i] = point_position;
             light_components[i].enabled = true;
             lights[i].transform.position = point_position;
+            light_components[i].intensity = Mathf.Lerp(intensityRange.y, intensityRange.x, expandT);
         }
 
         lineRenderer.positionCount = segments;

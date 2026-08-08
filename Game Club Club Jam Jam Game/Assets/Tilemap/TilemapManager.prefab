@@ -358,7 +358,7 @@ GameObject:
   - component: {fileID: 3525348669436348578}
   - component: {fileID: 8250789107495907714}
   m_Layer: 0
-  m_Name: Background (Visual)
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -702,8 +702,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3788425510154083495}
   - component: {fileID: 1460099217483996583}
+  - component: {fileID: 735669780257200726}
   m_Layer: 0
-  m_Name: Tilemap Grid
+  m_Name: TilemapManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -741,6 +742,25 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!114 &735669780257200726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4621899174160512856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac788376c108f004dbdefeb5dd2d7153, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tilemaps:
+  - {fileID: 3525348669436348578}
+  - {fileID: 4452296674521978827}
+  - {fileID: 1818601963505202860}
+  - {fileID: 4798341565981180484}
+  - {fileID: 1507994092452977214}
+  collisionTileMapIndex: -1
 --- !u!1 &6387184020571940584
 GameObject:
   m_ObjectHideFlags: 0
@@ -756,7 +776,7 @@ GameObject:
   - component: {fileID: 8409897695512937883}
   - component: {fileID: 5128841643238905172}
   m_Layer: 3
-  m_Name: Background (Collisions)
+  m_Name: Collisions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -981,7 +1001,7 @@ TilemapCollider2D:
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
-  m_UseDelaunayMesh: 0
+  m_UseDelaunayMesh: 1
 --- !u!66 &5128841643238905172
 CompositeCollider2D:
   m_ObjectHideFlags: 0
@@ -1017,7 +1037,7 @@ CompositeCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_GeometryType: 0
+  m_GeometryType: 1
   m_GenerationType: 0
   m_EdgeRadius: 0
   m_ColliderPaths:
@@ -1027,5 +1047,5 @@ CompositeCollider2D:
     m_Paths: []
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
-  m_UseDelaunayMesh: 0
+  m_UseDelaunayMesh: 1
   m_CompositeGameObject: {fileID: 6387184020571940584}
