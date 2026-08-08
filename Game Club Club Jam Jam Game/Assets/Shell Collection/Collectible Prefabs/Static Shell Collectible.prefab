@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5115547287965592260}
   - component: {fileID: 3315216963580170737}
   - component: {fileID: 5610027787951776057}
-  - component: {fileID: 8534748434024011613}
+  - component: {fileID: 5656674646306257804}
   m_Layer: 3
   m_Name: Static Shell Collectible
   m_TagString: Collectible
@@ -78,8 +78,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -712631045867808456, guid: b670ab75dde984907b8570040daa08c5, type: 3}
-  m_Color: {r: 1, g: 1, b: 0, a: 1}
+  m_Sprite: {fileID: -6601691336363857274, guid: eef50a85af54c674fb37caf6157bc0cc, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -106,11 +106,15 @@ MonoBehaviour:
   collectAudioClip: {fileID: 0}
   collectParticlesPrefab: {fileID: 7902217387627548903, guid: 2258e05e89735f1478f52b85884f72b5, type: 3}
   overrideParticleColor: 1
-  particleColor: {r: 1, g: 1, b: 0, a: 1}
+  particleColor: {r: 0.7607844, g: 0.97647065, b: 0.9960785, a: 1}
+  pulseLight: {fileID: 0}
+  pulseSpeed: 2
+  minPulseIntensity: 0.5
+  maxPulseIntensity: 1
   OnCollect:
     m_PersistentCalls:
       m_Calls: []
---- !u!61 &8534748434024011613
+--- !u!61 &5656674646306257804
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,7 +144,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -148,11 +152,11 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 0.8828125}
+    oldSize: {x: 0.9648562, y: 0.9648562}
     newSize: {x: 1, y: 0.8828125}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 0.8828125}
+  m_Size: {x: 0.9648562, y: 0.9648562}
   m_EdgeRadius: 0
