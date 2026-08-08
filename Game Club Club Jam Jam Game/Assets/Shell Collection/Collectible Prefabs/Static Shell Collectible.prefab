@@ -78,8 +78,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -712631045867808456, guid: b670ab75dde984907b8570040daa08c5, type: 3}
-  m_Color: {r: 1, g: 1, b: 0, a: 1}
+  m_Sprite: {fileID: -6601691336363857274, guid: eef50a85af54c674fb37caf6157bc0cc, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -107,6 +107,10 @@ MonoBehaviour:
   collectParticlesPrefab: {fileID: 7902217387627548903, guid: 2258e05e89735f1478f52b85884f72b5, type: 3}
   overrideParticleColor: 1
   particleColor: {r: 1, g: 1, b: 0, a: 1}
+  pulseLight: {fileID: 0}
+  pulseSpeed: 2
+  minPulseIntensity: 0.5
+  maxPulseIntensity: 1
   OnCollect:
     m_PersistentCalls:
       m_Calls: []
@@ -148,7 +152,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 0.8828125}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 0.8828125}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
