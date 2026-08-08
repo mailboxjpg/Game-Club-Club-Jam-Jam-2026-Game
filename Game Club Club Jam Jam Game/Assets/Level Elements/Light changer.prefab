@@ -94,7 +94,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
+  targetTags:
+  - Player
+  ignoreOtherTriggers: 1
   OnTriggerEnter:
     m_PersistentCalls:
       m_Calls:
