@@ -11,7 +11,7 @@ public class PlayerControl : CharacterController2D
     [SerializeField] private bool runByDefault = false;
     [SerializeField] private bool autoJumpWithHold = true;
     [SerializeField] private bool allowJumpCanceling = true;
-
+    
     public InputSystem_Actions inputActions;
 
     private bool _jumpPressedThisFrame;

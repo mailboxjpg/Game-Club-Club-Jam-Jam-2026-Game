@@ -97,7 +97,6 @@ public abstract class CharacterController2D : MonoBehaviour
     public int WallJumpsRemaining { get; private set; }
     public Vector2 Velocity => rb.linearVelocity;
     public bool IsDashing { get; private set; }
-    public bool IsWaveDashing { get; private set; }
     public int DashesRemaining { get; private set; }
 
     public event Action OnJumped;
@@ -114,6 +113,7 @@ public abstract class CharacterController2D : MonoBehaviour
     private float _jumpBufferTimer;
     private float _wallSlideTimer;
     private float _wallJumpLockoutTimer;
+    private bool _isWaveDashing;
 
     // Captured once in Awake so we always know the "standing" size to restore to / check clearance against
     private Vector2 _standingScale;
@@ -233,7 +233,7 @@ public abstract class CharacterController2D : MonoBehaviour
 
     protected void ApplyHorizontalMovement(float input)
     {
-        if (IsDashing || IsWaveDashing)
+        if (IsDashing || _isWaveDashing)
             return;
         // Suppress normal air-control input briefly after a wall jump so the away-push isn't
         // instantly cancelled out by the player still holding input back toward the wall.
@@ -588,7 +588,7 @@ public abstract class CharacterController2D : MonoBehaviour
         Vector2 dir = GetMoveInput();
         if (dir.x == 0f || dir.y >= 0f)
             return false;
-        IsWaveDashing = true;
+        _isWaveDashing = true;
         DashesRemaining--;
         _dashTimer = dashDuration;
         _dashCooldownTimer = dashCooldown;
@@ -630,21 +630,21 @@ public abstract class CharacterController2D : MonoBehaviour
         {
             _dashTimer -= Time.fixedDeltaTime;
 
-            if (IsWaveDashing)
+            if (_isWaveDashing)
                 rb.linearVelocityX = _dashDirection.x * dashSpeed;
             else
                 rb.linearVelocity = _dashDirection * dashSpeed;
 
             if (_dashTimer <= 0f)
             {
-                if (!preserveMomentum && !IsWaveDashing) // wave dash preserves momentum
+                if (!preserveMomentum && !_isWaveDashing) // wave dash preserves momentum
                 {
                     rb.linearVelocity = Vector2.zero;
                 }
 
                 rb.gravityScale = _originalGravityScale;
                 IsDashing = false;
-                IsWaveDashing = false;
+                _isWaveDashing = false;
             }
         }
     }
