@@ -244,8 +244,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterController2D: {fileID: 7121374073756744338}
   shakeCameraOnDamage: 1
-  health: 100
-  maxHealth: 100
+  health: 30
+  maxHealth: 30
   healthIndicator: {fileID: 3315703298398777806}
   screenTint: {fileID: 2262451073376498988}
   damageColor: {r: 1, g: 0, b: 0, a: 0.627451}
