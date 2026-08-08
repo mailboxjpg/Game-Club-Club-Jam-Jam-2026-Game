@@ -116,12 +116,12 @@ TextureImporter:
       name: Yellow_0
       rect:
         serializedVersion: 2
-        x: 47
-        y: 43
-        width: 557
-        height: 336
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 51
+        y: 220
+        width: 183
+        height: 183
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -134,11 +134,121 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Yellow_1
+      rect:
+        serializedVersion: 2
+        x: 234
+        y: 220
+        width: 183
+        height: 183
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa9f4e4fe35ea0b41bd534dd56edeb55
+      internalID: -1167729523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Yellow_2
+      rect:
+        serializedVersion: 2
+        x: 417
+        y: 220
+        width: 183
+        height: 183
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9e2bbdb26f35fc4fb2473247c357b7c
+      internalID: 1248063976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Yellow_3
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 37
+        width: 183
+        height: 183
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5cd8a18edc34e8145a39db0c3ea6be5a
+      internalID: 1927166534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Yellow_4
+      rect:
+        serializedVersion: 2
+        x: 234
+        y: 37
+        width: 183
+        height: 183
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebd16ec3a70b2084293c6bfaccd7e915
+      internalID: 864131178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Yellow_5
+      rect:
+        serializedVersion: 2
+        x: 417
+        y: 37
+        width: 183
+        height: 183
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a1e49bd7c11ad34892dd0e721b63876
+      internalID: -458072107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 98cc06555f8c2524fb8c7922e47ce644
     internalID: 0
     vertices: []
     indices: 
@@ -149,6 +259,11 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       Yellow_0: 6358040702757662528
+      Yellow_1: -1167729523
+      Yellow_2: 1248063976
+      Yellow_3: 1927166534
+      Yellow_4: 864131178
+      Yellow_5: -458072107
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

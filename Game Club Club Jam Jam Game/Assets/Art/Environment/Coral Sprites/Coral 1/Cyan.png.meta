@@ -116,12 +116,12 @@ TextureImporter:
       name: Cyan_0
       rect:
         serializedVersion: 2
-        x: 53
-        y: 86
-        width: 555
-        height: 337
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 57
+        y: 268
+        width: 183
+        height: 182
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -134,11 +134,121 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Cyan_1
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 268
+        width: 183
+        height: 182
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94170052b9ad35c4eb6992501688e9d4
+      internalID: -1708403671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cyan_2
+      rect:
+        serializedVersion: 2
+        x: 423
+        y: 268
+        width: 183
+        height: 182
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16ec48674f97ac740a7bf347cf0fe78d
+      internalID: 286214365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cyan_3
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 86
+        width: 183
+        height: 182
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a669cf258a4a0034680b44d73d1bc097
+      internalID: 1035905831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cyan_4
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 86
+        width: 183
+        height: 182
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 064f8c6c1377a894da96d73fbad2039b
+      internalID: 1028492123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cyan_5
+      rect:
+        serializedVersion: 2
+        x: 423
+        y: 86
+        width: 183
+        height: 182
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d614de3bb663904692ad8dfb7fcb920
+      internalID: 425451824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 935f73c902d45004d916a5ee45e00bcc
     internalID: 0
     vertices: []
     indices: 
@@ -149,6 +259,11 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       Cyan_0: -4003223316803723154
+      Cyan_1: -1708403671
+      Cyan_2: 286214365
+      Cyan_3: 1035905831
+      Cyan_4: 1028492123
+      Cyan_5: 425451824
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
