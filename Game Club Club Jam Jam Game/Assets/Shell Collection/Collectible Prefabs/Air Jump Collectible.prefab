@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2865254509745487863}
   - component: {fileID: 5923547789765146308}
-  - component: {fileID: 2815309805652866760}
   - component: {fileID: 6126469737471503862}
+  - component: {fileID: -7161646870711697407}
   m_Layer: 3
   m_Name: Air Jump Collectible
   m_TagString: Collectible
@@ -78,8 +78,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -712631045867808456, guid: b670ab75dde984907b8570040daa08c5, type: 3}
-  m_Color: {r: 0.69411767, g: 1, b: 0, a: 1}
+  m_Sprite: {fileID: 777740998332426942, guid: 60c20b63d3f9d3242b00d4abf5aee004, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -89,7 +89,41 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &2815309805652866760
+--- !u!114 &6126469737471503862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 512625321781676796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8698753cf812a2949a49754af8c770de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shellAmount: 0
+  destroyOnCollect: 1
+  collectAudioClip: {fileID: 0}
+  collectParticlesPrefab: {fileID: 4147807085855834338, guid: 2c9d871b5e69434439c19012f20251bb, type: 3}
+  overrideParticleColor: 1
+  particleColor: {r: 0.69411767, g: 1, b: 0, a: 1}
+  pulseLight: {fileID: 0}
+  pulseSpeed: 2
+  minPulseIntensity: 0.5
+  maxPulseIntensity: 1
+  popupPrefab: {fileID: 7044724018783926755, guid: 88a25a09f7c90e64a8d4c235686205aa, type: 3}
+  popupFadeTime: 0.15
+  popupActiveTime: 2
+  popupFadeAlphaRange: {x: 0, y: 1}
+  popupMessage: +1 Jump
+  popupIsWorldSpace: 1
+  popupDriftVelocity: {x: 0, y: 0.5, z: 0}
+  OnCollect:
+    m_PersistentCalls:
+      m_Calls: []
+  addsJumps: 1
+  jumpAmount: 1
+--- !u!61 &-7161646870711697407
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,7 +153,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -127,34 +161,11 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 0.8828125}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 0.8828125}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 0.8828125}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &6126469737471503862
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 512625321781676796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8698753cf812a2949a49754af8c770de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shellAmount: 0
-  destroyOnCollect: 1
-  collectAudioClip: {fileID: 0}
-  collectParticlesPrefab: {fileID: 4147807085855834338, guid: 2c9d871b5e69434439c19012f20251bb, type: 3}
-  overrideParticleColor: 1
-  particleColor: {r: 0.69411767, g: 1, b: 0, a: 1}
-  OnCollect:
-    m_PersistentCalls:
-      m_Calls: []
-  addsJumps: 1
-  jumpAmount: 1

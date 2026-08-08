@@ -434,6 +434,10 @@ public abstract class CharacterController2D : MonoBehaviour
         {
             rb.gravityScale = lowJumpGravityMultiplier;
         }
+        else
+        {
+            rb.gravityScale = _originalGravityScale;
+        }
     }
 
     /// <summary>Override if you want low-jump-cutoff behavior tied to a "held" state rather than release event.</summary>

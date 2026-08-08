@@ -72,7 +72,7 @@ public class CameraControl : MonoBehaviour
             }
         }
         newPosition = ClampWithinBounds(newPosition);
-        newPosition.z = -100; // Keep the camera above everything so we can see
+        newPosition.z = -1; // Keep the camera above everything so we can see
         transform.position = Vector3.Lerp(transform.position, newPosition, lerpSpeed * Time.deltaTime) + _shakeOffset;
     }
 
