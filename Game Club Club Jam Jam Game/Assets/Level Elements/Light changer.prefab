@@ -130,4 +130,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   intensity: 1
   falloff_strength: 0.2
+  inner_radius: 0
+  outer_radius: 4
   change_interval: 2
