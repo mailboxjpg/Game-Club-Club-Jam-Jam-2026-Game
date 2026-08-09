@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class PlayerControl : CharacterController2D
@@ -106,10 +107,25 @@ public class PlayerControl : CharacterController2D
         StartCoroutine(RespawnRoutine(delay));
     }
 
+    public bool KillPlayer(float respawnDelay)
+    {
+        if (_isRespawning)
+            return false;
+        numLives--;
+        if (numLives <= 0)
+        {
+            numLives = 0;
+            SceneLoader.Instance.LoadScene("MenuScene"); // TODO: CHANGE TO ACTUAL NAME LATER
+            return false;
+        }
+        Respawn(respawnDelay);
+        return true;
+    }
+
     private IEnumerator RespawnRoutine(float delay)
     {
         _isRespawning = true;
-        Time.timeScale = 0f;
+        Time.timeScale = 0.5f;
         yield return new WaitForSecondsRealtime(delay);
         Time.timeScale = 1f;
         transform.SetPositionAndRotation(_spawnPosition, _spawnRotation);
