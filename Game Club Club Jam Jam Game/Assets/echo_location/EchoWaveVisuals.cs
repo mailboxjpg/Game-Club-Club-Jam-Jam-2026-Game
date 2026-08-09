@@ -13,6 +13,9 @@ public class EchoWaveVisuals : MonoBehaviour
     [SerializeField] public float delay;
     [Tooltip("Lerp from max (y) to min (x) with time to simulate wave dissipating.")]
     [SerializeField] private Vector2 intensityRange;
+    float _hurt_radius;
+    float _damage;
+    bool already_hit = false;
 
     bool active_expanding = false;
     float current_radius;
@@ -36,8 +39,10 @@ public class EchoWaveVisuals : MonoBehaviour
         delay -= Time.deltaTime;
     }
 
-    public void MakeWave()
+    public void MakeWave(float hurt_radius, float damage)
     {
+        _hurt_radius = hurt_radius;
+        _damage = damage;
         print("attempt create wave");
         current_radius = 0;
         active_expanding = true;
@@ -73,6 +78,20 @@ public class EchoWaveVisuals : MonoBehaviour
             light_components[i].enabled = true;
             lights[i].transform.position = point_position;
             light_components[i].intensity = Mathf.Lerp(intensityRange.y, intensityRange.x, expandT);
+
+            //hitboxes
+            if (!already_hit)
+            {
+                foreach (Collider2D c in Physics2D.OverlapCircleAll(point_position, _hurt_radius))
+                {
+                    if (c.tag == "Enemy")
+                    {
+                        print("hit");
+                        already_hit = true;
+                        c.gameObject.GetComponent<enemy_health>().deal_damage(_damage); break;
+                    }
+                }
+            }
         }
 
         lineRenderer.positionCount = segments;
