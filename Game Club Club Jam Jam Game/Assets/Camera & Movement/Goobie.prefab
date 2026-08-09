@@ -246,8 +246,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterController2D: {fileID: 7121374073756744338}
   shakeCameraOnDamage: 1
-  health: 30
-  maxHealth: 30
+  health: 20
+  maxHealth: 20
   healthIndicator: {fileID: 3315703298398777806}
   screenTint: {fileID: 2262451073376498988}
   damageColor: {r: 1, g: 0, b: 0, a: 0.3137255}
@@ -343,13 +343,13 @@ MonoBehaviour:
   maxSpeed: 18
   fallDamageSettings:
   - surfaceType: 2
-    scale: 1
-    minHeight: 4.5
+    scale: 0.75
+    minHeight: 5
   - surfaceType: 3
-    scale: 0.25
-    minHeight: 8
-  defaultFallDamageScale: 0.5
-  defaultMinFallHeight: 5.5
+    scale: 0.1
+    minHeight: 12
+  defaultFallDamageScale: 0.35
+  defaultMinFallHeight: 8
 --- !u!82 &8015692030914362972
 AudioSource:
   m_ObjectHideFlags: 0
@@ -946,7 +946,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 9ea3769c2db737841b510b73a7b94d01, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

@@ -710,7 +710,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "<b><color=yellow>You win!</color></b> \nThanks for playing.\n\n<u>Credits:______________________</u>\n<b>Anja
-    Wu</b> - Art/Animation\n<b>Faith Fischer</b> - Audio Design/SFX\n<b>Lucas Giebler</b>
+    Wu</b> - Art/Animation\n<b>Faith Fischer</b> - Music/SFX Design\n<b>Lucas Giebler</b>
     - Programming\n<b>Liam Martinez</b> - Programming\n<b>Rachel Kauffman</b> - Level
     Design\n<b>Colin Hart</b> - Level Design"
   m_isRightToLeft: 0

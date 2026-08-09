@@ -31,6 +31,7 @@ public class Collectible : MonoBehaviour
     [Tooltip("Alpha of the popup box lerps between min (x) and max (y).")]
     [SerializeField] private Vector2 popupFadeAlphaRange = new Vector2(0f, 1f);
     [SerializeField] private string popupMessage;
+    [SerializeField] private Color popupTextColor = Color.white;
     [Tooltip("Sets the popup's world space target to this transform.")]
     [SerializeField] private bool popupIsWorldSpace;
     [Tooltip("Popup drifts with this velocity (world space only).")]
@@ -75,7 +76,7 @@ public class Collectible : MonoBehaviour
             newPopup.Init();
             if (!string.IsNullOrEmpty(popupMessage))
             {
-                newPopup.SetText(popupMessage);
+                newPopup.SetText(popupMessage, popupTextColor);
             }
             newPopup.StartPopup();
         }

@@ -124,11 +124,12 @@ public class Popup : MonoBehaviour
             Destroy(gameObject);
     }
 
-    public void SetText(string text)
+    public void SetText(string text, Color color)
     {
         if (_animatedText != null)
             _animatedText.SetFullText(text);
         else if (_textComp != null)
             _textComp.text = text;
+        _textComp.color = color;
     }
 }

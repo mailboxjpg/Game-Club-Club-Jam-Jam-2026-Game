@@ -107,7 +107,7 @@ MonoBehaviour:
   collectAudioClip: {fileID: 0}
   collectParticlesPrefab: {fileID: 4147807085855834338, guid: 2c9d871b5e69434439c19012f20251bb, type: 3}
   overrideParticleColor: 1
-  particleColor: {r: 0.8941177, g: 0, b: 0.6039216, a: 1}
+  particleColor: {r: 0.9960785, g: 0, b: 0.3803922, a: 1}
   pulseLight: {fileID: 1052859827709532642}
   pulseSpeed: 3
   minPulseIntensity: 0
@@ -117,6 +117,7 @@ MonoBehaviour:
   popupActiveTime: 2.5
   popupFadeAlphaRange: {x: 0, y: 1}
   popupMessage: +Wall Jump
+  popupTextColor: {r: 0.99607843, g: 0, b: 0.38039216, a: 1}
   popupIsWorldSpace: 1
   popupDriftVelocity: {x: 0, y: 0.5, z: 0}
   OnCollect:

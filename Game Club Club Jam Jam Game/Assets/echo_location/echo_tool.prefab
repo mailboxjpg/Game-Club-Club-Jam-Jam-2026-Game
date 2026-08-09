@@ -132,13 +132,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wave_prefab: {fileID: 5969337076408762519, guid: ade98468fdbb95046a5f90393f974718, type: 3}
   cooldown: 1
-  wave_count: 1
+  wave_count: 3
   interval: 1
   hold_radius: 0.55
   pulse_light: {fileID: 137295669732303466}
   pulse_speed: 3
   min_pulse_intensity: 0
   max_pulse_intensity: 0.25
+  hurt_radius: 1
+  damage: 1
 --- !u!212 &1232487733277350097
 SpriteRenderer:
   m_ObjectHideFlags: 0

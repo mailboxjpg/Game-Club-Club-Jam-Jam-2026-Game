@@ -29,16 +29,6 @@ public class CameraBounds : MonoBehaviour
         
     }
 
-    private void OnValidate()
-    {
-        if (boundsMatchCollider)
-        {
-            _triggerCollider = GetComponent<Collider2D>();
-            min = _triggerCollider.bounds.min;
-            max = _triggerCollider.bounds.max;
-        }
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.transform.CompareTag(triggerTag) && !collision.isTrigger)
@@ -62,6 +52,12 @@ public class CameraBounds : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
+        if (boundsMatchCollider)
+        {
+            _triggerCollider = GetComponent<Collider2D>();
+            min = _triggerCollider.bounds.min;
+            max = _triggerCollider.bounds.max;
+        }
         Vector2 center = (min + max) * 0.5f;
         Vector2 size = max - min;
         Gizmos.color = Color.blue;

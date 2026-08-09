@@ -40,6 +40,7 @@ public class Pause_manager : MonoBehaviour
     
     public void pause()
     {
+        Cursor.visible = true;
         menu.SetActive(true);
         game_paused = true;
         Time.timeScale = 0;
@@ -47,6 +48,7 @@ public class Pause_manager : MonoBehaviour
 
     public void unpause()
     {
+        Cursor.visible = false;
         menu?.SetActive(false);
         game_paused = false;
         Time.timeScale = 1;

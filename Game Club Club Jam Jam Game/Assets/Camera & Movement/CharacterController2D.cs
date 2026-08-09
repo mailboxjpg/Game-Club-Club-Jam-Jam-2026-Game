@@ -459,7 +459,6 @@ public abstract class CharacterController2D : MonoBehaviour
             if (!IsJumping)
             {
                 _coyoteTimer = coyoteTime;
-                _wallCoyoteTimer = coyoteTime;
             }
 
             if (_groundedTimer <= 0f) // landed this frame
@@ -571,6 +570,8 @@ public abstract class CharacterController2D : MonoBehaviour
         if (IsDashing || maxWallJumps <= 0 || (!IsWallSliding && _wallCoyoteTimer <= 0f) || _jumpBufferTimer <= 0f || WallJumpsRemaining <= 0)
             return false;
 
+        if (_groundedTimer > 0f)
+            return false;
         _wallCoyoteTimer = 0f;
         _groundedTimer = 0f;
 
