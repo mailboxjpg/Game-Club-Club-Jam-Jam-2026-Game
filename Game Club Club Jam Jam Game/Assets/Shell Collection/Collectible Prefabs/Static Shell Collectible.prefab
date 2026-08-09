@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3315216963580170737}
   - component: {fileID: 5610027787951776057}
   - component: {fileID: 5656674646306257804}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Static Shell Collectible
   m_TagString: Collectible
   m_Icon: {fileID: 0}

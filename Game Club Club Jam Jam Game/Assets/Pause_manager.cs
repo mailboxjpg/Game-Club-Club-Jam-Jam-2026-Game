@@ -17,16 +17,7 @@ public class Pause_manager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
-
-    private void Update()
-    {
-        if (PlayerControl.Instance != null && PlayerControl.Instance.inputActions.UI.Pause.WasPressedThisFrame())
-        {
-            toggle();
-        }
-    }
-
-    private void toggle()
+    public void toggle()
     {
         if (game_paused)
         {
@@ -37,7 +28,6 @@ public class Pause_manager : MonoBehaviour
             pause();
         }
     }
-    
     public void pause()
     {
         menu.SetActive(true);

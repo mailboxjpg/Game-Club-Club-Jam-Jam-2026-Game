@@ -10,26 +10,17 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] private float fadeDuration = 0.5f;
 
     private bool _loadingScene;
-    private int _currentSceneIndex;
 
     private void Awake()
     {
         if (Instance != null && Instance != this)
         {
-            Debug.Log($"[{name}: SceneLoader] An instance already exists. Destroying this instance's gameObject.");
+            Debug.Log($"[{name}: SceneLoader] A SceneLoader instance already exists. Destroying this instance's gameObject.");
             Destroy(gameObject);
             return;
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-    }
-
-    public void LoadNextScene()
-    {
-        _currentSceneIndex++;
-        if (_currentSceneIndex >= SceneManager.sceneCountInBuildSettings)
-            _currentSceneIndex = 0;
-        LoadScene(_currentSceneIndex);
     }
 
     public void LoadScene(string sceneName)
@@ -65,10 +56,6 @@ public class SceneLoader : MonoBehaviour
         if (PlayerControl.Instance != null)
             PlayerControl.Instance.enabled = true;
         _loadingScene = false;
-        if (sceneName.Equals("TitleScreen") || sceneName.Equals("EndScreen"))
-        {
-            PlayerControl.Instance.Delete();
-        }
 
         yield return StartCoroutine(Fade(0f));
     }

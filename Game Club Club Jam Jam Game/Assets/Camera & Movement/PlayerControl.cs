@@ -29,10 +29,8 @@ public class PlayerControl : CharacterController2D
     {
         if (Instance != null)
         {
-            _spawnPosition = transform.position;
-            _spawnRotation = transform.rotation;
-            Debug.Log($"[{name}: PlayerControl] An instance already exists. Setting original's position to {_spawnPosition} and rotation to {_spawnRotation} and destroying this instance's gameObject.");
-
+            Debug.Log($"[{name}: PlayerControl] A instance already exists. Setting original's position and rotation here and destroying this instance's gameObject.");
+            Instance.SetSpawnPositionAndRotation(transform.position, transform.rotation);
             Instance.Respawn(0f);
             Destroy(gameObject);
             return;
@@ -40,8 +38,6 @@ public class PlayerControl : CharacterController2D
         base.Awake();
         inputActions = new InputSystem_Actions();
         Instance = this;
-        _spawnPosition = transform.position;
-        _spawnRotation = transform.rotation;
         inputActions.Enable();
         DontDestroyOnLoad(gameObject);
     }
@@ -59,11 +55,6 @@ public class PlayerControl : CharacterController2D
         _jumpReleasedThisFrame = inputActions.Player.Jump.WasReleasedThisFrame();
         _jumpHeld = inputActions.Player.Jump.IsPressed();
         _dashHeld = inputActions.Player.Dash.IsPressed();
-
-        if (inputActions.Player.Reset.WasPressedThisFrame())
-        {
-            Respawn(0f);
-        }
 
         base.Update();
     }
@@ -103,6 +94,12 @@ public class PlayerControl : CharacterController2D
         base.OnCrouchEnd();
     }
 
+    public void SetSpawnPositionAndRotation(Vector3 position, Quaternion rotation)
+    {
+        _spawnPosition = position;
+        _spawnRotation = rotation;
+    }
+
     public void Respawn(float delay)
     {
         if (_isRespawning)
@@ -133,12 +130,5 @@ public class PlayerControl : CharacterController2D
         Time.timeScale = 1f;
         transform.SetPositionAndRotation(_spawnPosition, _spawnRotation);
         _isRespawning = false;
-    }
-
-    public void Delete()
-    {
-        Debug.Log($"[{name}: PlayerControl] Deleting Instance.");
-        Instance = null;
-        Destroy(gameObject);
     }
 }

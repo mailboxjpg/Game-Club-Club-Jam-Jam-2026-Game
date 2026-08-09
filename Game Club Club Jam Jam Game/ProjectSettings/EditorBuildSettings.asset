@@ -15,7 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/LucasSampleScene2.unity
     guid: 1289a37b84dd91640bd77238e63a2521
   - enabled: 1
-<<<<<<< HEAD
     path: Assets/Scenes/levels/level1 1.unity
     guid: e3949e48f27de2f4597d71dc5b6ad01d
   - enabled: 1
@@ -25,25 +24,11 @@ EditorBuildSettings:
     path: Assets/Scenes/levels/level1.unity
     guid: dc61456fee7d8d64cafd94faf9cb0b57
   - enabled: 1
-=======
-    path: Assets/Scenes/levels/level1.unity
-    guid: dc61456fee7d8d64cafd94faf9cb0b57
-  - enabled: 1
-    path: Assets/Scenes/levels/level2.unity
-    guid: bd1ad7911a9c86042ba3f4c84b43a359
-  - enabled: 1
->>>>>>> lucas
     path: Assets/Scenes/levels/level4.unity
     guid: 98ede1d397e76354cb4032be849ab169
   - enabled: 1
     path: Assets/Scenes/levels/level5.unity
     guid: c7a0e9be89fb40e41b392f9a606d153b
-<<<<<<< HEAD
-=======
-  - enabled: 1
-    path: Assets/Scenes/EndScreen.unity
-    guid: 26b7d92fbc75e9049bef30602f0c5305
->>>>>>> lucas
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

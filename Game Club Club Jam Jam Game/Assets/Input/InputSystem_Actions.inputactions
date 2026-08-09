@@ -113,15 +113,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Reset",
-                    "type": "Button",
-                    "id": "af92fc45-8f47-45cf-adf8-5aca67b97d5d",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -564,17 +555,6 @@
                     "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "cc03d57d-6b2d-4dfc-afdf-bc2cbfaa209a",
-                    "path": "<Keyboard>/r",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Reset",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         },
@@ -676,15 +656,6 @@
                     "name": "SkipPopup",
                     "type": "Button",
                     "id": "f6da1f7a-a7b0-4207-a508-c2ee8d9a4392",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Pause",
-                    "type": "Button",
-                    "id": "089da81e-7f73-445b-93d0-39fca71c9ed8",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -1118,17 +1089,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "SkipPopup",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7d03bed4-f171-42a5-b792-c98bfbc30462",
-                    "path": "<Keyboard>/escape",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
