@@ -48,6 +48,10 @@ public class HealthSystem : MonoBehaviour
     private Dictionary<string, FallDamageSetting> _fallDamageSettings = new Dictionary<string, FallDamageSetting>();
     private float _damageCooldown;
     private float _accumulatedDamage;
+    private float _startHealth;
+    private float _startArmor;
+    private float _startMaxHealth;
+    private float _startMaxArmor;
 
     public UnityEvent OnDeath;
     public UnityEvent OnArmorBreak;
@@ -64,6 +68,10 @@ public class HealthSystem : MonoBehaviour
             healthIndicator.UpdateUI(this.health, maxHealth);
         if (armorIndicator != null)
             armorIndicator.UpdateUI(this.armor, maxArmor);
+        _startHealth = health;
+        _startArmor = armor;
+        _startMaxHealth = maxHealth;
+        _startMaxArmor = maxArmor;
     }
 
     private void OnDestroy()
@@ -226,5 +234,18 @@ public class HealthSystem : MonoBehaviour
         }
         if (armorIndicator != null)
             armorIndicator.UpdateUI(this.armor, maxArmor);
+    }
+
+    public void OnPlayerDeath()
+    {
+        if (PlayerControl.Instance.KillPlayer(1f))
+        {
+            // Respawning
+            maxHealth = _startMaxHealth;
+            maxArmor = _startMaxArmor;
+            health = _startHealth;
+            armor = _startArmor;
+        }
+        screenTint.StartTint(Color.black, 0.25f, 0.5f);
     }
 }

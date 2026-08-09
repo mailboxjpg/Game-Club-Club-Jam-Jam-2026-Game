@@ -29,13 +29,13 @@ public class HealthCollectible : Collectible
 
         if (addsHealth)
         {
-            collector.healthSystem.AddHealth(maxHealthAmount);
+            collector.healthSystem.AddHealth(healthAmount);
             shouldCollect = true;
 
         }
         else if (healthAmount > collector.healthSystem.GetHealth())
         {
-            collector.healthSystem.SetHealth(maxHealthAmount);
+            collector.healthSystem.SetHealth(healthAmount);
             shouldCollect = true;
         }
         if (!shouldCollect)

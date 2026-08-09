@@ -12,6 +12,7 @@ public class SliderIndicator : MonoBehaviour
     [SerializeField] private string textFormat = "F2";
     [SerializeField] private Gradient progressGradient;
     [SerializeField] private bool disableAtZero;
+    [SerializeField] private bool overrideTextColor;
 
     private enum TextType
     {
@@ -92,7 +93,7 @@ public class SliderIndicator : MonoBehaviour
                         texts[i].text = numerator.ToString(textFormat) + " / " + denominator.ToString(textFormat);
                         break;
                 }
-                if (color != Color.clear)
+                if (color != Color.clear && overrideTextColor)
                 {
                     texts[i].color = color;
                 }

@@ -1,3 +1,5 @@
+using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class PlayerControl : CharacterController2D
@@ -11,20 +13,25 @@ public class PlayerControl : CharacterController2D
     [SerializeField] private bool runByDefault = false;
     [SerializeField] private bool autoJumpWithHold = true;
     [SerializeField] private bool allowJumpCanceling = true;
-
-    public InputSystem_Actions inputActions;
+    public int numLives = 3;
 
     private bool _jumpPressedThisFrame;
     private bool _jumpReleasedThisFrame;
     private bool _jumpHeld;
     private bool _dashHeld;
+    private bool _isRespawning;
+    private Vector3 _spawnPosition;
+    private Quaternion _spawnRotation;
+
+    public InputSystem_Actions inputActions;
 
     protected override void Awake()
     {
         if (Instance != null)
         {
             Debug.Log($"[{name}: PlayerControl] A instance already exists. Setting original's position and rotation here and destroying this instance's gameObject.");
-            Instance.transform.SetPositionAndRotation(transform.position, transform.rotation);
+            Instance.SetSpawnPositionAndRotation(transform.position, transform.rotation);
+            Instance.Respawn(0f);
             Destroy(gameObject);
             return;
         }
@@ -85,5 +92,43 @@ public class PlayerControl : CharacterController2D
     protected override void OnCrouchEnd()
     {
         base.OnCrouchEnd();
+    }
+
+    public void SetSpawnPositionAndRotation(Vector3 position, Quaternion rotation)
+    {
+        _spawnPosition = position;
+        _spawnRotation = rotation;
+    }
+
+    public void Respawn(float delay)
+    {
+        if (_isRespawning)
+            return;
+        StartCoroutine(RespawnRoutine(delay));
+    }
+
+    public bool KillPlayer(float respawnDelay)
+    {
+        if (_isRespawning)
+            return false;
+        numLives--;
+        if (numLives <= 0)
+        {
+            numLives = 0;
+            SceneLoader.Instance.LoadScene("MenuScene"); // TODO: CHANGE TO ACTUAL NAME LATER
+            return false;
+        }
+        Respawn(respawnDelay);
+        return true;
+    }
+
+    private IEnumerator RespawnRoutine(float delay)
+    {
+        _isRespawning = true;
+        Time.timeScale = 0.5f;
+        yield return new WaitForSecondsRealtime(delay);
+        Time.timeScale = 1f;
+        transform.SetPositionAndRotation(_spawnPosition, _spawnRotation);
+        _isRespawning = false;
     }
 }
