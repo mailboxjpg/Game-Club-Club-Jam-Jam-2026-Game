@@ -10,9 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6044153079488046876}
   - component: {fileID: 7759839224934032670}
-  - component: {fileID: 4601615215424587608}
   - component: {fileID: 159831390696968848}
-  - component: {fileID: 6256499139421560528}
+  - component: {fileID: 4947831456002785406}
   m_Layer: 3
   m_Name: Echo Tool Collectible
   m_TagString: Collectible
@@ -91,7 +90,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &4601615215424587608
+--- !u!114 &159831390696968848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3036265149030696639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46486f00bfc1f8f4bbf63fe7d1b6507c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shellAmount: 0
+  destroyOnCollect: 1
+  collectAudioClip: {fileID: 0}
+  collectParticlesPrefab: {fileID: 4147807085855834338, guid: 2c9d871b5e69434439c19012f20251bb, type: 3}
+  overrideParticleColor: 1
+  particleColor: {r: 1, g: 0.7529412, b: 0, a: 1}
+  pulseLight: {fileID: 4279346750472018724}
+  pulseSpeed: 3
+  minPulseIntensity: 0
+  maxPulseIntensity: 0.25
+  popupPrefab: {fileID: 7044724018783926755, guid: 0def71898cdeff240bc3120aa6331092, type: 3}
+  popupMessage: Echo Tool Obtained
+  popupIsWorldSpace: 0
+  OnCollect:
+    m_PersistentCalls:
+      m_Calls: []
+  toolPrefab: {fileID: 6329352520326668795, guid: 0f194bf43853bdb48939abe0b703c1a2, type: 3}
+--- !u!61 &4947831456002785406
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,7 +149,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -135,131 +163,8 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 0.8828125}
+  m_Size: {x: 1, y: 0.6447559}
   m_EdgeRadius: 0
---- !u!114 &159831390696968848
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3036265149030696639}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46486f00bfc1f8f4bbf63fe7d1b6507c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shellAmount: 0
-  destroyOnCollect: 1
-  collectAudioClip: {fileID: 0}
-  collectParticlesPrefab: {fileID: 4147807085855834338, guid: 2c9d871b5e69434439c19012f20251bb, type: 3}
-  overrideParticleColor: 1
-  particleColor: {r: 1, g: 0.7529412, b: 0, a: 1}
-  pulseLight: {fileID: 4279346750472018724}
-  pulseSpeed: 3
-  minPulseIntensity: 0
-  maxPulseIntensity: 0.25
-  OnCollect:
-    m_PersistentCalls:
-      m_Calls: []
-  toolPrefab: {fileID: 6329352520326668795, guid: 0f194bf43853bdb48939abe0b703c1a2, type: 3}
---- !u!82 &6256499139421560528
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3036265149030696639}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: c688b418d7833414489abf85f661fe45, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 3
-  MaxDistance: 50
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.02
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: -1.0204082
-      outSlope: -1.0204082
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &8194667919818637418
 GameObject:
   m_ObjectHideFlags: 0

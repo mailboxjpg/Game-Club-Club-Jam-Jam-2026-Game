@@ -40,7 +40,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -119,12 +119,12 @@ TextureImporter:
       name: White_0
       rect:
         serializedVersion: 2
-        x: 191
-        y: 85
-        width: 313
-        height: 313
+        x: 197
+        y: 79
+        width: 302
+        height: 302
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -152,7 +152,6 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       White_0: -6601691336363857274
-      White_1: -7334779398576879013
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
