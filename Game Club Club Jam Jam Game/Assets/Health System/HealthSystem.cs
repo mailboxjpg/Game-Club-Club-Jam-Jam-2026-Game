@@ -23,9 +23,6 @@ public class HealthSystem : MonoBehaviour
     [SerializeField] private float armorDamageReductionFactor = 0.01f;
     [Tooltip("Determines how many armor points to remove with damage. 1=>100% of damage, 2=>50% of damage, 0.5=>200% of damage, etc")]
     public float armorDurability = 1f;
-    [SerializeField] private FallDamageSetting[] fallDamageSettings;
-    [SerializeField] private float defaultFallDamageScale = 0.25f;
-    [SerializeField] private float defaultMinFallSpeed = 10f;
     [Tooltip("Multiplier with damage amount for shake magnitude.")]
     [SerializeField] private float damageShakeIntensity = 0.1f;
     [SerializeField] private float damageShakeSpeed = 1.5f;
@@ -35,17 +32,6 @@ public class HealthSystem : MonoBehaviour
     [Tooltip("If false, damage between frames accumulates and is applied at the end of cooldown.")]
     [SerializeField] private bool immuneDuringCooldown = false;
 
-    [System.Serializable]
-    private struct FallDamageSetting
-    {
-        [Tooltip("Ground tag to use this fall damage scale with.")]
-        public string tag;
-        [Tooltip("Fall speed is multiplied by this to apply fall damage.")]
-        public float scale;
-        [Tooltip("Fall damage is only applied when fall speed is above this threshold.")]
-        public float minSpeed;
-    }
-    private Dictionary<string, FallDamageSetting> _fallDamageSettings = new Dictionary<string, FallDamageSetting>();
     private float _damageCooldown;
     private float _accumulatedDamage;
     private float _startHealth;
@@ -58,12 +44,6 @@ public class HealthSystem : MonoBehaviour
 
     private void Start()
     {
-        if (characterController2D != null)
-            characterController2D.OnLanded += CheckFallDamage;
-        foreach (FallDamageSetting fallDamageSetting in fallDamageSettings)
-        {
-            _fallDamageSettings.Add(fallDamageSetting.tag, fallDamageSetting);
-        }
         if (healthIndicator != null)
             healthIndicator.UpdateUI(this.health, maxHealth);
         if (armorIndicator != null)
@@ -72,12 +52,6 @@ public class HealthSystem : MonoBehaviour
         _startArmor = armor;
         _startMaxHealth = maxHealth;
         _startMaxArmor = maxArmor;
-    }
-
-    private void OnDestroy()
-    {
-        if (characterController2D != null)
-            characterController2D.OnLanded -= CheckFallDamage;
     }
 
     private void Update()
@@ -90,22 +64,6 @@ public class HealthSystem : MonoBehaviour
                 AddHealth(_accumulatedDamage);
                 _accumulatedDamage = 0f;
             }
-        }
-    }
-
-    private void CheckFallDamage(Collider2D ground, float speed)
-    {
-        float minSpeed = defaultMinFallSpeed;
-        float scale = defaultFallDamageScale;
-        if (_fallDamageSettings.ContainsKey(ground.tag))
-        {
-            minSpeed = _fallDamageSettings[ground.tag].minSpeed;
-            scale = _fallDamageSettings[ground.tag].scale;
-        }
-
-        if (speed > minSpeed)
-        {
-            AddHealth(-speed * scale);
         }
     }
 

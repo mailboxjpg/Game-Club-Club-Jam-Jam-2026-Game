@@ -45,7 +45,6 @@ public class AnimatedText : MonoBehaviour
 
     private IEnumerator Animation()
     {
-        Debug.Log($"Animating to {_originalFullText}");
         _text.text = "";
         for (int i = 0; i < _originalFullText.Length; i++)
         {
