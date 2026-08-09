@@ -111,13 +111,6 @@ MonoBehaviour:
   pulseSpeed: 2
   minPulseIntensity: 0.5
   maxPulseIntensity: 1
-  popupPrefab: {fileID: 7044724018783926755, guid: 88a25a09f7c90e64a8d4c235686205aa, type: 3}
-  popupFadeTime: 0
-  popupActiveTime: 1
-  popupFadeAlphaRange: {x: 0, y: 1}
-  popupMessage: +1 Shell
-  popupIsWorldSpace: 1
-  popupDriftVelocity: {x: 0, y: 1, z: 0}
   OnCollect:
     m_PersistentCalls:
       m_Calls: []

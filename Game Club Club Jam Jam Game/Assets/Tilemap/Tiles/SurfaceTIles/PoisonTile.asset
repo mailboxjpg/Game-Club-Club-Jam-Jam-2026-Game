@@ -35,9 +35,6 @@ MonoBehaviour:
   m_Flags: 1
   m_ColliderType: 1
   surfaceType: 1
-  damagePerSecond: 2
+  damagePerSecond: 1
   movementMultiplier: 0.9
-  bouncinessAddition: 0
-  walkClip: {fileID: 0}
-  jumpClip: {fileID: 0}
-  landClip: {fileID: 0}
+  bounceForce: 0

@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -112,12 +111,10 @@ public abstract class CharacterController2D : MonoBehaviour
     public event Action OnWallJumped;
 
     private float _coyoteTimer;
-    private float _wallCoyoteTimer;
     private float _jumpBufferTimer;
     private float _wallSlideTimer;
     private float _wallJumpLockoutTimer;
     private bool _isWaveDashing;
-    private bool _wallWasRight;
 
     // Captured once in Awake so we always know the "standing" size to restore to / check clearance against
     private Vector2 _standingScale;
@@ -148,7 +145,6 @@ public abstract class CharacterController2D : MonoBehaviour
     {
         // Timers tick every frame regardless of physics step
         _coyoteTimer -= Time.deltaTime;
-        _wallCoyoteTimer -= Time.deltaTime;
         _jumpBufferTimer -= Time.deltaTime;
 
         if (GetJumpInput())
@@ -172,7 +168,7 @@ public abstract class CharacterController2D : MonoBehaviour
         UpdateWallSlideState();
         ApplyBetterGravity();
         ApplyWallSlide();
-        if (!TryGroundOrCoyoteJump() && !TryWallJump())
+        if (!TryWallJump() && !TryGroundOrCoyoteJump())
         {
             TryAirJump();
         }
@@ -224,7 +220,6 @@ public abstract class CharacterController2D : MonoBehaviour
     }
     protected virtual void OnWallSlideStart()
     {
-        AirJumpsRemaining = maxAirJumps; // refill air jumps
         DashesRemaining = maxDashes; // refill dashes
         OnWallSlideStarted?.Invoke();
     }
@@ -412,6 +407,7 @@ public abstract class CharacterController2D : MonoBehaviour
     {
         if (IsGrounded || IsDashing || AirJumpsRemaining <= 0 || _jumpBufferTimer <= 0f)
             return false;
+
         AirJumpsRemaining--;
         _jumpBufferTimer = 0f;
         _groundedTimer = 0f;
@@ -461,7 +457,6 @@ public abstract class CharacterController2D : MonoBehaviour
             if (!IsJumping)
             {
                 _coyoteTimer = coyoteTime;
-                _wallCoyoteTimer = coyoteTime;
             }
 
             if (_groundedTimer <= 0f) // landed this frame
@@ -511,12 +506,6 @@ public abstract class CharacterController2D : MonoBehaviour
 
         IsTouchingWallRight = checkRightHit;
         IsTouchingWallLeft = checkLeftHit;
-
-        if (IsTouchingWallLeft || IsTouchingWallRight)
-        {
-            _wallCoyoteTimer = coyoteTime;
-            _wallWasRight = checkRightHit;
-        }
     }
 
     /// <summary>
@@ -570,37 +559,20 @@ public abstract class CharacterController2D : MonoBehaviour
     /// </summary>
     protected bool TryWallJump()
     {
-        if (IsDashing || maxWallJumps <= 0 || (!IsWallSliding && _wallCoyoteTimer <= 0f) || _jumpBufferTimer <= 0f || WallJumpsRemaining <= 0)
+        if (IsDashing || maxWallJumps <= 0 || !IsWallSliding || _jumpBufferTimer <= 0f || WallJumpsRemaining <= 0)
             return false;
 
-        _wallCoyoteTimer = 0f;
         _groundedTimer = 0f;
 
         // Jump away from whichever wall we're sliding on
-        int wallJumpDirection;
-        if (IsTouchingWallLeft)
-        {
-            wallJumpDirection = 1;
-        }
-        else if (IsTouchingWallRight)
-        {
-            wallJumpDirection = -1;
-        }
-        // At this point defer to what was previously set (coyote wall jump)
-        else if (_wallWasRight)
-        {
-            wallJumpDirection = -1;
-        }
-        else
-        {
-            wallJumpDirection = 1;
-        }
+        int wallJumpDirection = IsTouchingWallRight ? -1 : 1;
         rb.linearVelocityX = wallJumpDirection * wallJumpHorizontalForce;
         if (rb.linearVelocityY < wallJumpVerticalForce)
             rb.linearVelocityY = wallJumpVerticalForce;
         else
             rb.linearVelocityY += wallJumpVerticalForce;
 
+        AirJumpsRemaining = maxAirJumps; // refill air jumps
         _wallJumpLockoutTimer = wallJumpLockoutTime;
         IsWallSliding = false;
         _wallSlideTimer = 0f;
@@ -648,8 +620,6 @@ public abstract class CharacterController2D : MonoBehaviour
         _dashCooldownTimer = dashCooldown;
         _dashDirection = dir.normalized;
         rb.linearVelocity = _dashDirection * dashSpeed;
-        if ((dir.x > 0f && IsTouchingWallRight) || (dir.x < 0f && IsTouchingWallLeft))
-            rb.linearVelocityX = 0f; // Prevent dash from clipping through wall
         rb.gravityScale = 0f;
 
         return true;
