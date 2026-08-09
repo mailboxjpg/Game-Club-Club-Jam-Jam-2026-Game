@@ -64,9 +64,11 @@ public class CameraControl : MonoBehaviour
                 // Vector2 targetDelta = target.position - targetPreviousPosition;
                 _focusPosition += mouseDelta * focusSensitivity;
                 newPosition = _focusPosition;
+                Cursor.visible = false;
             }
             else
             {
+                Cursor.visible = true;
                 // Camera tracks the target (player)
                 newPosition = followTarget.position;
             }

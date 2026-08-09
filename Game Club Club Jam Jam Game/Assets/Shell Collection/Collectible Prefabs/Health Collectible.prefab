@@ -117,6 +117,7 @@ MonoBehaviour:
   popupActiveTime: 2
   popupFadeAlphaRange: {x: 0, y: 1}
   popupMessage: +Health
+  popupTextColor: {r: 0.8627451, g: 0.41960785, b: 0.5372549, a: 1}
   popupIsWorldSpace: 1
   popupDriftVelocity: {x: 0, y: 0.5, z: 0}
   OnCollect:
