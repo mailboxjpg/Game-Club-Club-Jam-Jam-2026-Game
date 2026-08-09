@@ -32,7 +32,8 @@ Transform:
   m_LocalPosition: {x: 1.46, y: -3.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3013937510881976204}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1198124682246688739
@@ -102,16 +103,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd630d0afb128434fbef690cf9e3416d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shellAmount: 1
+  shellAmount: 0
   destroyOnCollect: 1
   collectAudioClip: {fileID: 0}
   collectParticlesPrefab: {fileID: 4147807085855834338, guid: 2c9d871b5e69434439c19012f20251bb, type: 3}
   overrideParticleColor: 1
-  particleColor: {r: 1, g: 0, b: 0.6039216, a: 1}
-  pulseLight: {fileID: 0}
-  pulseSpeed: 2
-  minPulseIntensity: 0.5
-  maxPulseIntensity: 1
+  particleColor: {r: 0.9960785, g: 0.7490196, b: 0, a: 1}
+  pulseLight: {fileID: 5533126223939528956}
+  pulseSpeed: 3
+  minPulseIntensity: 0
+  maxPulseIntensity: 0.25
   popupPrefab: {fileID: 7044724018783926755, guid: 88a25a09f7c90e64a8d4c235686205aa, type: 3}
   popupFadeTime: 0.15
   popupActiveTime: 2
