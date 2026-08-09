@@ -15,7 +15,7 @@ public class SceneLoader : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            Debug.Log($"[{name}: SceneLoader] A SceneLoader instance already exists. Destroying this instance's gameObject.");
+            Debug.Log($"[{name}: SceneLoader] An instance already exists. Destroying this instance's gameObject.");
             Destroy(gameObject);
             return;
         }
