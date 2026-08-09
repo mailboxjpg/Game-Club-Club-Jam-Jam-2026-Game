@@ -120,14 +120,16 @@ public class GroundEffector : MonoBehaviour
     {
         if (walkAudioSource == null)
             return;
+        Debug.Log("LAND");
         TryGetSurfaceTile();
         if (_currentTile != null && _currentTile.landClip != null)
         {
-            walkAudioSource.PlayOneShot(_currentTile.landClip);
+            Debug.Log($"PLAYONESHOT LAND AUDIO: {_currentTile.surfaceType} {_currentTile.landClip}");
+            AudioSource.PlayClipAtPoint(_currentTile.landClip, transform.position);
         }
         else if (defaultLandClip != null)
         {
-            walkAudioSource.PlayOneShot(defaultLandClip);
+            AudioSource.PlayClipAtPoint(defaultLandClip, transform.position);
         }
 
         if (_currentTile != null && _fallDamageSettings.TryGetValue(_currentTile.surfaceType, out var fallDamageSetting))
@@ -144,14 +146,16 @@ public class GroundEffector : MonoBehaviour
     {
         if (walkAudioSource == null)
             return;
+        Debug.Log("JUMP");
 
         if (_currentTile != null && _currentTile.jumpClip != null)
         {
-            walkAudioSource.PlayOneShot(_currentTile.jumpClip);
+            Debug.Log($"PLAYONESHOT JUMP AUDIO: {_currentTile.surfaceType} {_currentTile.landClip}");
+            AudioSource.PlayClipAtPoint(_currentTile.jumpClip, transform.position);
         }
         else if (defaultJumpClip != null)
         {
-            walkAudioSource.PlayOneShot(defaultJumpClip);
+            AudioSource.PlayClipAtPoint(defaultJumpClip, transform.position);
         }
     }
 }
