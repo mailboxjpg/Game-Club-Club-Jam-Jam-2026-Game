@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -220,6 +221,7 @@ public abstract class CharacterController2D : MonoBehaviour
     }
     protected virtual void OnWallSlideStart()
     {
+        AirJumpsRemaining = maxAirJumps; // refill air jumps
         DashesRemaining = maxDashes; // refill dashes
         OnWallSlideStarted?.Invoke();
     }
@@ -572,7 +574,6 @@ public abstract class CharacterController2D : MonoBehaviour
         else
             rb.linearVelocityY += wallJumpVerticalForce;
 
-        AirJumpsRemaining = maxAirJumps; // refill air jumps
         _wallJumpLockoutTimer = wallJumpLockoutTime;
         IsWallSliding = false;
         _wallSlideTimer = 0f;
@@ -620,6 +621,8 @@ public abstract class CharacterController2D : MonoBehaviour
         _dashCooldownTimer = dashCooldown;
         _dashDirection = dir.normalized;
         rb.linearVelocity = _dashDirection * dashSpeed;
+        if ((dir.x > 0f && IsTouchingWallRight) || (dir.x < 0f && IsTouchingWallLeft))
+            rb.linearVelocityX = 0f; // Prevent dash from clipping through wall
         rb.gravityScale = 0f;
 
         return true;
