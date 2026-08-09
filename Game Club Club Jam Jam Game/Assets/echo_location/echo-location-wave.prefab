@@ -81,7 +81,7 @@ LineRenderer:
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.5
+    widthMultiplier: 0.2
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -158,4 +158,4 @@ MonoBehaviour:
   direction: {x: 1, y: 0}
   radian_width: 0.5
   delay: 0
-  intensityRange: {x: 0, y: 1}
+  intensityRange: {x: 0, y: 0.5}
