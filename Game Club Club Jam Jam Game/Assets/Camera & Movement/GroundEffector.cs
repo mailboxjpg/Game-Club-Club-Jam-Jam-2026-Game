@@ -150,6 +150,7 @@ public class GroundEffector : MonoBehaviour
     {
         if (walkAudioSource == null)
             return;
+
         if (_currentTile != null && _currentTile.jumpClip != null)
         {
             walkAudioSource.PlayOneShot(_currentTile.jumpClip);
