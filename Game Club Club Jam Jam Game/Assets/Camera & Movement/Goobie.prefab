@@ -199,7 +199,7 @@ MonoBehaviour:
   fallGravityMultiplier: 1.4
   lowJumpGravityMultiplier: 2
   maxAirJumps: 0
-  airJumpForce: 6
+  airJumpForce: 7
   groundCheck: {fileID: 8361584526106133034}
   groundCheckSize: {x: 0.5, y: 0.05}
   groundLayer:
