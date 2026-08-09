@@ -39,5 +39,5 @@ MonoBehaviour:
   movementMultiplier: 1
   bouncinessAddition: 0
   walkClip: {fileID: 8300000, guid: aff8b6bb43d803c4ebc8bda75ce2eb61, type: 3}
-  jumpClip: {fileID: 0}
+  jumpClip: {fileID: 8300000, guid: 39a8359fb68aaef478172ca3fb5267d1, type: 3}
   landClip: {fileID: 8300000, guid: bd473fb1a7dda17409f56ead2abc09df, type: 3}
