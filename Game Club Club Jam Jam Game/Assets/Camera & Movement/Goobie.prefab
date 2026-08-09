@@ -343,13 +343,13 @@ MonoBehaviour:
   maxSpeed: 18
   fallDamageSettings:
   - surfaceType: 2
-    scale: 1
-    minHeight: 4.5
+    scale: 0.75
+    minHeight: 5
   - surfaceType: 3
-    scale: 0.25
-    minHeight: 8
-  defaultFallDamageScale: 0.5
-  defaultMinFallHeight: 5.5
+    scale: 0.1
+    minHeight: 12
+  defaultFallDamageScale: 0.35
+  defaultMinFallHeight: 8
 --- !u!82 &8015692030914362972
 AudioSource:
   m_ObjectHideFlags: 0
