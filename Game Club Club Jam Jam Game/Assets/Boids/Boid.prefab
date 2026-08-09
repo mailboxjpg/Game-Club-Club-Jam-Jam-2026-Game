@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5892689725242281813}
   - component: {fileID: 8914785457763291694}
   - component: {fileID: 1922588303866257186}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Boid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,21 +169,21 @@ MonoBehaviour:
   maxSpeed: 2.5
   accelerationForce: 12
   rotationSharpness: 8
-  separationDistance: 7
-  alignmentDistance: 4.5
-  cohesionDistance: 2
+  separationDistance: 6
+  alignmentDistance: 3.5
+  cohesionDistance: 1.5
   separationWeight: 2
   alignmentWeight: 1.5
   cohesionWeight: 1
   boundsWeight: 2.5
-  obstacleWeight: 0
+  obstacleWeight: 0.5
   neighborMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 64
   avoidObstacles: 1
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 8
   obstacleProbeRadius: 0.45
   obstacleLookAhead: 3.5
   floorClearance: 0.8
