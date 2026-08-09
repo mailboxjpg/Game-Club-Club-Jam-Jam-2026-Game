@@ -50,6 +50,8 @@ public class BoidAgent : MonoBehaviour {
     float neighborScanRadius;
     Material materialInstance;
 
+    bool offsetPulse;
+
     #endregion
     
     public Vector2 Velocity => rb ? rb.linearVelocity : Vector2.zero;
@@ -70,6 +72,7 @@ public class BoidAgent : MonoBehaviour {
         neighborScanRadius = Mathf.Max(separationDistance, Mathf.Max(alignmentDistance, cohesionDistance));
         materialInstance = GetComponent<SpriteRenderer>().material;
         pulseOffset = Random.Range(-100f, 100f);
+        offsetPulse = true;
         materialInstance.SetFloat("_PulseOffset", pulseOffset);
     }
 
@@ -159,9 +162,15 @@ public class BoidAgent : MonoBehaviour {
         }
         if (count > 0)
         {
+            offsetPulse = false;
             float avgOffset = totalOffset / count;
             pulseOffset = avgOffset;
             materialInstance.SetFloat("_PulseOffset", pulseOffset);
+        }
+        else if (!offsetPulse)
+        {
+            pulseOffset += Random.Range(-5f, 5f);
+            offsetPulse = true;
         }
         
         return count > 0 ? (averageVelocity / count).normalized : (Vector2)transform.up;

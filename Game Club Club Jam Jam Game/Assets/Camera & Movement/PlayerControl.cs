@@ -29,8 +29,8 @@ public class PlayerControl : CharacterController2D
     {
         if (Instance != null)
         {
-            _spawnPosition = transform.position;
-            _spawnRotation = transform.rotation;
+            Instance._spawnPosition = transform.position;
+            Instance._spawnRotation = transform.rotation;
             Debug.Log($"[{name}: PlayerControl] An instance already exists. Setting original's position to {_spawnPosition} and rotation to {_spawnRotation} and destroying this instance's gameObject.");
 
             Instance.Respawn(0f);

@@ -122,6 +122,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleInteract",
+                    "type": "Button",
+                    "id": "74e93d5c-9ab3-4623-9cc9-93cf5527a3ca",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -556,23 +565,23 @@
                 },
                 {
                     "name": "",
-                    "id": "555bad8e-1490-4417-a4bc-913c5967980a",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Pause",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "cc03d57d-6b2d-4dfc-afdf-bc2cbfaa209a",
                     "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Reset",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "06c39f98-17e8-4ea8-b6ab-3e0560156b5f",
+                    "path": "<Keyboard>/backquote",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleInteract",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
