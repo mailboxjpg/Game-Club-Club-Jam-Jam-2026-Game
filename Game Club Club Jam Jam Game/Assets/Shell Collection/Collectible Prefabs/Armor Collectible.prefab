@@ -122,7 +122,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   addsArmor: 0
-  armorAmount: 100
+  armorAmount: 20
   setDurability: 1
   durability: 1
   overrideCurrentArmor: 0
