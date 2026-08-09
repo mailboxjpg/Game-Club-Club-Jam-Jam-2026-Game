@@ -145,15 +145,23 @@ public class BoidAgent : MonoBehaviour {
         Vector2 averageVelocity = Vector2.zero;
         int count = 0;
         Vector2 position = transform.position;
+        float totalOffset = 0f;
 
         for (int i = 0; i < neighbors.Count; i++)
         {
             Vector2 offset = (Vector2)neighbors[i].transform.position - position;
             if (offset.sqrMagnitude > alignmentDistanceSqr)
                 continue;
-            
+            totalOffset += neighbors[i].pulseOffset;
+
             averageVelocity += neighbors[i].Velocity;
             count++;
+        }
+        if (count > 0)
+        {
+            float avgOffset = totalOffset / count;
+            pulseOffset = avgOffset;
+            materialInstance.SetFloat("_PulseOffset", pulseOffset);
         }
         
         return count > 0 ? (averageVelocity / count).normalized : (Vector2)transform.up;
@@ -164,23 +172,14 @@ public class BoidAgent : MonoBehaviour {
         var count = 0;
         Vector2 position = transform.position;
 
-        float totalOffset = 0f;
-        int validNeighbors = 0;
         for (var i = 0; i < neighbors.Count; i++)
         {
             Vector2 otherPosition = neighbors[i].transform.position;
             if ((otherPosition - position).sqrMagnitude > cohesionDistanceSqr)
                 continue;
 
-            totalOffset += neighbors[i].pulseOffset;
-            validNeighbors++;
             center += otherPosition;
             count++;
-        }
-        if (validNeighbors > 0)
-        {
-            float avgOffset = totalOffset / validNeighbors;
-            materialInstance.SetFloat("_PulseOffset", avgOffset);
         }
         
         return count > 0 ? (center / count - position).normalized : Vector2.zero;

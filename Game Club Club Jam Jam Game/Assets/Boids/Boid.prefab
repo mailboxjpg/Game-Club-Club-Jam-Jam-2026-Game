@@ -166,17 +166,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96423866cad6e2d439eb85077014688a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 4
-  accelerationForce: 10
-  rotationSharpness: 6
-  separationDistance: 1
-  alignmentDistance: 3.5
-  cohesionDistance: 4.5
-  separationWeight: 1.6
-  alignmentWeight: 1
-  cohesionWeight: 1.2
+  maxSpeed: 2.5
+  accelerationForce: 12
+  rotationSharpness: 8
+  separationDistance: 8
+  alignmentDistance: 4.5
+  cohesionDistance: 3
+  separationWeight: 2
+  alignmentWeight: 1.5
+  cohesionWeight: 1
   boundsWeight: 2.5
-  obstacleWeight: 3
+  obstacleWeight: 0
   neighborMask:
     serializedVersion: 2
     m_Bits: 4294967295

@@ -48,7 +48,7 @@ MonoBehaviour:
   boidCount: 60
   spawnExtents: {x: 24, y: 10}
   boidScale: 0.5
-  baseSpeed: 4
-  speedVariance: 1.5
+  baseSpeed: 2.5
+  speedVariance: 0.5
   flockBoundsRadius: 32
   boidZ: 1
