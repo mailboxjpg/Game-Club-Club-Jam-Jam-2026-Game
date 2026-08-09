@@ -134,4 +134,11 @@ public class PlayerControl : CharacterController2D
         transform.SetPositionAndRotation(_spawnPosition, _spawnRotation);
         _isRespawning = false;
     }
+
+    public void Delete()
+    {
+        Debug.Log($"[{name}: PlayerControl] Deleting Instance.");
+        Instance = null;
+        Destroy(gameObject);
+    }
 }

@@ -250,8 +250,8 @@ MonoBehaviour:
   maxHealth: 30
   healthIndicator: {fileID: 3315703298398777806}
   screenTint: {fileID: 2262451073376498988}
-  damageColor: {r: 1, g: 0, b: 0, a: 0.627451}
-  healColor: {r: 0, g: 1, b: 0, a: 0.5019608}
+  damageColor: {r: 1, g: 0, b: 0, a: 0.3137255}
+  healColor: {r: 0, g: 1, b: 0, a: 0.15686275}
   damageTintFadeSpeed: 0.15
   healTintFadeSpeed: 0.2
   armor: 0
@@ -259,9 +259,9 @@ MonoBehaviour:
   armorIndicator: {fileID: 1346072874640145342}
   armorDamageReductionFactor: 0.01
   armorDurability: 1
-  damageShakeIntensity: 0.04
-  damageShakeSpeed: 10
-  damageShakeDuration: 0.45
+  damageShakeIntensity: 0.03
+  damageShakeSpeed: 8
+  damageShakeDuration: 0.3
   damageCooldown: 0.5
   immuneDuringCooldown: 0
   OnDeath:
@@ -343,13 +343,13 @@ MonoBehaviour:
   maxSpeed: 18
   fallDamageSettings:
   - surfaceType: 2
-    scale: 0.45
-    minSpeed: 10
+    scale: 1
+    minHeight: 4.5
   - surfaceType: 3
-    scale: 0.05
-    minSpeed: 24
-  defaultFallDamageScale: 0.25
-  defaultMinFallSpeed: 15
+    scale: 0.25
+    minHeight: 8
+  defaultFallDamageScale: 0.5
+  defaultMinFallHeight: 5.5
 --- !u!82 &8015692030914362972
 AudioSource:
   m_ObjectHideFlags: 0
@@ -496,12 +496,12 @@ MonoBehaviour:
     m_TrimEdge: 0.04
     m_FlipX: 0
     m_FlipY: 0
-    m_InitialTrim: 0.04
+    m_InitialTrim: 0
   m_CastingOption: 1
   m_PreviousTrimEdge: 0.04
   m_PreviousEdgeProcessing: 1
   m_PreviousShadowCastingSource: 2
-  m_PreviousShadowShape2DSource: {fileID: 0}
+  m_PreviousShadowShape2DSource: {fileID: 8893061482099365969}
   references:
     version: 2
     RefIds:
@@ -945,8 +945,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_Material: {fileID: 2100000, guid: 9ea3769c2db737841b510b73a7b94d01, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
