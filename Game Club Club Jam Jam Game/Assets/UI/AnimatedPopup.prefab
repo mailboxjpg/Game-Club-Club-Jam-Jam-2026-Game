@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 8275668684994616685}
   - component: {fileID: 7044724018783926755}
   m_Layer: 5
-  m_Name: Animated Popup
+  m_Name: AnimatedPopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
