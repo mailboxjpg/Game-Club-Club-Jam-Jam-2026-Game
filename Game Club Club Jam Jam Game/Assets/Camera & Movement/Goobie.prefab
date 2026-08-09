@@ -274,7 +274,19 @@ MonoBehaviour:
   immuneDuringCooldown: 0
   OnDeath:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 731122144605664964}
+        m_TargetAssemblyTypeName: HealthSystem, Assembly-CSharp
+        m_MethodName: OnPlayerDeath
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnArmorBreak:
     m_PersistentCalls:
       m_Calls: []
@@ -1050,7 +1062,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -7, y: -10}
+  m_AnchoredPosition: {x: -10, y: -10}
   m_SizeDelta: {x: 200, y: 20}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &1451121969241186856
@@ -1540,7 +1552,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -7, y: -10}
+  m_AnchoredPosition: {x: -10, y: -10}
   m_SizeDelta: {x: 200, y: 20}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &2922522861529884760
