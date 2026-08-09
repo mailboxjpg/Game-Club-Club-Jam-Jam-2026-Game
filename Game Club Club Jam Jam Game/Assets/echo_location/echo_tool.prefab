@@ -139,7 +139,7 @@ MonoBehaviour:
   pulse_speed: 3
   min_pulse_intensity: 0
   max_pulse_intensity: 0.25
-  hurt_radius: 0
+  hurt_radius: 1
   damage: 1
 --- !u!212 &1232487733277350097
 SpriteRenderer:

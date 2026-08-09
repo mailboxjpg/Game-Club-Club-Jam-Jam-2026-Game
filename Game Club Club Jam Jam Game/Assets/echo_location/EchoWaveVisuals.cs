@@ -80,13 +80,16 @@ public class EchoWaveVisuals : MonoBehaviour
             light_components[i].intensity = Mathf.Lerp(intensityRange.y, intensityRange.x, expandT);
 
             //hitboxes
-            foreach(Collider2D c in Physics2D.OverlapCircleAll(point_position,_hurt_radius))
+            if (!already_hit)
             {
-                if(c.tag == "Enemy")
+                foreach (Collider2D c in Physics2D.OverlapCircleAll(point_position, _hurt_radius))
                 {
-                    print("hit");
-                    already_hit = true;
-                    c.gameObject.GetComponent<enemy_health>().deal_damage(_damage); break;
+                    if (c.tag == "Enemy")
+                    {
+                        print("hit");
+                        already_hit = true;
+                        c.gameObject.GetComponent<enemy_health>().deal_damage(_damage); break;
+                    }
                 }
             }
         }

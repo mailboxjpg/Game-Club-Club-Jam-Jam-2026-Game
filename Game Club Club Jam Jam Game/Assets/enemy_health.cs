@@ -16,7 +16,9 @@ public class enemy_health : MonoBehaviour
         {
             ParticleSystem particles = Instantiate(blood_particles, transform.position, transform.rotation);
         }
-        if (hp < 0)
+        hp -= damage;
+        print(hp);
+        if (hp <= 0)
         {
             OnDeath.Invoke();
             Destroy(gameObject);

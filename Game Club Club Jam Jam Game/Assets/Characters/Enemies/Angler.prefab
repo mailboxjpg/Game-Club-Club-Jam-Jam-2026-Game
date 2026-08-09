@@ -278,7 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 729f6d4ff7e2934408018a785844e2db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 10
+  hp: 5
   blood_particles: {fileID: 5196107254683864196, guid: 1fc5e7703b1de4f47897af3f276f7bf6, type: 3}
   OnDeath:
     m_PersistentCalls:
