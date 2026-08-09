@@ -1,6 +1,4 @@
 using System;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -576,18 +574,9 @@ public abstract class CharacterController2D : MonoBehaviour
         _wallCoyoteTimer = 0f;
         _groundedTimer = 0f;
 
-        // Jump away from whichever wall we're sliding on
+        // Jump away from whichever wall we're sliding on or were sliding on
         int wallJumpDirection;
-        if (IsTouchingWallLeft)
-        {
-            wallJumpDirection = 1;
-        }
-        else if (IsTouchingWallRight)
-        {
-            wallJumpDirection = -1;
-        }
-        // At this point defer to what was previously set (coyote wall jump)
-        else if (_wallWasRight)
+        if (_wallWasRight)
         {
             wallJumpDirection = -1;
         }
