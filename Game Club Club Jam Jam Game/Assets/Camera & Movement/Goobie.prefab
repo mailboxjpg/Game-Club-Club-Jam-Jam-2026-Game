@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 1944001767293909104}
   - component: {fileID: 8015692030914362972}
   - component: {fileID: 3483199598312607892}
+  - component: {fileID: 2184812804042123555}
   m_Layer: 0
   m_Name: Goobie
   m_TagString: Player
@@ -154,7 +155,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 1.5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -193,11 +194,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   standUpCheckBuffer: 0.05
-  jumpForce: 6
+  jumpForce: 10
   coyoteTime: 0.25
   jumpBufferTime: 0.1
-  fallGravityMultiplier: 1.4
-  lowJumpGravityMultiplier: 2
+  fallGravityMultiplier: 2
+  lowJumpGravityMultiplier: 3
   maxAirJumps: 0
   airJumpForce: 7
   groundCheck: {fileID: 8361584526106133034}
@@ -258,15 +259,6 @@ MonoBehaviour:
   armorIndicator: {fileID: 1346072874640145342}
   armorDamageReductionFactor: 0.01
   armorDurability: 1
-  fallDamageSettings:
-  - tag: Sand
-    scale: 0.05
-    minSpeed: 32
-  - tag: Rock
-    scale: 0.25
-    minSpeed: 14
-  defaultFallDamageScale: 0.15
-  defaultMinFallSpeed: 22
   damageShakeIntensity: 0.04
   damageShakeSpeed: 10
   damageShakeDuration: 0.45
@@ -348,7 +340,16 @@ MonoBehaviour:
   defaultLandClip: {fileID: 0}
   walkVolumeRange: {x: 0, y: 1}
   walkPitchRange: {x: 0.75, y: 1.25}
-  maxSpeed: 16
+  maxSpeed: 18
+  fallDamageSettings:
+  - surfaceType: 2
+    scale: 0.45
+    minSpeed: 10
+  - surfaceType: 3
+    scale: 0.05
+    minSpeed: 24
+  defaultFallDamageScale: 0.25
+  defaultMinFallSpeed: 15
 --- !u!82 &8015692030914362972
 AudioSource:
   m_ObjectHideFlags: 0
@@ -454,6 +455,59 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 111021654790483317}
   m_Enabled: 1
+--- !u!114 &2184812804042123555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111021654790483317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_Priority: 1
+  m_ComponentVersion: 5
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_AlphaCutoff: 0.1
+  m_ApplyToSortingLayers: 00000000
+  m_ShapePath:
+  - {x: -0.47614315, y: -0.5, z: 0}
+  - {x: -0.47614315, y: 0.5, z: 0}
+  - {x: 0.47614315, y: 0.5, z: 0}
+  - {x: 0.47614315, y: -0.5, z: 0}
+  m_ShapePathHash: 0
+  m_InstanceId: 0
+  m_ShadowShape2DComponent: {fileID: 8893061482099365969}
+  m_ShadowShape2DProvider:
+    rid: 322127425926594724
+  m_ShadowCastingSource: 2
+  m_ShadowMesh:
+    m_Mesh: {fileID: 0}
+    m_LocalBounds:
+      m_Center: {x: -0.020805359, y: 0.0009994507, z: 0}
+      m_Extent: {x: 0.41416168, y: 0.45900726, z: 0}
+    m_EdgeProcessing: 1
+    m_TrimEdge: 0.04
+    m_FlipX: 0
+    m_FlipY: 0
+    m_InitialTrim: 0.04
+  m_CastingOption: 1
+  m_PreviousTrimEdge: 0.04
+  m_PreviousEdgeProcessing: 1
+  m_PreviousShadowCastingSource: 2
+  m_PreviousShadowShape2DSource: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: 322127425926594724
+      type: {class: ShadowShape2DProvider_SpriteRenderer, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
+      data: 
 --- !u!1 &442195414007429422
 GameObject:
   m_ObjectHideFlags: 0

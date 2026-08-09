@@ -5,8 +5,8 @@ using UnityEngine.Rendering.Universal;
 [RequireComponent(typeof(Light2D))]
 public class GlobalLight : MonoBehaviour
 {
-    [SerializeField] private Color minColor;
-    [SerializeField] private Color maxColor;
+    [SerializeField] private Color minColor = Color.white;
+    [SerializeField] private Color maxColor = Color.white;
     [SerializeField] private float minIntensity = 0f;
     [SerializeField] private float maxIntensity = 1f;
     [SerializeField] private float lerpSpeed;

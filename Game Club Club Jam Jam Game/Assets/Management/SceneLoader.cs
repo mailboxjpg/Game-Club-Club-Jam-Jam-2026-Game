@@ -10,6 +10,7 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] private float fadeDuration = 0.5f;
 
     private bool _loadingScene;
+    private int _currentSceneIndex;
 
     private void Awake()
     {
@@ -21,6 +22,14 @@ public class SceneLoader : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    public void LoadNextScene()
+    {
+        _currentSceneIndex++;
+        if (_currentSceneIndex >= SceneManager.sceneCountInBuildSettings)
+            _currentSceneIndex = 0;
+        LoadScene(_currentSceneIndex);
     }
 
     public void LoadScene(string sceneName)
