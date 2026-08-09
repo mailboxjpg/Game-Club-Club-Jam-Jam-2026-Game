@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoidSpawner : MonoBehaviour
-{
+public class BoidSpawner : MonoBehaviour {
     #region Fields
     
     [Header("Prefab")]
@@ -16,7 +15,7 @@ public class BoidSpawner : MonoBehaviour
     [Header("Movement")]
     [SerializeField, Min(0.1f)] float baseSpeed = 7f;
     [SerializeField, Min(0f)] float speedVariance = 1.5f;
-    [SerializeField, Min(0.5f)] float flockBoundsRadius = 30f;
+    [SerializeField] Vector2 flockBoundsSize = new(60f, 60f);
     
     [Header("Depth (Z) Isolation")]
     [Tooltip("All spawned boids are placed on this Z so they stay grouped as their own layer, separable from the rest of the scene, and never physically interact with anything outside it (2D physics is Z-agnostic, but a shared Z keeps them visually/spatially isolated).")]
@@ -30,8 +29,7 @@ public class BoidSpawner : MonoBehaviour
     protected void Start() => SpawnFlock();
 
     [ContextMenu("Spawn Flock")]
-    public void SpawnFlock()
-    {
+    public void SpawnFlock() {
         ClearFlock();
         EnsureRuntimeRoot();
 
@@ -42,8 +40,7 @@ public class BoidSpawner : MonoBehaviour
     }
 
     [ContextMenu("Clear Flock")]
-    public void ClearFlock()
-    {
+    public void ClearFlock() {
         for (var i = spawnedBoids.Count - 1; i >= 0; i--) {
             var boid = spawnedBoids[i];
             if (boid) DestroyImmediate(boid.gameObject);
@@ -51,34 +48,27 @@ public class BoidSpawner : MonoBehaviour
         
         spawnedBoids.Clear();
         
-        if (!runtimeRoot)
-            return;
+        if (!runtimeRoot) return;
         
         DestroyImmediate(runtimeRoot.gameObject);
         runtimeRoot = null;
     }
 
-    void EnsureRuntimeRoot()
-    {
-        if (runtimeRoot)
-            return;
+    void EnsureRuntimeRoot() {
+        if (runtimeRoot) return;
         
         var root = new GameObject("BoidsRuntime");
         root.transform.SetParent(transform, false);
         runtimeRoot = root.transform;
     }
 
-    BoidAgent CreateBoid(int index)
-    {
+    BoidAgent CreateBoid(int index) {
         var spawnPosition = (Vector2)transform.position + GetRandomSpawnOffset();
         var spawnPosition3D = new Vector3(spawnPosition.x, spawnPosition.y, boidZ);
         var boidObject = Instantiate(boidPrefab, spawnPosition3D, Quaternion.identity, runtimeRoot);
         boidObject.name = $"Boid_{index:000}";
         boidObject.transform.localScale = Vector3.one * boidScale;
-        
-        // var capsuleCollider = boidObject.GetComponent<CapsuleCollider2D>();
-        // capsuleCollider.isTrigger = false;
-        
+                
         var body = boidObject.GetComponent<Rigidbody2D>();
         body.gravityScale = 0f;
         body.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -86,7 +76,7 @@ public class BoidSpawner : MonoBehaviour
         body.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         
         var boid = boidObject.GetComponent<BoidAgent>();
-        boid.ConfigureBounds(transform.position, flockBoundsRadius, true);
+        boid.ConfigureBounds(transform.position, flockBoundsSize, true);
         boid.ConfigureSpeed(baseSpeed + Random.Range(-speedVariance, speedVariance));
         boid.ConfigureDepth(boidZ);
         
@@ -97,4 +87,10 @@ public class BoidSpawner : MonoBehaviour
         Random.Range(-spawnExtents.x, spawnExtents.x),
         Random.Range(-spawnExtents.y, spawnExtents.y)
     );
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(transform.position, flockBoundsSize);
+    }
 }

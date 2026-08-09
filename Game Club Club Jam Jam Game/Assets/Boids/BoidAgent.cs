@@ -41,7 +41,7 @@ public class BoidAgent : MonoBehaviour {
     readonly List<BoidAgent> neighbors = new(32);
     
     Vector2 boundsCenter;
-    float boundsRadius = 25f;
+    Vector2 boundsSize = new(50f, 50f);
     bool useBounds = true;
     
     float separationDistanceSqr;
@@ -88,10 +88,11 @@ public class BoidAgent : MonoBehaviour {
         transform.position = position;
     }
 
-    public void ConfigureBounds(Vector2 center, float radius, bool enabled = true)
+    /// <summary>Configures a rectangular bounding area (center + full width/height) the boid will steer back inside of.</summary>
+    public void ConfigureBounds(Vector2 center, Vector2 size, bool enabled = true)
     {
         boundsCenter = center;
-        boundsRadius = Mathf.Max(0.5f, radius);
+        boundsSize = Vector2.Max(size, Vector2.one * 1f);
         useBounds = enabled;
     }
 
@@ -194,20 +195,44 @@ public class BoidAgent : MonoBehaviour {
         return count > 0 ? (center / count - position).normalized : Vector2.zero;
     }
 
+    /// <summary>
+    /// Steers back toward the bounds center once the boid crosses an inner "soft" rectangle
+    /// (85% of boundsSize), with strength ramping from 0 at the soft edge to 1 at the hard edge.
+    /// Each axis is evaluated independently so a boid near a corner gets pushed diagonally back in.
+    /// </summary>
     Vector2 ComputeBoundsSteer()
     {
         if (!useBounds)
             return Vector2.zero;
-        
+
         Vector2 position = transform.position;
-        var offset = position - boundsCenter;
-        var distance = offset.magnitude;
-        var innerRadius = boundsRadius * 0.85f;
-        if (distance <= innerRadius)
+        Vector2 halfSize = boundsSize * 0.5f;
+        Vector2 innerHalfSize = halfSize * 0.85f;
+        Vector2 offset = position - boundsCenter;
+
+        float strengthX = 0f;
+        float pushX = 0f;
+        float absX = Mathf.Abs(offset.x);
+        if (absX > innerHalfSize.x)
+        {
+            strengthX = Mathf.InverseLerp(innerHalfSize.x, halfSize.x, absX);
+            pushX = offset.x > 0f ? -1f : 1f;
+        }
+
+        float strengthY = 0f;
+        float pushY = 0f;
+        float absY = Mathf.Abs(offset.y);
+        if (absY > innerHalfSize.y)
+        {
+            strengthY = Mathf.InverseLerp(innerHalfSize.y, halfSize.y, absY);
+            pushY = offset.y > 0f ? -1f : 1f;
+        }
+
+        if (strengthX <= 0f && strengthY <= 0f)
             return Vector2.zero;
-        
-        var strength = Mathf.InverseLerp(innerRadius, boundsRadius, distance);
-        return (boundsCenter - position).normalized * strength;
+
+        Vector2 steer = new Vector2(pushX * strengthX, pushY * strengthY);
+        return steer.sqrMagnitude > 1f ? steer.normalized * Mathf.Max(strengthX, strengthY) : steer;
     }
 
     Vector2 ComputeObstacleAvoidance()
@@ -271,5 +296,13 @@ public class BoidAgent : MonoBehaviour {
             position.z = boidZ;
             transform.position = position;
         }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (!useBounds)
+            return;
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireCube(boundsCenter, boundsSize);
     }
 }
