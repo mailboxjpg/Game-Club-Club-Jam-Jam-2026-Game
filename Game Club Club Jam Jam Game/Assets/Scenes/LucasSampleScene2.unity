@@ -1883,6 +1883,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6256499139421560528, guid: 17318ea63fef591409a8fd8ce2a5ba6a, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6256499139421560528, guid: 17318ea63fef591409a8fd8ce2a5ba6a, type: 3}
+      propertyPath: MaxDistance
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6256499139421560528, guid: 17318ea63fef591409a8fd8ce2a5ba6a, type: 3}
+      propertyPath: MinDistance
+      value: 9.9009905
+      objectReference: {fileID: 0}
+    - target: {fileID: 6256499139421560528, guid: 17318ea63fef591409a8fd8ce2a5ba6a, type: 3}
+      propertyPath: rolloffMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6256499139421560528, guid: 17318ea63fef591409a8fd8ce2a5ba6a, type: 3}
+      propertyPath: DopplerLevel
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6256499139421560528, guid: 17318ea63fef591409a8fd8ce2a5ba6a, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7759839224934032670, guid: 17318ea63fef591409a8fd8ce2a5ba6a, type: 3}
       propertyPath: m_Color.b
       value: 1
