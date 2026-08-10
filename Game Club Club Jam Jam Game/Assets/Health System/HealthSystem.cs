@@ -1,8 +1,5 @@
-using System.Collections.Generic;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 public class HealthSystem : MonoBehaviour
 {
