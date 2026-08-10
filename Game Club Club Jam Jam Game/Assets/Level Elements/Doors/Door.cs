@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Door : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class Door : MonoBehaviour
 
     private bool open = false;
     private float timer = 0f;
+
+    public UnityEvent OnOpen;
 
     private void Start()
     {
@@ -45,6 +48,9 @@ public class Door : MonoBehaviour
     private void TryOpen(Collectible _)
     {
         if (PlayerControl.Instance.shellCollector.numShells >= minShells)
+        {
             open = true;
+            OnOpen?.Invoke();
+        }
     }
 }

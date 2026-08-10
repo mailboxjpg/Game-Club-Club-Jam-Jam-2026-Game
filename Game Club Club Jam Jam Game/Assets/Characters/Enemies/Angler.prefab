@@ -223,9 +223,12 @@ MonoBehaviour:
   attackCooldown: 1
   attackLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 128
   attackTags:
   - Player
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
   fleeMinRadius: 6
   fleeMaxRadius: 10
   fleeArrivalThreshold: 0.15

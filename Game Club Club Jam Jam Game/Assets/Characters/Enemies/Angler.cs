@@ -47,6 +47,7 @@ public class AnglerFish : MonoBehaviour
     [SerializeField] private LayerMask attackLayers = -1;
     [Tooltip("Tags to listen for in attack trigger.")]
     [SerializeField] private string[] attackTags;
+    [SerializeField] private LayerMask groundLayer;
 
     [Header("Flee (post-bite)")]
     [Tooltip("After biting, the fish swoops toward a random point within this radius of its current position.")]
@@ -191,13 +192,18 @@ public class AnglerFish : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         if (_state != State.Idle || _cooldownTimer > 0f || !_attackTags.Contains(other.tag) || (attackLayers.value & (1 << other.gameObject.layer)) == 0)
             return;
 
         HealthSystem health = other.GetComponentInParent<HealthSystem>();
         if (health == null)
+            return;
+
+        // This is terribly inefficient shit but whatever
+        RaycastHit2D hit = Physics2D.Linecast(transform.position, other.transform.position, attackLayers | groundLayer);
+        if (hit.transform != other.transform) // Blocked LOS
             return;
 
         BeginAttack(other.transform, health);
@@ -252,10 +258,24 @@ public class AnglerFish : MonoBehaviour
         _targetHealth = null;
         _cooldownTimer = attackCooldown;
 
-        // Pick a random point within fleeRadius of the fish's current position to swoop toward,
-        // instead of returning to its original spawn point.
-        Vector2 randomOffset = Random.insideUnitCircle.normalized * Random.Range(fleeMinRadius, fleeMaxRadius);
-        _fleeTarget = rb.position + randomOffset;
+        float sqrDst = 0f;
+        int tries = 0;
+        while (sqrDst < fleeMinRadius * fleeMinRadius && tries < 25)
+        {
+            // Pick a random point within fleeRadius of the fish's current position to swoop toward,
+            // instead of returning to its original spawn point.
+            Vector2 randomDir = Random.insideUnitCircle.normalized;
+            float randomDst = Random.Range(fleeMinRadius, fleeMaxRadius);
+            RaycastHit2D hit = Physics2D.Raycast(rb.position, randomDir, randomDst, groundLayer);
+            _fleeTarget = rb.position + randomDir * randomDst;
+            if (hit.collider != null)
+            {
+                _fleeTarget = hit.point - hit.normal * 0.5f;
+            }
+            sqrDst = (_fleeTarget - rb.position).sqrMagnitude;
+            tries++;
+        }
+        
         if (Random.value < 0.5f)
             _bobFaceDir = Vector2.left;
         else

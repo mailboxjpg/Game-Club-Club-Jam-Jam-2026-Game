@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 8015692030914362972}
   - component: {fileID: 3483199598312607892}
   - component: {fileID: 2184812804042123555}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Goobie
   m_TagString: Player
   m_Icon: {fileID: 0}

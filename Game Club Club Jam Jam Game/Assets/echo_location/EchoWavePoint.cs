@@ -50,8 +50,6 @@ public class EchoWavePoint : MonoBehaviour
     {
         if (!DamageEnabled)
             return;
-        // Mirrors the old "already_hit" flag shared across the whole wave: once anything in the
-        // wave has hit an enemy, every point stops checking for further hits.
         if (HasWaveAlreadyHit != null && HasWaveAlreadyHit())
             return;
 
@@ -89,8 +87,6 @@ public class EchoWavePoint : MonoBehaviour
 
         if (fromSurface.sqrMagnitude < 0.0001f)
         {
-            // Point is exactly on/inside the surface (rare); fall back to reversing velocity
-            // rather than dividing by a near-zero vector.
             return -Velocity.normalized;
         }
 
