@@ -130,17 +130,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9f0c087e546b264bac5e5118c954757, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wave_prefab: {fileID: 5969337076408762519, guid: ade98468fdbb95046a5f90393f974718, type: 3}
+  wavePrefab: {fileID: 1894980108492559945, guid: ade98468fdbb95046a5f90393f974718, type: 3}
   cooldown: 1
-  wave_count: 3
+  waveCount: 3
   interval: 1
-  hold_radius: 0.55
-  pulse_light: {fileID: 137295669732303466}
-  pulse_speed: 3
-  min_pulse_intensity: 0
-  max_pulse_intensity: 0.25
-  hurt_radius: 1
+  hitRadius: 0.25
   damage: 1
+  holdRadius: 0.5
+  pulseLight: {fileID: 137295669732303466}
+  pulseSpeed: 1
+  minPulseIntensity: 0.5
+  maxPulseIntensity: 1.5
 --- !u!212 &1232487733277350097
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -67,7 +67,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 4
+  m_Radius: 6
 --- !u!1 &5664334690515006534
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,8 +213,8 @@ MonoBehaviour:
   lureAttackRadius: 6
   lureAttackIntensity: 1
   lureAttackLerpSpeed: 6
-  swoopInSpeed: 9
-  swoopOutSpeed: 7
+  swoopInSpeed: 7
+  swoopOutSpeed: 5
   biteRange: 0.5
   biteOffset: 0.5
   biteDamage: 8

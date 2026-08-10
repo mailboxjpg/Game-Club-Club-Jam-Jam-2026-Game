@@ -4,41 +4,35 @@ using UnityEngine.Rendering.Universal;
 
 public class EchoLocationTool : MonoBehaviour
 {
-    [SerializeField] private GameObject wave_prefab;
-    [SerializeField] private float cooldown;
-    [SerializeField] private float wave_count;
-    [SerializeField] private float interval;
-    [SerializeField] private float hold_radius = 0.5f;
-    [SerializeField] private Light2D pulse_light;
-    [SerializeField] private float pulse_speed = 1f;
-    [SerializeField] private float min_pulse_intensity = 0.5f;
-    [SerializeField] private float max_pulse_intensity = 1.5f;
-    [SerializeField] private float hurt_radius;
-    [SerializeField] private float damage;
+    [SerializeField] private EchoWaveVisuals wavePrefab;
+    [SerializeField] private float cooldown = 1f;
+    [SerializeField] private int waveCount = 3;
+    [Tooltip("Total time in seconds over which waveCount waves are staggered.")]
+    [SerializeField] private float interval = 0.3f;
+    [SerializeField] private float hitRadius = 0.25f;
+    [SerializeField] private float damage = 10f;
+    [SerializeField] private float holdRadius = 0.5f;
+    [SerializeField] private Light2D pulseLight;
+    [SerializeField] private float pulseSpeed = 1f;
+    [SerializeField] private float minPulseIntensity = 0.5f;
+    [SerializeField] private float maxPulseIntensity = 1.5f;
 
-    private float current_cooldown = 0;
-    private float pulseT;
-    private Vector3 mouse_dir;
-    private Camera cam;
+    private float _currentCooldown;
+    private float _pulseT;
+    private Vector2 _mouseDir = Vector2.right;
+    private Camera _cam;
 
     private void Start()
     {
-        cam = Camera.main;
+        _cam = Camera.main;
     }
 
     private void Update()
     {
-        current_cooldown -= Time.deltaTime;
-        
-        float pulse = (Mathf.Sin(pulseT) + 1f) * 0.5f;
-        pulse_light.intensity = Mathf.Lerp(min_pulse_intensity, max_pulse_intensity, pulse);
-        pulseT += Time.deltaTime * pulse_speed;
-        
-        Vector2 mouse_pos = cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-        mouse_dir = (mouse_pos - (Vector2)PlayerControl.Instance.transform.position).normalized;
-        transform.SetPositionAndRotation(
-            PlayerControl.Instance.transform.position + mouse_dir * hold_radius,
-            Quaternion.LookRotation(Vector3.forward, mouse_dir));
+        _currentCooldown -= Time.deltaTime;
+
+        UpdatePulseLight();
+        UpdateAimAndHoldPosition();
 
         if (PlayerControl.Instance.inputActions.Player.Interact.WasPressedThisFrame())
         {
@@ -46,20 +40,44 @@ public class EchoLocationTool : MonoBehaviour
         }
     }
 
+    private void UpdatePulseLight()
+    {
+        if (pulseLight == null)
+            return;
+
+        float pulse = (Mathf.Sin(_pulseT) + 1f) * 0.5f;
+        pulseLight.intensity = Mathf.Lerp(minPulseIntensity, maxPulseIntensity, pulse);
+        _pulseT += Time.deltaTime * pulseSpeed;
+    }
+
+    private void UpdateAimAndHoldPosition()
+    {
+        Vector2 mousePos = _cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        Vector2 playerPos = PlayerControl.Instance.transform.position;
+
+        Vector2 toMouse = mousePos - playerPos;
+        if (toMouse.sqrMagnitude > 0.0001f)
+        {
+            _mouseDir = toMouse.normalized;
+        }
+
+        transform.SetPositionAndRotation(
+            (Vector3)(playerPos + _mouseDir * holdRadius),
+            Quaternion.LookRotation(Vector3.forward, _mouseDir));
+    }
+
     public void SendEcho()
     {
-        if (current_cooldown <= 0f)
-        {
-            current_cooldown = cooldown;
-            for (int i = 0; i < wave_count; i++)
-            {
-                GameObject wave = Instantiate(wave_prefab, transform.position, transform.rotation);
+        if (_currentCooldown > 0f)
+            return;
 
-                EchoWaveVisuals wave_visuals = wave.GetComponent<EchoWaveVisuals>();
-                wave_visuals.direction = mouse_dir;
-                wave_visuals.delay = (interval / wave_count) * i;
-                wave_visuals.MakeWave(hurt_radius,damage);
-            }
+        _currentCooldown = cooldown;
+
+        for (int i = 0; i < waveCount; i++)
+        {
+            EchoWaveVisuals wave = Instantiate(wavePrefab, transform.position, transform.rotation);
+            float delay = waveCount > 0 ? (interval / waveCount) * i : 0f;
+            wave.Fire(_mouseDir, delay, hitRadius, damage);
         }
     }
 }

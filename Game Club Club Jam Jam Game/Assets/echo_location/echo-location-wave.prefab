@@ -150,12 +150,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41b74d2be17e14642bf9593f9ad8a9f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pointPrefab: {fileID: 6097479386741909649, guid: 8510625d75967c64d92ea242263c2136, type: 3}
+  pointCount: 16
+  radianWidth: 0.6
+  expansionSpeed: 8
   lineRenderer: {fileID: 3490141080939395888}
-  light: {fileID: 4233877486904484965, guid: 8510625d75967c64d92ea242263c2136, type: 3}
-  expansion_rate: 0.5
-  max_radius: 15
-  segments: 8
-  direction: {x: 1, y: 0}
-  radian_width: 0.5
-  delay: 0
-  intensityRange: {x: 0, y: 0.5}
+  damageEnabled: 1
