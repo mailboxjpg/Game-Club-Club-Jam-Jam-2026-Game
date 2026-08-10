@@ -24,4 +24,12 @@ public class SurfaceTile : Tile
     public AudioClip walkClip;
     public AudioClip jumpClip;
     public AudioClip landClip;
+
+    public override bool StartUp(Vector3Int position, ITilemap tilemap, GameObject go)
+    {
+        if (go != null)
+            go.hideFlags = HideFlags.None; // show in inspector hierarchy
+        
+        return base.StartUp(position, tilemap, go);
+    }
 }

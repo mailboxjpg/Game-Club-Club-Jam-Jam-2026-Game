@@ -12,6 +12,8 @@ public class CameraControl : MonoBehaviour
     [SerializeField] private float lerpSpeed = 1f;
     [Tooltip("Mouse sensitivity when moving the focus position around.")]
     [SerializeField] private float focusSensitivity = 0.02f;
+    [SerializeField] private RectTransform cursor;
+    [SerializeField] private RectTransform screen;
 
     private Camera _camera;
 
@@ -46,10 +48,25 @@ public class CameraControl : MonoBehaviour
     {
         PlayerControl.Instance.inputActions.Player.CameraFocus.performed -= SetFocusPoint;
     }
+    
+    private void Update()
+    {
+        if (cursor == null || screen == null || Mouse.current == null || Time.timeScale == 0f)
+            return;
+        Vector2 mousePosition = Mouse.current.position.ReadValue();
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(screen, mousePosition, null, out Vector2 localPoint))
+        {
+            cursor.anchoredPosition = localPoint;
+        }
+    }
 
     private void FixedUpdate()
     {
+        if (Time.timeScale == 0)
+            return;
         Vector3 newPosition;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(screen, Mouse.current.position.ReadValue(), _camera, out Vector2 localPoint);
+        cursor.localPosition = localPoint;
 
         if (_locked)
         {
@@ -64,11 +81,14 @@ public class CameraControl : MonoBehaviour
                 // Vector2 targetDelta = target.position - targetPreviousPosition;
                 _focusPosition += mouseDelta * focusSensitivity;
                 newPosition = _focusPosition;
+                Cursor.lockState = CursorLockMode.Locked;
             }
             else
             {
                 // Camera tracks the target (player)
                 newPosition = followTarget.position;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = false;
             }
         }
         newPosition = ClampWithinBounds(newPosition);
@@ -132,5 +152,11 @@ public class CameraControl : MonoBehaviour
         }
         _shakeOffset = Vector3.zero;
         _isShaking = false;
+    }
+
+    public void Delete()
+    {
+        Instance = null;
+        Destroy(gameObject);
     }
 }

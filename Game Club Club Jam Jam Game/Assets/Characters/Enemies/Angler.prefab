@@ -81,6 +81,7 @@ GameObject:
   - component: {fileID: 499127212005292680}
   - component: {fileID: 6064884458896656985}
   - component: {fileID: 3197365437625001941}
+  - component: {fileID: 1611335958190555830}
   m_Layer: 0
   m_Name: Angler
   m_TagString: Enemy
@@ -205,9 +206,9 @@ MonoBehaviour:
   bobFrequency: 0.5
   swayAmplitude: 0.1
   swayFrequency: 0.3
-  lureNormalRadius: 4
-  lureMinIntensity: 0.15
-  lureMaxIntensity: 0.5
+  lureNormalRadius: 2
+  lureMinIntensity: 0.01
+  lureMaxIntensity: 0.2
   lurePulseSpeed: 1
   lureAttackRadius: 6
   lureAttackIntensity: 1
@@ -228,7 +229,6 @@ MonoBehaviour:
   fleeMinRadius: 6
   fleeMaxRadius: 10
   fleeArrivalThreshold: 0.15
-  _state: 0
 --- !u!58 &3197365437625001941
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -265,6 +265,26 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.3
+--- !u!114 &1611335958190555830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5664334690515006534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 729f6d4ff7e2934408018a785844e2db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 5
+  blood_particles: {fileID: 5196107254683864196, guid: 1fc5e7703b1de4f47897af3f276f7bf6, type: 3}
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHurt:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &6121862791048552771
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,7 +334,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.75
   m_Color: {r: 0.22745097, g: 0.5806523, b: 1, a: 1}
-  m_Intensity: 0.5
+  m_Intensity: 0.2
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 1
   m_ApplyToSortingLayers: 00000000
@@ -338,7 +358,7 @@ MonoBehaviour:
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 4
+  m_PointLightOuterRadius: 2
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1

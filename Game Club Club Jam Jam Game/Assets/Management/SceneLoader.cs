@@ -65,6 +65,17 @@ public class SceneLoader : MonoBehaviour
         if (PlayerControl.Instance != null)
             PlayerControl.Instance.enabled = true;
         _loadingScene = false;
+        if (sceneName.Equals("TitleScreen") || sceneName.Equals("EndScreen"))
+        {
+            Cursor.visible = true;
+            PlayerControl.Instance.Delete();
+            CameraControl.Instance.Delete();
+        }
+        else
+        {
+            PlayerControl.Instance.shellCollector.numShells = 0;
+            Cursor.visible = false;
+        }
 
         yield return StartCoroutine(Fade(0f));
     }

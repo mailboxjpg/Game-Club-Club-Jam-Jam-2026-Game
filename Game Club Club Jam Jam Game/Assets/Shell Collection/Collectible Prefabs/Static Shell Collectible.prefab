@@ -116,6 +116,7 @@ MonoBehaviour:
   popupActiveTime: 1
   popupFadeAlphaRange: {x: 0, y: 1}
   popupMessage: +1 Shell
+  popupTextColor: {r: 1, g: 1, b: 1, a: 1}
   popupIsWorldSpace: 1
   popupDriftVelocity: {x: 0, y: 1, z: 0}
   OnCollect:

@@ -3,22 +3,23 @@ using UnityEngine;
 
 public class BubbleColumn : MonoBehaviour
 {
-    [SerializeField] private BoxCollider2D triggerCollider;
-    [SerializeField] private float pushForce = 16f;
+    public BoxCollider2D triggerCollider;
+    public float pushForce = 16f;
     [Tooltip("Time in seconds the bubble column is active.")]
-    [SerializeField] private float burstTime = 2f;
+    public float burstTime = 2f;
     [Tooltip("Time between bursts.")]
-    [SerializeField] private float burstCooldown = 4f;
+    public float burstCooldown = 4f;
     [Tooltip("Percentage of original height to lerp towards during burst.")]
-    [SerializeField, Range(0, 1)] private float burstMinHeight = 1f;
+    [Range(0, 1)]
+    public float burstMinHeight = 1f;
     [Tooltip("Speed at which to expand the trigger collider's height.")]
-    [SerializeField] private float burstHeightSpeed = 2f;
+    public float burstHeightSpeed = 2f;
     [SerializeField] private bool playOnAwake = true;
     [SerializeField] private ParticleSystem bubbleParticles;
     [Tooltip("Particle speed is set to pushForce*particleSpeedScale.")]
-    [SerializeField] private float particleSpeedScale = 0.25f;
+    public float particleSpeedScale = 0.25f;
     [Tooltip("Particle lifetime is set to height*particleLifetimeScale.")]
-    [SerializeField] private float particleLifetimeScale = 0.1f;
+    public float particleLifetimeScale = 0.1f;
     [SerializeField] private AudioSource bubbleAudioSource;
 
     private Coroutine _burstRoutine;

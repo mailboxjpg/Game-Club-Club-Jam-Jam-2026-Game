@@ -13,6 +13,8 @@ public class EchoLocationTool : MonoBehaviour
     [SerializeField] private float pulse_speed = 1f;
     [SerializeField] private float min_pulse_intensity = 0.5f;
     [SerializeField] private float max_pulse_intensity = 1.5f;
+    [SerializeField] private float hurt_radius;
+    [SerializeField] private float damage;
 
     private float current_cooldown = 0;
     private float pulseT;
@@ -56,7 +58,7 @@ public class EchoLocationTool : MonoBehaviour
                 EchoWaveVisuals wave_visuals = wave.GetComponent<EchoWaveVisuals>();
                 wave_visuals.direction = mouse_dir;
                 wave_visuals.delay = (interval / wave_count) * i;
-                wave_visuals.MakeWave();
+                wave_visuals.MakeWave(hurt_radius,damage);
             }
         }
     }
