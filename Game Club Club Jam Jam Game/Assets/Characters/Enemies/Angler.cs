@@ -26,7 +26,7 @@ public class AnglerFish : MonoBehaviour
     [SerializeField] private float lureMaxIntensity = 0.5f;
     [SerializeField] private float lurePulseSpeed = 1.5f;
     [SerializeField] private float lureAttackRadius = 6f;
-    [Tooltip("Intensity the lure snaps/lerps to while attacking (usually brighter, to sell the aggro).")]
+    [Tooltip("Intensity the lure snaps/lerps to while attacking.")]
     [SerializeField] private float lureAttackIntensity = 1f;
     [SerializeField] private float lureAttackLerpSpeed = 6f;
 
@@ -56,7 +56,7 @@ public class AnglerFish : MonoBehaviour
     [Tooltip("How close (world units) to the flee target counts as 'arrived', at which point it settles into idle bobbing from there.")]
     [SerializeField] private float fleeArrivalThreshold = 0.15f;
 
-    [SerializeField] private State _state = State.Idle;
+    private State _state = State.Idle;
     private Vector3 _origin;
     private float _bobSeed;
     private Transform _target;

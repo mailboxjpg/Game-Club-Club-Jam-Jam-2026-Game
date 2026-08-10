@@ -43,7 +43,6 @@ public class EchoWaveVisuals : MonoBehaviour
     {
         _hurt_radius = hurt_radius;
         _damage = damage;
-        print("attempt create wave");
         current_radius = 0;
         active_expanding = true;
         current_origin = transform.position;
@@ -86,7 +85,6 @@ public class EchoWaveVisuals : MonoBehaviour
                 {
                     if (c.tag == "Enemy")
                     {
-                        print("hit");
                         already_hit = true;
                         c.gameObject.GetComponent<enemy_health>().deal_damage(_damage); break;
                     }

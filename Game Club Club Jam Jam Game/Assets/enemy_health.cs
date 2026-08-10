@@ -14,10 +14,9 @@ public class enemy_health : MonoBehaviour
         OnHurt.Invoke();
         if (blood_particles != null)
         {
-            ParticleSystem particles = Instantiate(blood_particles, transform.position, transform.rotation);
+            Instantiate(blood_particles, transform.position, transform.rotation);
         }
         hp -= damage;
-        print(hp);
         if (hp <= 0)
         {
             OnDeath.Invoke();

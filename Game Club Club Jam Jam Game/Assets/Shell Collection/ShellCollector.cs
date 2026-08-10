@@ -39,9 +39,4 @@ public class ShellCollector : MonoBehaviour
             OnCollect?.Invoke(collectible);
         }
     }
-
-    public void ResetShells()
-    {
-        numShells = 0;
-    }
 }
