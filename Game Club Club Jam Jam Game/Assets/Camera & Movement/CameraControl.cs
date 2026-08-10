@@ -62,6 +62,8 @@ public class CameraControl : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (Time.timeScale == 0)
+            return;
         Vector3 newPosition;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(screen, Mouse.current.position.ReadValue(), _camera, out Vector2 localPoint);
         cursor.localPosition = localPoint;
@@ -86,6 +88,7 @@ public class CameraControl : MonoBehaviour
                 // Camera tracks the target (player)
                 newPosition = followTarget.position;
                 Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = false;
             }
         }
         newPosition = ClampWithinBounds(newPosition);

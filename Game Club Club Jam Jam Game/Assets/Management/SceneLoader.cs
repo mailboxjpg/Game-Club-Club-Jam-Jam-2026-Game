@@ -73,6 +73,7 @@ public class SceneLoader : MonoBehaviour
         }
         else
         {
+            PlayerControl.Instance.shellCollector.numShells = 0;
             Cursor.visible = false;
         }
 
