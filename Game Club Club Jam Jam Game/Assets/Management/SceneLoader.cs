@@ -80,9 +80,15 @@ public class SceneLoader : MonoBehaviour
         yield return StartCoroutine(Fade(0f));
     }
 
+    public void FadeScreen(float alpha)
+    {
+        StartCoroutine(Fade(alpha));
+    }
+
     private IEnumerator Fade(float targetAlpha)
     {
-        if (fadeScreenGroup == null) yield break;
+        if (fadeScreenGroup == null)
+            yield break;
 
         float startAlpha = fadeScreenGroup.alpha;
         float time = 0;

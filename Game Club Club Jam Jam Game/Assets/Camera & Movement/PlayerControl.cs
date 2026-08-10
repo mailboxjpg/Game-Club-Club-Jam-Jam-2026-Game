@@ -118,7 +118,7 @@ public class PlayerControl : CharacterController2D
         if (numLives <= 0)
         {
             numLives = 0;
-            SceneLoader.Instance.LoadScene("MenuScene"); // TODO: CHANGE TO ACTUAL NAME LATER
+            SceneLoader.Instance.LoadScene("TitleScreen"); // TODO: CHANGE TO ACTUAL NAME LATER
             return false;
         }
         Respawn(respawnDelay);
@@ -129,7 +129,9 @@ public class PlayerControl : CharacterController2D
     {
         _isRespawning = true;
         Time.timeScale = 0.5f;
+        SceneLoader.Instance.FadeScreen(1f);
         yield return new WaitForSecondsRealtime(delay);
+        SceneLoader.Instance.FadeScreen(0f);
         Time.timeScale = 1f;
         transform.SetPositionAndRotation(_spawnPosition, _spawnRotation);
         _isRespawning = false;
