@@ -49,7 +49,7 @@ public class EchoWavePoint : MonoBehaviour
     private void CheckForEnemyHit()
     {
         if (!DamageEnabled)
-            return;
+            return;        
         if (HasWaveAlreadyHit != null && HasWaveAlreadyHit())
             return;
 
