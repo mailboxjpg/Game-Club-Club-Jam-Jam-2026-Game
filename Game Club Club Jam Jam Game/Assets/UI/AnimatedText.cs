@@ -9,6 +9,7 @@ public class AnimatedText : MonoBehaviour
     [SerializeField] private float characterRate = 0.1f;
     [SerializeField] private bool emptyOnAwake;
     [SerializeField] private bool setTargetTextOnAwake;
+    [SerializeField] private bool playOnAwake = false;
 
     private TextMeshProUGUI _text;
     private Coroutine _animationRoutine;
@@ -22,6 +23,8 @@ public class AnimatedText : MonoBehaviour
             _originalFullText = _text.text;
         if (emptyOnAwake)
             _text.text = "";
+        if (playOnAwake)
+            StartAnimation();
     }
 
     private void Update()

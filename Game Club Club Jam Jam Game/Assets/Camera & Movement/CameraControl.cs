@@ -35,10 +35,10 @@ public class CameraControl : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null)
+        if (Instance != null && Instance != this)
         {
-            Destroy(gameObject);
             Instance.SwitchBackGround();
+            Destroy(gameObject);
             return;
         }
         _camera = GetComponent<Camera>();
@@ -49,7 +49,8 @@ public class CameraControl : MonoBehaviour
 
     private void OnDestroy()
     {
-        PlayerControl.Instance.inputActions.Player.CameraFocus.performed -= SetFocusPoint;
+        if (PlayerControl.Instance != null)
+            PlayerControl.Instance.inputActions.Player.CameraFocus.performed -= SetFocusPoint;
     }
     
     private void Update()

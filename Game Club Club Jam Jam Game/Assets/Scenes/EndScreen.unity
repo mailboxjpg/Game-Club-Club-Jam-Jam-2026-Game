@@ -803,9 +803,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45806537743a5dd429c1e81598354b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterRate: 0.1
+  characterRate: 0.01
   emptyOnAwake: 1
   setTargetTextOnAwake: 1
+  playOnAwake: 1
 --- !u!1001 &1567013341
 PrefabInstance:
   m_ObjectHideFlags: 0
