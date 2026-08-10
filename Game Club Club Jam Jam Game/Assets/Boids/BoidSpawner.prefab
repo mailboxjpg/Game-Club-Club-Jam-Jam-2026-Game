@@ -47,8 +47,8 @@ MonoBehaviour:
   boidPrefab: {fileID: 1564431549690663273, guid: 01b551f88a6de924f94aa1e9812c9a44, type: 3}
   boidCount: 60
   spawnExtents: {x: 24, y: 10}
-  boidScale: 0.1
+  boidScale: 0.25
   baseSpeed: 2.5
   speedVariance: 0.5
-  flockBoundsRadius: 32
+  flockBoundsSize: {x: 60, y: 60}
   boidZ: 1

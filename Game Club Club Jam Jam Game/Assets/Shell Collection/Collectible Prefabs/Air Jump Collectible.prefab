@@ -105,7 +105,7 @@ MonoBehaviour:
   shellAmount: 0
   destroyOnCollect: 1
   collectAudioClip: {fileID: 0}
-  collectParticlesPrefab: {fileID: 4147807085855834338, guid: 2c9d871b5e69434439c19012f20251bb, type: 3}
+  collectParticlesPrefab: {fileID: 4147807085855834338, guid: cc50e8020f0d79f4ca78d618fb35e0e9, type: 3}
   overrideParticleColor: 1
   particleColor: {r: 0.10588236, g: 0.47450984, b: 0.9960785, a: 1}
   pulseLight: {fileID: 3643486716000972747}

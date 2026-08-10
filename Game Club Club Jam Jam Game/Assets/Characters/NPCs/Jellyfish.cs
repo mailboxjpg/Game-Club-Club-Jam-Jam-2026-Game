@@ -15,6 +15,7 @@ public class Jellyfish : MonoBehaviour
     [SerializeField] private float directionRandomness = 0.1f;
     [Tooltip("Degrees per second the sprite rotates to face its current thrust direction.")]
     [SerializeField] private float rotateSpeed = 1f;
+    [SerializeField] private Animator animator;
 
     private Rigidbody2D _rigidbody;
     private float _thrustTimer;
@@ -57,6 +58,7 @@ public class Jellyfish : MonoBehaviour
 
         _lastThrustDirection = jitteredDir;
         _rigidbody.linearVelocity = transform.up * thrustSpeed;
+        animator.SetTrigger("Thrust");
     }
 
     /// <summary>Smoothly rotates the jellyfish to face its most recent thrust direction (assumes "up" is the sprite's forward).</summary>
