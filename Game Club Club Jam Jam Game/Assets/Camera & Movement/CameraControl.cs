@@ -14,6 +14,7 @@ public class CameraControl : MonoBehaviour
     [SerializeField] private float focusSensitivity = 0.02f;
     [SerializeField] private RectTransform cursor;
     [SerializeField] private RectTransform screen;
+    [SerializeField] private GameObject[] backgrounds;
 
     private Camera _camera;
 
@@ -26,6 +27,7 @@ public class CameraControl : MonoBehaviour
 
     private bool _isShaking = false;
     private Vector3 _shakeOffset;
+    private int _currentBackground = 0;
 
     // The bounds in world space that define the area the camera can move around in
     // null means the camera is unbounded (can move freely anywhere)
@@ -158,5 +160,15 @@ public class CameraControl : MonoBehaviour
     {
         Instance = null;
         Destroy(gameObject);
+    }
+
+    public void SwitchBackGround()
+    {
+        _currentBackground = (_currentBackground + 1) % backgrounds.Length;
+        foreach(GameObject background in backgrounds)
+        {
+            background.SetActive(false);
+        }
+        backgrounds[_currentBackground].SetActive(true);
     }
 }
