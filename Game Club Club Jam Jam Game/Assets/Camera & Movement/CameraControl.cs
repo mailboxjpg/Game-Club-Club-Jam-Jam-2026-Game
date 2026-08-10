@@ -38,6 +38,7 @@ public class CameraControl : MonoBehaviour
         if (Instance != null)
         {
             Destroy(gameObject);
+            Instance.SwitchBackGround();
             return;
         }
         _camera = GetComponent<Camera>();

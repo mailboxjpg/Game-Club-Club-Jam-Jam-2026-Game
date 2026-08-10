@@ -55,8 +55,6 @@ public class SceneLoader : MonoBehaviour
         // 2. Fade to black
         yield return StartCoroutine(Fade(1f));
 
-        if (CameraControl.Instance != null)
-            CameraControl.Instance.SwitchBackGround();
         // 3. Load scene asynchronously
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         while (!asyncLoad.isDone)
