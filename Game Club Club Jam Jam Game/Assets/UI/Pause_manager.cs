@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Pause_manager : MonoBehaviour
 {
     public static Pause_manager Instance { get; private set; }
     bool game_paused = false;
     [SerializeField] GameObject menu;
+    [SerializeField] Slider volumeSlider;
 
     private void Awake()
     {
@@ -16,6 +18,13 @@ public class Pause_manager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        volumeSlider.onValueChanged.AddListener(ChangeVolume);
+        volumeSlider.SetValueWithoutNotify(AudioListener.volume);
+    }
+
+    private void OnDestroy()
+    {
+        volumeSlider.onValueChanged.RemoveListener(ChangeVolume);
     }
 
     private void Update()
@@ -52,5 +61,10 @@ public class Pause_manager : MonoBehaviour
         menu?.SetActive(false);
         game_paused = false;
         Time.timeScale = 1;
+    }
+
+    private void ChangeVolume(float value)
+    {
+        AudioListener.volume = value;
     }
 }

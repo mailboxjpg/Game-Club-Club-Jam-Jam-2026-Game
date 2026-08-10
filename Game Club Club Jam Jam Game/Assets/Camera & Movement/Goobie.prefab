@@ -335,21 +335,21 @@ MonoBehaviour:
   characterController: {fileID: 7121374073756744338}
   healthSystem: {fileID: 731122144605664964}
   walkAudioSource: {fileID: 8015692030914362972}
-  defaultWalkClip: {fileID: 8300000, guid: aff8b6bb43d803c4ebc8bda75ce2eb61, type: 3}
-  defaultJumpClip: {fileID: 0}
-  defaultLandClip: {fileID: 0}
+  defaultWalkClip: {fileID: 8300000, guid: bb4c10d0c6098574bbcf886b27f86700, type: 3}
+  defaultJumpClip: {fileID: 8300000, guid: 39a8359fb68aaef478172ca3fb5267d1, type: 3}
+  defaultLandClip: {fileID: 8300000, guid: c378099c663110e4987fbe1b41795e03, type: 3}
   walkVolumeRange: {x: 0, y: 1}
   walkPitchRange: {x: 0.75, y: 1.25}
   maxSpeed: 18
   fallDamageSettings:
   - surfaceType: 2
-    scale: 0.75
-    minHeight: 5
+    scale: 0.5
+    minHeight: 6
   - surfaceType: 3
-    scale: 0.1
-    minHeight: 12
-  defaultFallDamageScale: 0.35
-  defaultMinFallHeight: 8
+    scale: 0.05
+    minHeight: 16
+  defaultFallDamageScale: 0.3
+  defaultMinFallHeight: 9
 --- !u!82 &8015692030914362972
 AudioSource:
   m_ObjectHideFlags: 0
@@ -361,7 +361,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: 56d829dd76da5d6408d2c70157904b66, type: 2}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: aff8b6bb43d803c4ebc8bda75ce2eb61, type: 3}
+  m_Resource: {fileID: 8300000, guid: bb4c10d0c6098574bbcf886b27f86700, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
