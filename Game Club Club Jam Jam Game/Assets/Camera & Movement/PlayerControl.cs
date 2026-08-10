@@ -105,7 +105,7 @@ public class PlayerControl : CharacterController2D
 
     public void Respawn(float delay)
     {
-        if (_isRespawning)
+        if (_isRespawning || Time.timeScale == 0f)
             return;
         StartCoroutine(RespawnRoutine(delay));
     }
