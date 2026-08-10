@@ -15,14 +15,13 @@ public class EchoWavePoint : MonoBehaviour
     [SerializeField] private float hitRadius = 0.25f;
 
     public Vector2 Velocity { get; set; }
-    public bool DamageEnabled { get; set; } = true;
 
     private Light2D _light;
     private float _age;
     private int _reflectionsUsed;
 
-    public System.Func<bool> HasWaveAlreadyHit;
-    public System.Action OnWaveHit;
+    public bool HasWaveAlreadyHit;
+    public System.Action<Collider2D> OnWaveHit;
 
     private void Awake()
     {
@@ -42,30 +41,13 @@ public class EchoWavePoint : MonoBehaviour
 
         float lifeT = Mathf.Clamp01(_age / lifetime);
         _light.intensity = Mathf.Lerp(intensityOverLife.x, intensityOverLife.y, lifeT);
-
-        CheckForEnemyHit();
-    }
-
-    private void CheckForEnemyHit()
-    {
-        if (!DamageEnabled)
-            return;        
-        if (HasWaveAlreadyHit != null && HasWaveAlreadyHit())
-            return;
-
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, hitRadius);
-        foreach (Collider2D hit in hits)
-        {
-            if (hit.CompareTag(enemyTag))
-            {
-                OnWaveHit?.Invoke();
-                break;
-            }
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.CompareTag(enemyTag))
+            OnWaveHit?.Invoke(other);
+
         if (((1 << other.gameObject.layer) & groundLayer.value) == 0)
             return;
 

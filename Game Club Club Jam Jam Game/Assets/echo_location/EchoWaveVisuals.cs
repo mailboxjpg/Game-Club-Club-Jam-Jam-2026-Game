@@ -10,8 +10,6 @@ public class EchoWaveVisuals : MonoBehaviour
     [SerializeField] private float radianWidth = 0.6f;
     [SerializeField] private float expansionSpeed = 8f;
     [SerializeField] private LineRenderer lineRenderer;
-    [Tooltip("If false, this wave never checks for or deals damage at all.")]
-    [SerializeField] private bool damageEnabled = true;
 
     private EchoWavePoint[] _points;
     private float _delay;
@@ -78,8 +76,7 @@ public class EchoWaveVisuals : MonoBehaviour
 
             EchoWavePoint point = Instantiate(pointPrefab, spawnPos, Quaternion.identity, transform);
             point.Velocity = pointDir * expansionSpeed;
-            point.DamageEnabled = damageEnabled;
-            point.HasWaveAlreadyHit = () => _waveHasHit;
+            point.HasWaveAlreadyHit = _waveHasHit;
             point.OnWaveHit = OnAnyPointHit;
 
             _points[i] = point;
@@ -92,9 +89,13 @@ public class EchoWaveVisuals : MonoBehaviour
     }
 
     /// <summary>Shared "already hit" flag across the whole wave, matching the old EchoWaveVisuals behavior where only the first enemy touched by any segment takes damage.</summary>
-    private void OnAnyPointHit()
+    private void OnAnyPointHit(Collider2D hit)
     {
         _waveHasHit = true;
+        if (hit.TryGetComponent<enemy_health>(out var health))
+        {
+            health.deal_damage(_pendingDamage);
+        }
     }
 
     private void UpdateLine()
