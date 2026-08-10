@@ -38,6 +38,6 @@ MonoBehaviour:
   damagePerSecond: 0
   movementMultiplier: 1
   bouncinessAddition: 0
-  walkClip: {fileID: 8300000, guid: cd8ef05813e59974087d58f32300a8fa, type: 3}
+  walkClip: {fileID: 8300000, guid: bb4c10d0c6098574bbcf886b27f86700, type: 3}
   jumpClip: {fileID: 8300000, guid: 39a8359fb68aaef478172ca3fb5267d1, type: 3}
   landClip: {fileID: 8300000, guid: c378099c663110e4987fbe1b41795e03, type: 3}
