@@ -37,4 +37,7 @@ MonoBehaviour:
   surfaceType: 3
   damagePerSecond: 0
   movementMultiplier: 1
-  bounceForce: 0
+  bouncinessAddition: 0
+  walkClip: {fileID: 8300000, guid: 238d7c56b9d197143bbfc64f215c6ac0, type: 3}
+  jumpClip: {fileID: 8300000, guid: 39a8359fb68aaef478172ca3fb5267d1, type: 3}
+  landClip: {fileID: 8300000, guid: 3b53b83dca302c640b9c9d12be19a106, type: 3}

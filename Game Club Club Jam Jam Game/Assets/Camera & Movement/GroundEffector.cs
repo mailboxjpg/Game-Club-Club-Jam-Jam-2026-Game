@@ -17,23 +17,22 @@ public class GroundEffector : MonoBehaviour
     [SerializeField] private float maxSpeed;
     [SerializeField] private FallDamageSetting[] fallDamageSettings;
     [SerializeField] private float defaultFallDamageScale = 0.25f;
-    [SerializeField] private float defaultMinFallHeight = 6f;
+    [SerializeField] private float defaultMinFallSpeed = 15f;
 
     [System.Serializable]
     private struct FallDamageSetting
     {
         [Tooltip("Surface type to use this fall damage scale with.")]
         public SurfaceType surfaceType;
-        [Tooltip("Fall height is multiplied by this to apply fall damage.")]
+        [Tooltip("Fall speed is multiplied by this to apply fall damage.")]
         public float scale;
-        [Tooltip("Fall damage is only applied when fall height is above this threshold.")]
-        public float minHeight;
+        [Tooltip("Fall damage is only applied when fall speed is above this threshold.")]
+        public float minSpeed;
     }
     private Dictionary<SurfaceType, FallDamageSetting> _fallDamageSettings = new Dictionary<SurfaceType, FallDamageSetting>();
     private Vector3Int _currentCell;
     private SurfaceTile _currentTile;
     private float _originalBounciness;
-    private float _maxAirY = -999999f;
 
     private void Start()
     {
@@ -65,7 +64,6 @@ public class GroundEffector : MonoBehaviour
             {
                 walkAudioSource.Stop();
             }
-            _maxAirY = Mathf.Max(_maxAirY, transform.position.y);
             return;
         }
 
@@ -120,44 +118,44 @@ public class GroundEffector : MonoBehaviour
 
     private void Land(Collider2D ground, float speed)
     {
-        float fallHeight = Mathf.Max(0f, _maxAirY - transform.position.y);
-        _maxAirY = -999999f;
+        if (walkAudioSource == null)
+            return;
+        Debug.Log("LAND");
         TryGetSurfaceTile();
-
-        if (walkAudioSource != null)
+        if (_currentTile != null && _currentTile.landClip != null)
         {
-            if (_currentTile != null && _currentTile.landClip != null)
-            {
-                walkAudioSource.PlayOneShot(_currentTile.landClip);
-            }
-            else if (defaultLandClip != null)
-            {
-                walkAudioSource.PlayOneShot(defaultLandClip);
-            }
+            Debug.Log($"PLAYONESHOT LAND AUDIO: {_currentTile.surfaceType} {_currentTile.landClip}");
+            AudioSource.PlayClipAtPoint(_currentTile.landClip, transform.position);
+        }
+        else if (defaultLandClip != null)
+        {
+            AudioSource.PlayClipAtPoint(defaultLandClip, transform.position);
         }
 
         if (_currentTile != null && _fallDamageSettings.TryGetValue(_currentTile.surfaceType, out var fallDamageSetting))
         {
-            if (fallHeight > fallDamageSetting.minHeight)
-                healthSystem.AddHealth(-fallHeight * fallDamageSetting.scale);
+            if (speed > fallDamageSetting.minSpeed)
+                healthSystem.AddHealth(-speed * fallDamageSetting.scale);
             return;
         }
-        if (fallHeight > defaultMinFallHeight)
-            healthSystem.AddHealth(-fallHeight * defaultFallDamageScale);
+        if (speed > defaultMinFallSpeed)
+            healthSystem.AddHealth(-speed * defaultFallDamageScale);
     }
 
     private void Jump()
     {
         if (walkAudioSource == null)
             return;
+        Debug.Log("JUMP");
 
         if (_currentTile != null && _currentTile.jumpClip != null)
         {
-            walkAudioSource.PlayOneShot(_currentTile.jumpClip);
+            Debug.Log($"PLAYONESHOT JUMP AUDIO: {_currentTile.surfaceType} {_currentTile.landClip}");
+            AudioSource.PlayClipAtPoint(_currentTile.jumpClip, transform.position);
         }
         else if (defaultJumpClip != null)
         {
-            walkAudioSource.PlayOneShot(defaultJumpClip);
+            AudioSource.PlayClipAtPoint(defaultJumpClip, transform.position);
         }
     }
 }

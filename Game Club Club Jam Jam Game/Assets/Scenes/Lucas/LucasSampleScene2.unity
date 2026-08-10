@@ -3077,6 +3077,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 757461233}
     m_Modifications:
+    - target: {fileID: 4512783152510640062, guid: 9302fa4cc96ac814fa2ecf402dab3717, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: 6092ec75a8a5d3a4885041d214a584d5, type: 3}
     - target: {fileID: 6566948155545011690, guid: 9302fa4cc96ac814fa2ecf402dab3717, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7.03
@@ -3297,6 +3301,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6256499139421560528, guid: 17318ea63fef591409a8fd8ce2a5ba6a, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6256499139421560528, guid: 17318ea63fef591409a8fd8ce2a5ba6a, type: 3}
+      propertyPath: MaxDistance
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6256499139421560528, guid: 17318ea63fef591409a8fd8ce2a5ba6a, type: 3}
+      propertyPath: MinDistance
+      value: 9.9009905
+      objectReference: {fileID: 0}
+    - target: {fileID: 6256499139421560528, guid: 17318ea63fef591409a8fd8ce2a5ba6a, type: 3}
+      propertyPath: rolloffMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6256499139421560528, guid: 17318ea63fef591409a8fd8ce2a5ba6a, type: 3}
+      propertyPath: DopplerLevel
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6256499139421560528, guid: 17318ea63fef591409a8fd8ce2a5ba6a, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7759839224934032670, guid: 17318ea63fef591409a8fd8ce2a5ba6a, type: 3}
       propertyPath: m_Color.b
       value: 1
@@ -3312,6 +3340,18 @@ PrefabInstance:
     - target: {fileID: 8194667919818637418, guid: 17318ea63fef591409a8fd8ce2a5ba6a, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8200518511987769441, guid: 17318ea63fef591409a8fd8ce2a5ba6a, type: 3}
+      propertyPath: m_Volume
+      value: 0.575
+      objectReference: {fileID: 0}
+    - target: {fileID: 8200518511987769441, guid: 17318ea63fef591409a8fd8ce2a5ba6a, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[0].time
+      value: 0.11854708
+      objectReference: {fileID: 0}
+    - target: {fileID: 8200518511987769441, guid: 17318ea63fef591409a8fd8ce2a5ba6a, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[0].value
+      value: 0.9951401
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
