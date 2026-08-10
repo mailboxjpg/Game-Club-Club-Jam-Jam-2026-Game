@@ -27,7 +27,8 @@ public class SurfaceTile : Tile
 
     public override bool StartUp(Vector3Int position, ITilemap tilemap, GameObject go)
     {
-        go.hideFlags = HideFlags.None; // show in inspector hierarchy
+        if (go != null)
+            go.hideFlags = HideFlags.None; // show in inspector hierarchy
         
         return base.StartUp(position, tilemap, go);
     }
