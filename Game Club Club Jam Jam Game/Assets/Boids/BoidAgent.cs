@@ -161,7 +161,7 @@ public class BoidAgent : MonoBehaviour {
             averageVelocity += neighbors[i].Velocity;
             count++;
         }
-        if (count > 0)
+        if (count > 3)
         {
             offsetPulse = false;
             float avgOffset = totalOffset / count;
@@ -170,8 +170,9 @@ public class BoidAgent : MonoBehaviour {
         }
         else if (!offsetPulse)
         {
-            pulseOffset += Random.Range(-5f, 5f);
             offsetPulse = true;
+            pulseOffset += Random.Range(-1f, 1f);
+            materialInstance.SetFloat("_PulseOffset", pulseOffset);
         }
         
         return count > 0 ? (averageVelocity / count).normalized : (Vector2)transform.up;
