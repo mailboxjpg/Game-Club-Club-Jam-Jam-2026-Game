@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7759839224934032670}
   - component: {fileID: 159831390696968848}
   - component: {fileID: 4947831456002785406}
+  - component: {fileID: 8200518511987769441}
   m_Layer: 0
   m_Name: Echo Tool Collectible
   m_TagString: Collectible
@@ -185,7 +186,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

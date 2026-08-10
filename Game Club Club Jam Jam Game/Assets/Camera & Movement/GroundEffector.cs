@@ -57,8 +57,6 @@ public class GroundEffector : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // if (walkAudioSource != null)
-        //     Debug.Log(walkAudioSource.isPlaying);
         if (!characterController.IsGrounded)
         {
             if (walkAudioSource != null)
