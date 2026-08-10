@@ -26,7 +26,7 @@ public class AnimatedText : MonoBehaviour
 
     private void Update()
     {
-        if (PlayerControl.Instance.inputActions.UI.SkipPopup.WasPressedThisFrame())
+        if (PlayerControl.Instance != null && PlayerControl.Instance.inputActions.UI.SkipPopup.WasPressedThisFrame())
         {
             SkipAnimation();
         }
