@@ -151,8 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointPrefab: {fileID: 6097479386741909649, guid: 8510625d75967c64d92ea242263c2136, type: 3}
-  pointCount: 16
+  pointCount: 8
   radianWidth: 0.6
   expansionSpeed: 8
   lineRenderer: {fileID: 3490141080939395888}
-  damageEnabled: 1

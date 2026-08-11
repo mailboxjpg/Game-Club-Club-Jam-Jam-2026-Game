@@ -28,16 +28,16 @@ public class EchoWavePoint : MonoBehaviour
         _light = GetComponent<Light2D>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        _age += Time.deltaTime;
+        _age += Time.fixedDeltaTime;
         if (_age >= lifetime)
         {
             Destroy(gameObject);
             return;
         }
 
-        transform.position += (Vector3)(Velocity * Time.deltaTime);
+        transform.position += (Vector3)(Velocity * Time.fixedDeltaTime);
 
         float lifeT = Mathf.Clamp01(_age / lifetime);
         _light.intensity = Mathf.Lerp(intensityOverLife.x, intensityOverLife.y, lifeT);

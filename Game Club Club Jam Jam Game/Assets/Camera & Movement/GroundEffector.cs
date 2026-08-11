@@ -18,6 +18,7 @@ public class GroundEffector : MonoBehaviour
     [SerializeField] private FallDamageSetting[] fallDamageSettings;
     [SerializeField] private float defaultFallDamageScale = 0.25f;
     [SerializeField] private float defaultMinFallHeight = 6f;
+    [SerializeField] private Vector2 oneShotPitchRange;
 
     [System.Serializable]
     private struct FallDamageSetting
@@ -126,11 +127,11 @@ public class GroundEffector : MonoBehaviour
         {
             if (_currentTile != null && _currentTile.landClip != null)
             {
-                AudioSource.PlayClipAtPoint(_currentTile.landClip, transform.position);
+                PlayClipAtPointWithPitch(_currentTile.landClip, transform.position, 1f, Random.Range(oneShotPitchRange.x, oneShotPitchRange.y));
             }
             else if (defaultLandClip != null)
             {
-                AudioSource.PlayClipAtPoint(defaultLandClip, transform.position);
+                PlayClipAtPointWithPitch(defaultLandClip, transform.position, 1f, Random.Range(oneShotPitchRange.x, oneShotPitchRange.y));
             }
         }
 
@@ -151,11 +152,25 @@ public class GroundEffector : MonoBehaviour
 
         if (_currentTile != null && _currentTile.jumpClip != null)
         {
-            AudioSource.PlayClipAtPoint(_currentTile.jumpClip, transform.position);
+            PlayClipAtPointWithPitch(_currentTile.jumpClip, transform.position, 0.75f, Random.Range(oneShotPitchRange.x, oneShotPitchRange.y));
         }
         else if (defaultJumpClip != null)
         {
-            AudioSource.PlayClipAtPoint(defaultJumpClip, transform.position);
+            PlayClipAtPointWithPitch(defaultJumpClip, transform.position, 0.75f, Random.Range(oneShotPitchRange.x, oneShotPitchRange.y));
         }
+    }
+
+    private void PlayClipAtPointWithPitch(AudioClip clip, Vector3 position, float volume, float pitch)
+    {
+        GameObject tempGO = new GameObject("TempAudio");
+        tempGO.transform.position = position;
+        
+        AudioSource audioSource = tempGO.AddComponent<AudioSource>();
+        audioSource.clip = clip;
+        audioSource.volume = volume;
+        audioSource.pitch = pitch;
+        
+        audioSource.Play();
+        Destroy(tempGO, clip.length / Mathf.Abs(pitch));
     }
 }

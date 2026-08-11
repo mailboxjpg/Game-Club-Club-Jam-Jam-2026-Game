@@ -55,6 +55,8 @@ public class CameraControl : MonoBehaviour
     
     private void Update()
     {
+        if (PlayerControl.Instance.inputActions.UI.Fullscreen.WasPressedThisFrame())
+            Screen.fullScreen = !Screen.fullScreen;
         if (cursor == null || screen == null || Mouse.current == null || Time.timeScale == 0f)
             return;
         Vector2 mousePosition = Mouse.current.position.ReadValue();

@@ -64,4 +64,9 @@ public class Trigger2D : MonoBehaviour
     {
         Instantiate(prefab, transform.position, transform.rotation);
     }
+
+    public void FullscreenToggle()
+    {
+        Screen.fullScreen = !Screen.fullScreen;
+    }
 }
