@@ -36,8 +36,6 @@ public class RoomCreator : MonoBehaviour
 
     [Header("Camera Bounds")]
     [SerializeField] private bool createCameraBounds = true;
-    [Tooltip("Tag CameraBounds checks for on its trigger (must match the player's tag).")]
-    [SerializeField] private string cameraBoundsTriggerTag = "Player";
 
     private const float MinSegmentLength = 0.01f; // guards against degenerate zero-length wall segments
 
@@ -321,7 +319,6 @@ public class RoomCreator : MonoBehaviour
         // (boundsMatchCollider defaults to true, which is what we want) at runtime.
 #if UNITY_EDITOR
         var so = new UnityEditor.SerializedObject(cameraBounds);
-        so.FindProperty("triggerTag").stringValue = cameraBoundsTriggerTag;
         so.FindProperty("boundsMatchCollider").boolValue = true;
         so.ApplyModifiedPropertiesWithoutUndo();
 #endif

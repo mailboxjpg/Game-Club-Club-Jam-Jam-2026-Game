@@ -36,7 +36,15 @@ public class BoidAgent : MonoBehaviour {
     [Header("Depth (Z) Isolation")]
     [Tooltip("All boids are placed on this fixed Z so they render/sort together and never physically interact with anything outside their own Z-layer (2D physics ignores Z, but this keeps them visually and spatially grouped and separable from the rest of the scene).")]
     [SerializeField] float boidZ = -1f;
-    
+
+    [Header("Consumption")]
+    [Tooltip("Health granted to player when this boid is consumed.")]
+    [SerializeField] float easyHealth = 1f;
+    [SerializeField] float normalHealth = 0.5f; // Dont allow player to eat on hard mode
+    [Tooltip("Tag of colliders that can eat this boid.")]
+    [SerializeField] string eatTag = "Player";
+    [SerializeField] GameObject eatParticles;
+
     Rigidbody2D rb;
     readonly List<BoidAgent> neighbors = new(32);
     
@@ -55,7 +63,7 @@ public class BoidAgent : MonoBehaviour {
     #endregion
     
     public Vector2 Velocity => rb ? rb.linearVelocity : Vector2.zero;
-    public float pulseOffset;
+    [HideInInspector] public float pulseOffset;
 
     protected void Awake()
     {
@@ -299,7 +307,22 @@ public class BoidAgent : MonoBehaviour {
         }
     }
 
-    void OnDrawGizmosSelected()
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.isTrigger || !collision.transform.CompareTag(eatTag) || SceneLoader.Instance.difficulty == Difficulty.Hard)
+            return;
+        if (collision.TryGetComponent<HealthSystem>(out var healthSystem) && healthSystem.GetHealth() < healthSystem.GetMaxHealth())
+        {
+            if (SceneLoader.Instance.difficulty == Difficulty.Easy)
+                healthSystem.AddHealth(easyHealth);
+            else
+                healthSystem.AddHealth(normalHealth);
+            Instantiate(eatParticles, transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnDrawGizmosSelected()
     {
         if (!useBounds)
             return;
