@@ -14,25 +14,20 @@ public class EchoWaveVisuals : MonoBehaviour
     private EchoWavePoint[] _points;
     private float _delay;
     private bool _fired;
-    private bool _waveHasHit;
     private Vector2 _pendingDirection;
-    private float _pendingHitRadius;
-    private float _pendingDamage;
 
     /// <summary>Fires the wave: spawns points across the arc facing `direction`, each moving outward at expansionSpeed. `delay` staggers the actual spawn (used by EchoLocationTool to fire multiple waves in sequence).</summary>
-    public void Fire(Vector2 direction, float delay, float hitRadius, float damage)
+    public void Fire(Vector2 direction, float delay)
     {
         _delay = delay;
         if (_delay <= 0f)
         {
-            SpawnPoints(direction, hitRadius, damage);
+            SpawnPoints(direction);
         }
         else
         {
             // Stash for use once the delay elapses in Update.
             _pendingDirection = direction;
-            _pendingHitRadius = hitRadius;
-            _pendingDamage = damage;
         }
     }
 
@@ -43,7 +38,7 @@ public class EchoWaveVisuals : MonoBehaviour
             _delay -= Time.deltaTime;
             if (_delay <= 0f)
             {
-                SpawnPoints(_pendingDirection, _pendingHitRadius, _pendingDamage);
+                SpawnPoints(_pendingDirection);
             }
             return;
         }
@@ -56,7 +51,7 @@ public class EchoWaveVisuals : MonoBehaviour
         }
     }
 
-    private void SpawnPoints(Vector2 direction, float hitRadius, float damage)
+    private void SpawnPoints(Vector2 direction)
     {
         _fired = true;
         _points = new EchoWavePoint[pointCount];
@@ -76,8 +71,6 @@ public class EchoWaveVisuals : MonoBehaviour
 
             EchoWavePoint point = Instantiate(pointPrefab, spawnPos, Quaternion.identity, transform);
             point.Velocity = pointDir * expansionSpeed;
-            point.HasWaveAlreadyHit = _waveHasHit;
-            point.OnWaveHit = OnAnyPointHit;
 
             _points[i] = point;
         }
@@ -85,16 +78,6 @@ public class EchoWaveVisuals : MonoBehaviour
         if (lineRenderer != null)
         {
             lineRenderer.positionCount = pointCount;
-        }
-    }
-
-    /// <summary>Shared "already hit" flag across the whole wave, matching the old EchoWaveVisuals behavior where only the first enemy touched by any segment takes damage.</summary>
-    private void OnAnyPointHit(Collider2D hit)
-    {
-        _waveHasHit = true;
-        if (hit.TryGetComponent<enemy_health>(out var health))
-        {
-            health.deal_damage(_pendingDamage);
         }
     }
 

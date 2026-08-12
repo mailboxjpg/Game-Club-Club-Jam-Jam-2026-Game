@@ -38,9 +38,8 @@ public class BoidAgent : MonoBehaviour {
     [SerializeField] float boidZ = -1f;
 
     [Header("Consumption")]
-    [Tooltip("Health granted to player when this boid is consumed.")]
-    [SerializeField] float easyHealth = 1f;
-    [SerializeField] float normalHealth = 0.5f; // Dont allow player to eat on hard mode
+    [Tooltip("Health granted to player when this boid is consumed on normal difficulty.")]
+    [SerializeField] float health = 0.5f;
     [Tooltip("Tag of colliders that can eat this boid.")]
     [SerializeField] string eatTag = "Player";
     [SerializeField] GameObject eatParticles;
@@ -313,11 +312,10 @@ public class BoidAgent : MonoBehaviour {
             return;
         if (collision.TryGetComponent<HealthSystem>(out var healthSystem) && healthSystem.GetHealth() < healthSystem.GetMaxHealth())
         {
-            if (SceneLoader.Instance.difficulty == Difficulty.Easy)
-                healthSystem.AddHealth(easyHealth);
-            else
-                healthSystem.AddHealth(normalHealth);
-            Instantiate(eatParticles, transform.position, Quaternion.identity);
+            if (SceneLoader.Instance.difficulty != Difficulty.Hard)
+                healthSystem.AddHealth(health / SceneLoader.Instance.DifficultyScale);
+            GameObject particles = Instantiate(eatParticles, transform.position, Quaternion.identity);
+            Destroy(particles, 2f);
             Destroy(gameObject);
         }
     }

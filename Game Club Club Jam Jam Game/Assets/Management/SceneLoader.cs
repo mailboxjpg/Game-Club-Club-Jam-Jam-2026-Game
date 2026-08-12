@@ -22,7 +22,17 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] private Image difficultySliderHandle;
     [SerializeField] private Image difficultySliderFill;
     [SerializeField] private bool takeOverInstance;
+    [SerializeField] private float easyScale = 0.5f;
+    [SerializeField] private float normalScale = 1f;
+    [SerializeField] private float hardScale = 1.5f;
     public Difficulty difficulty;
+    public float DifficultyScale => difficulty switch
+    {
+        Difficulty.Easy => easyScale,
+        Difficulty.Normal => normalScale,
+        Difficulty.Hard => hardScale,
+        _ => normalScale
+    };
 
     private bool _loadingScene;
     private int _currentSceneIndex;
@@ -109,14 +119,7 @@ public class SceneLoader : MonoBehaviour
         else
         {
             PlayerControl.Instance.shellCollector.numShells = 0;
-            float sceneLoadHealth = difficulty switch
-            {
-                Difficulty.Easy => PlayerControl.Instance.healthSystem.GetMaxHealth(),
-                Difficulty.Normal => PlayerControl.Instance.healthSystem.GetMaxHealth() * 0.5f,
-                Difficulty.Hard => 0f,
-                _ => 0f,
-            };
-            PlayerControl.Instance.healthSystem.AddHealth(sceneLoadHealth);
+            PlayerControl.Instance.healthSystem.AddHealth(PlayerControl.Instance.healthSystem.GetMaxHealth() / (DifficultyScale + 0.5f));
             Cursor.visible = false;
         }
 
@@ -172,5 +175,11 @@ public class SceneLoader : MonoBehaviour
             difficultySliderFill.color = Color.red;
             difficultyText.text = "Difficulty: <color=red>Hard</color>";
         }
+    }
+
+    public float GetDifficultyScale(float variance)
+    {
+        float baseMultiplier = DifficultyScale;
+        return DifficultyScale - (1f - DifficultyScale) * variance;
     }
 }

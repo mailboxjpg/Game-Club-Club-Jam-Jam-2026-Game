@@ -36,7 +36,7 @@ public class AnglerFish : MonoBehaviour
     [SerializeField] private float biteRange = 0.6f;
     [SerializeField] private float biteOffset = 0.5f;
     [Tooltip("Damage dealt on a successful bite.")]
-    [SerializeField] private int biteDamage = 10;
+    [SerializeField] private float biteDamage = 5f;
     [Tooltip("Safety timeout: if the fish hasn't reached target this many seconds into a state, it gives up and swoops away.")]
     [SerializeField] private float swoopTimeout = 2.5f;
     [Tooltip("How long the bite 'lunge stop' lasts before swooping away.")]
@@ -70,7 +70,8 @@ public class AnglerFish : MonoBehaviour
 
     private void Awake()
     {
-        if (rb == null) rb = GetComponent<Rigidbody2D>();
+        if (rb == null)
+            rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0f;
         rb.freezeRotation = true;
         _origin = transform.position;
@@ -80,6 +81,9 @@ public class AnglerFish : MonoBehaviour
         {
             _attackTags.Add(tag);
         }
+        swoopInSpeed *= SceneLoader.Instance.DifficultyScale;
+        swoopOutSpeed *= SceneLoader.Instance.DifficultyScale;
+        biteDamage *= SceneLoader.Instance.DifficultyScale;
     }
 
     private void Update()

@@ -21,7 +21,8 @@ public class Checkpoint : MonoBehaviour
 
     private void Start()
     {
-        _activeMaterial = activeIndicator.material;
+        if (activeIndicator != null)
+            _activeMaterial = activeIndicator.material;
         if(activeOnStart)
             Activate();
         else
@@ -32,7 +33,7 @@ public class Checkpoint : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(PlayerControl.Instance == null)
+        if (PlayerControl.Instance == null)
             return;
         if (!collision.CompareTag(triggerTag))
             return;
@@ -43,14 +44,20 @@ public class Checkpoint : MonoBehaviour
     {
         PlayerControl.Instance.SetCheckpoint(this);
         
-        _activeMaterial.SetColor("_BaseColor", activeColor);
-        _activeMaterial.SetColor("_EmissionColor", activeEmission);
+        if (_activeMaterial != null)
+        {
+            _activeMaterial.SetColor("_BaseColor", activeColor);
+            _activeMaterial.SetColor("_EmissionColor", activeEmission);
+        }
         OnActivate?.Invoke();
     }
 
     public void Deactivate()
     {
-        _activeMaterial.SetColor("_BaseColor", inactiveColor);
-        _activeMaterial.SetColor("_EmissionColor", inactiveEmission);
+        if (_activeMaterial != null)
+        {
+            _activeMaterial.SetColor("_BaseColor", inactiveColor);
+            _activeMaterial.SetColor("_EmissionColor", inactiveEmission);
+        }
     }
 }

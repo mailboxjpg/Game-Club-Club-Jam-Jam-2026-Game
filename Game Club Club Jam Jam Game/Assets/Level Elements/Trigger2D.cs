@@ -27,11 +27,6 @@ public class Trigger2D : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!_targetTags.Contains(collision.tag) || (targetLayers.value & (1 << collision.gameObject.layer)) <= 0)
@@ -48,25 +43,5 @@ public class Trigger2D : MonoBehaviour
         if (ignoreOtherTriggers && collision.isTrigger)
             return;
         OnTriggerExit?.Invoke();
-    }
-
-    public void LoadScene(string sceneName)
-    {
-        SceneLoader.Instance.LoadScene(sceneName);
-    }
-
-    public void LoadNextScene()
-    {
-        SceneLoader.Instance.LoadNextScene();
-    }
-
-    public void SpawnPrefab(GameObject prefab)
-    {
-        Instantiate(prefab, transform.position, transform.rotation);
-    }
-
-    public void FullscreenToggle()
-    {
-        Screen.fullScreen = !Screen.fullScreen;
     }
 }

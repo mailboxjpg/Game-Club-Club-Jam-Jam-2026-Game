@@ -177,6 +177,7 @@ GameObject:
   - component: {fileID: 5754081646602096269}
   - component: {fileID: 2048502223822611441}
   - component: {fileID: 6313153976092236815}
+  - component: {fileID: 2154391551450933609}
   m_Layer: 3
   m_Name: TriggerDoor
   m_TagString: Untagged
@@ -219,6 +220,9 @@ MonoBehaviour:
   model: {fileID: 2505366985327715564}
   lerpSpeed: 1
   minShells: 1
+  OnOpen:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!61 &2048502223822611441
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -286,10 +290,10 @@ MonoBehaviour:
   OnTriggerEnter:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6313153976092236815}
-        m_TargetAssemblyTypeName: Trigger2D, Assembly-CSharp
-        m_MethodName: LoadNextScene
-        m_Mode: 1
+      - m_Target: {fileID: 2154391551450933609}
+        m_TargetAssemblyTypeName: GameActions, Assembly-CSharp
+        m_MethodName: LoadScene
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -301,6 +305,18 @@ MonoBehaviour:
   OnTriggerExit:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2154391551450933609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5212743285482662417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51bf3638e54bd2c42a93f96c0fa21990, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5485926041834920501
 GameObject:
   m_ObjectHideFlags: 0

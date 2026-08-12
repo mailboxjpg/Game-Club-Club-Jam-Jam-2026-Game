@@ -53,4 +53,9 @@ public class Door : MonoBehaviour
             OnOpen?.Invoke();
         }
     }
+
+    public void SetMinShells(int shells)
+    {
+        minShells = shells;
+    }
 }

@@ -3,8 +3,8 @@ using UnityEngine.Events;
 
 public class HealthSystem : MonoBehaviour
 {
-    [SerializeField] private CharacterController2D characterController2D;
-    [SerializeField] private bool shakeCameraOnDamage;
+    [SerializeField] private bool scaleWithDifficulty;
+    [Header("Health")]
     [SerializeField] private float health;
     [SerializeField] private float maxHealth;
     [SerializeField] private SliderIndicator healthIndicator;
@@ -13,6 +13,8 @@ public class HealthSystem : MonoBehaviour
     [SerializeField] private Color healColor = Color.green;
     [SerializeField] private float damageTintFadeSpeed = 0.25f;
     [SerializeField] private float healTintFadeSpeed = 0.35f;
+
+    [Header("Armor")]
     [SerializeField] private float armor;
     [SerializeField] private float maxArmor;
     [SerializeField] private SliderIndicator armorIndicator;
@@ -20,6 +22,9 @@ public class HealthSystem : MonoBehaviour
     [SerializeField] private float armorDamageReductionFactor = 0.01f;
     [Tooltip("Determines how many armor points to remove with damage. 1=>100% of damage, 2=>50% of damage, 0.5=>200% of damage, etc")]
     public float armorDurability = 1f;
+
+    [Header("Camera Shake")]
+    [SerializeField] private bool shakeCameraOnDamage;
     [Tooltip("Multiplier with damage amount for shake magnitude.")]
     [SerializeField] private float damageShakeIntensity = 0.1f;
     [SerializeField] private float damageShakeSpeed = 1.5f;
@@ -31,24 +36,24 @@ public class HealthSystem : MonoBehaviour
 
     private float _damageCooldown;
     private float _accumulatedDamage;
-    private float _startHealth;
-    private float _startArmor;
-    private float _startMaxHealth;
-    private float _startMaxArmor;
 
+    public UnityEvent OnHurt;
     public UnityEvent OnDeath;
     public UnityEvent OnArmorBreak;
 
     private void Start()
     {
+        if (scaleWithDifficulty)
+        {
+            health *= SceneLoader.Instance.DifficultyScale;
+            maxHealth *= SceneLoader.Instance.DifficultyScale;
+            armor *= SceneLoader.Instance.DifficultyScale;
+            maxArmor *= SceneLoader.Instance.DifficultyScale;
+        }
         if (healthIndicator != null)
             healthIndicator.UpdateUI(this.health, maxHealth);
         if (armorIndicator != null)
             armorIndicator.UpdateUI(this.armor, maxArmor);
-        _startHealth = health;
-        _startArmor = armor;
-        _startMaxHealth = maxHealth;
-        _startMaxArmor = maxArmor;
     }
 
     private void Update()
@@ -71,7 +76,6 @@ public class HealthSystem : MonoBehaviour
 
     public void SetHealth(float health)
     {
-        Debug.Log($"Setting health: {health}");
         if (health <= 0f && this.health > 0f)
             OnDeath?.Invoke();
         this.health = Mathf.Clamp(health, 0f, maxHealth);
@@ -81,7 +85,6 @@ public class HealthSystem : MonoBehaviour
 
     public void AddHealth(float amount)
     {
-        Debug.Log($"Adding health: {amount}");
         if (amount == 0f)
             return;
         if (amount < 0f)
@@ -106,6 +109,7 @@ public class HealthSystem : MonoBehaviour
             }
             if (screenTint != null)
                 screenTint.StartTint(damageColor, damageTintFadeSpeed, 0f);
+            OnHurt?.Invoke();
         }
         else if (screenTint != null)
         {

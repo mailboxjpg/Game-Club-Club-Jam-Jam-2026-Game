@@ -9,8 +9,6 @@ public class EchoLocationTool : MonoBehaviour
     [SerializeField] private int waveCount = 3;
     [Tooltip("Total time in seconds over which waveCount waves are staggered.")]
     [SerializeField] private float interval = 0.3f;
-    [SerializeField] private float hitRadius = 0.25f;
-    [SerializeField] private float damage = 10f;
     [SerializeField] private float holdRadius = 0.5f;
     [SerializeField] private Light2D pulseLight;
     [SerializeField] private float pulseSpeed = 1f;
@@ -77,7 +75,7 @@ public class EchoLocationTool : MonoBehaviour
         {
             EchoWaveVisuals wave = Instantiate(wavePrefab, transform.position, transform.rotation);
             float delay = waveCount > 0 ? (interval / waveCount) * i : 0f;
-            wave.Fire(_mouseDir, delay, hitRadius, damage);
+            wave.Fire(_mouseDir, delay);
         }
     }
 }

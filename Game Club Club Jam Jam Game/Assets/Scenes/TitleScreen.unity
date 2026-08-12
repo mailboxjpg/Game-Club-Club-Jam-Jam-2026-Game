@@ -873,7 +873,7 @@ GameObject:
   m_Component:
   - component: {fileID: 740577076}
   - component: {fileID: 740577075}
-  - component: {fileID: 740577074}
+  - component: {fileID: 740577077}
   m_Layer: 0
   m_Name: transition_trigger
   m_TagString: Untagged
@@ -881,29 +881,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &740577074
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 740577073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ade9a1a7f1d9104abcd21265b759a74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  targetTags: []
-  ignoreOtherTriggers: 0
-  OnTriggerEnter:
-    m_PersistentCalls:
-      m_Calls: []
-  OnTriggerExit:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!61 &740577075
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -965,6 +942,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &740577077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740577073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51bf3638e54bd2c42a93f96c0fa21990, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &871343160
 GameObject:
   m_ObjectHideFlags: 0
@@ -1047,8 +1036,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 740577074}
-        m_TargetAssemblyTypeName: Trigger2D, Assembly-CSharp
+      - m_Target: {fileID: 740577077}
+        m_TargetAssemblyTypeName: GameActions, Assembly-CSharp
         m_MethodName: LoadScene
         m_Mode: 5
         m_Arguments:

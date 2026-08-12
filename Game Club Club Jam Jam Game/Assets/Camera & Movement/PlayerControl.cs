@@ -16,8 +16,8 @@ public class PlayerControl : CharacterController2D
     [SerializeField] private bool autoJumpWithHold = true;
     [SerializeField] private bool allowJumpCanceling = true;
     [SerializeField] private Popup livesPopup;
-    [SerializeField] private int normalLives = 8; // Easy mode has infinite lives
-    [SerializeField] private int hardLives = 3;
+    [Tooltip("Base number of lives to multiply by difficulty multiplier (normal difficulty number of lives).")]
+    [SerializeField] private int baseLives = 8; // Easy mode has infinite lives
     [Tooltip("Time needed to hold reset button to reset.")]
     [SerializeField] private float resetHoldTime = 0.75f;
     [SerializeField] private Slider resetSlider;
@@ -46,20 +46,9 @@ public class PlayerControl : CharacterController2D
             return;
         }
         base.Awake();
-        switch (SceneLoader.Instance.difficulty)
-        {
-            case Difficulty.Easy:
-                _numLives = 9999999;
-                break;
-            case Difficulty.Normal:
-                _numLives = normalLives;
-                break;
-            case Difficulty.Hard:
-                _numLives = hardLives;
-                break;
-        }
         if (SceneLoader.Instance.difficulty != Difficulty.Easy)
         {
+            _numLives = Mathf.CeilToInt(baseLives / SceneLoader.Instance.DifficultyScale);
             livesPopup.SetText($"Lives Left: {_numLives}", Color.yellow);
             livesPopup.StartPopup();
         }

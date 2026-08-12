@@ -338,8 +338,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2090085883}
-        m_TargetAssemblyTypeName: Trigger2D, Assembly-CSharp
+      - m_Target: {fileID: 2090085886}
+        m_TargetAssemblyTypeName: GameActions, Assembly-CSharp
         m_MethodName: LoadScene
         m_Mode: 5
         m_Arguments:
@@ -588,8 +588,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2090085883}
-        m_TargetAssemblyTypeName: Trigger2D, Assembly-CSharp
+      - m_Target: {fileID: 2090085886}
+        m_TargetAssemblyTypeName: GameActions, Assembly-CSharp
         m_MethodName: LoadScene
         m_Mode: 5
         m_Arguments:
@@ -620,7 +620,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -855298285791758126, guid: 268d4ab7c926a404ea4b814898a23e7f, type: 3}
+  m_Sprite: {fileID: 6733505785295746921, guid: a032a49d24ccf2549baf6c88f6133a4d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1160,7 +1160,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2090085885}
   - component: {fileID: 2090085884}
-  - component: {fileID: 2090085883}
+  - component: {fileID: 2090085886}
   m_Layer: 0
   m_Name: transition_trigger
   m_TagString: Untagged
@@ -1168,29 +1168,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2090085883
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2090085882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ade9a1a7f1d9104abcd21265b759a74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  targetTags: []
-  ignoreOtherTriggers: 0
-  OnTriggerEnter:
-    m_PersistentCalls:
-      m_Calls: []
-  OnTriggerExit:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!61 &2090085884
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1252,6 +1229,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2090085886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2090085882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51bf3638e54bd2c42a93f96c0fa21990, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2138122291
 GameObject:
   m_ObjectHideFlags: 0

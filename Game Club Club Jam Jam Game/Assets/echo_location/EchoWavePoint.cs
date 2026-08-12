@@ -13,6 +13,7 @@ public class EchoWavePoint : MonoBehaviour
     [SerializeField] private Vector2 intensityOverLife = new Vector2(1.5f, 0f);
     [SerializeField] private string enemyTag = "Enemy";
     [SerializeField] private float hitRadius = 0.25f;
+    [SerializeField] private float damage = 1f;
 
     public Vector2 Velocity { get; set; }
 
@@ -46,7 +47,13 @@ public class EchoWavePoint : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag(enemyTag))
+        {
+            if (other.TryGetComponent<HealthSystem>(out var health))
+            {
+                health.AddHealth(-damage);
+            }
             OnWaveHit?.Invoke(other);
+        }
 
         if (((1 << other.gameObject.layer) & groundLayer.value) == 0)
             return;
