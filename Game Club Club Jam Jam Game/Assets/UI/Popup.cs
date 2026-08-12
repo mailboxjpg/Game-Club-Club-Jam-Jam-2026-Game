@@ -7,6 +7,8 @@ using UnityEngine.Events;
 public class Popup : MonoBehaviour
 {
     [SerializeField] private RectTransform popupBox;
+    [SerializeField] private AnimatedText animatedText;
+    [SerializeField] private TextMeshProUGUI textComp;
     [Tooltip("Time in seconds for fade in/fade out.")]
     public float fadeTime;
     [Tooltip("Seconds the popup is active before getting destroyed.")]
@@ -25,29 +27,21 @@ public class Popup : MonoBehaviour
     private bool _hadWorldSpaceTarget;
     private bool _wasEnabled = false;
     private Vector3 _worldSpacePosition;
-    private AnimatedText _animatedText;
-    private TextMeshProUGUI _textComp;
 
     public UnityEvent OnPopupStart;
     public UnityEvent OnPopupEnd;
 
     private void Start()
     {
-        Init();
         if (popupOnStart)
             StartPopup();
-    }
-
-    public void Init()
-    {
-        _animatedText = GetComponentInChildren<AnimatedText>();
-        _textComp = GetComponentInChildren<TextMeshProUGUI>();
     }
 
     public void StartPopup()
     {
         if (_wasEnabled)
             return;
+        popupBox.gameObject.SetActive(true);
         StartCoroutine(PopupRoutine());
     }
 
@@ -120,16 +114,19 @@ public class Popup : MonoBehaviour
         OnPopupEnd?.Invoke();
         _hadWorldSpaceTarget = false;
         _wasEnabled = false;
+        popupBox.gameObject.SetActive(false);
         if (destroyOnEnd)
             Destroy(gameObject);
     }
 
     public void SetText(string text, Color color)
     {
-        if (_animatedText != null)
-            _animatedText.SetFullText(text);
-        else if (_textComp != null)
-            _textComp.text = text;
-        _textComp.color = color;
+        if (animatedText != null)
+            animatedText.SetFullText(text);
+        if (textComp != null)
+        {
+            textComp.text = text;
+            textComp.color = color;
+        }
     }
 }

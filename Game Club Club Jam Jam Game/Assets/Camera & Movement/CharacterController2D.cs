@@ -108,6 +108,7 @@ public abstract class CharacterController2D : MonoBehaviour
     public event Action OnWallSlideStarted;
     public event Action OnWallSlideEnded;
     public event Action OnWallJumped;
+    public event Action OnDashed;
 
     private float _coyoteTimer;
     private float _wallCoyoteTimer;
@@ -641,6 +642,7 @@ public abstract class CharacterController2D : MonoBehaviour
         if ((dir.x > 0f && IsTouchingWallRight) || (dir.x < 0f && IsTouchingWallLeft))
             rb.linearVelocityX = 0f; // Prevent dash from clipping through wall
         rb.gravityScale = 0f;
+        OnDashed?.Invoke();
 
         return true;
     }

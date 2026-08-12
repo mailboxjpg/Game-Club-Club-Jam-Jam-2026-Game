@@ -1,6 +1,7 @@
+using System;
 using System.Collections;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerControl : CharacterController2D
 {
@@ -8,40 +9,62 @@ public class PlayerControl : CharacterController2D
 
     [Header("Player")]
     public ShellCollector shellCollector;
+    public HealthSystem healthSystem;
 
     [Tooltip("When true, the Player is always running and pressing Sprint keybind (left shift) makes the player walk.")]
     [SerializeField] private bool runByDefault = false;
     [SerializeField] private bool autoJumpWithHold = true;
     [SerializeField] private bool allowJumpCanceling = true;
-    public int numLives = 3;
+    [SerializeField] private Popup livesPopup;
+    [SerializeField] private int normalLives = 8; // Easy mode has infinite lives
+    [SerializeField] private int hardLives = 3;
+    [Tooltip("Time needed to hold reset button to reset.")]
+    [SerializeField] private float resetHoldTime = 0.75f;
+    [SerializeField] private Slider resetSlider;
 
     private bool _jumpPressedThisFrame;
     private bool _jumpReleasedThisFrame;
     private bool _jumpHeld;
     private bool _dashHeld;
     private bool _isRespawning;
+    private Checkpoint _prevCheckpoint;
     private Vector3 _spawnPosition;
-    private Quaternion _spawnRotation;
+    private float _resetTimer;
+    private int _numLives;
+    private bool _startedReset;
 
     public InputSystem_Actions inputActions;
+    public Action OnRespawn;
 
     protected override void Awake()
     {
         if (Instance != null)
         {
-            Instance._spawnPosition = transform.position;
-            Instance._spawnRotation = transform.rotation;
-            Debug.Log($"[{name}: PlayerControl] An instance already exists. Setting original's position to {_spawnPosition} and rotation to {_spawnRotation} and destroying this instance's gameObject.");
+            Debug.Log($"[{name}: PlayerControl] An instance already exists. Setting original's position to {_spawnPosition} and destroying this instance's gameObject.");
 
-            Instance.Respawn(0f);
             Destroy(gameObject);
             return;
         }
         base.Awake();
+        switch (SceneLoader.Instance.difficulty)
+        {
+            case Difficulty.Easy:
+                _numLives = 9999999;
+                break;
+            case Difficulty.Normal:
+                _numLives = normalLives;
+                break;
+            case Difficulty.Hard:
+                _numLives = hardLives;
+                break;
+        }
+        if (SceneLoader.Instance.difficulty != Difficulty.Easy)
+        {
+            livesPopup.SetText($"Lives Left: {_numLives}", Color.yellow);
+            livesPopup.StartPopup();
+        }
         inputActions = new InputSystem_Actions();
         Instance = this;
-        _spawnPosition = transform.position;
-        _spawnRotation = transform.rotation;
         inputActions.Enable();
         DontDestroyOnLoad(gameObject);
     }
@@ -62,7 +85,25 @@ public class PlayerControl : CharacterController2D
 
         if (inputActions.Player.Reset.WasPressedThisFrame())
         {
-            Respawn(0f);
+            resetSlider.gameObject.SetActive(true);
+            _startedReset = true;
+        }
+
+        if (inputActions.Player.Reset.IsPressed() && _startedReset)
+        {
+            _resetTimer += Time.deltaTime;
+            resetSlider.value = _resetTimer / resetHoldTime;
+            if (_resetTimer >= resetHoldTime)
+            {
+                _resetTimer = 0.1f;
+                Respawn(0f);
+                _startedReset = false;
+            }
+        }
+        else if (_resetTimer > 0f)
+        {
+            resetSlider.gameObject.SetActive(false);
+            _resetTimer = 0f;
         }
 
         base.Update();
@@ -110,19 +151,12 @@ public class PlayerControl : CharacterController2D
         StartCoroutine(RespawnRoutine(delay));
     }
 
-    public bool KillPlayer(float respawnDelay)
+    public void KillPlayer(float respawnDelay)
     {
         if (_isRespawning)
-            return false;
-        numLives--;
-        if (numLives <= 0)
-        {
-            numLives = 0;
-            SceneLoader.Instance.LoadScene("TitleScreen"); // TODO: CHANGE TO ACTUAL NAME LATER
-            return false;
-        }
+            return;
+        _numLives--;
         Respawn(respawnDelay);
-        return true;
     }
 
     private IEnumerator RespawnRoutine(float delay)
@@ -131,10 +165,23 @@ public class PlayerControl : CharacterController2D
         Time.timeScale = 0.5f;
         SceneLoader.Instance.FadeScreen(1f);
         yield return new WaitForSecondsRealtime(delay);
+        if (SceneLoader.Instance.difficulty != Difficulty.Easy && _numLives <= 0)
+        {
+            _numLives = 0;
+            SceneLoader.Instance.LoadScene("TitleScreen");
+            yield break;
+        }
         SceneLoader.Instance.FadeScreen(0f);
         Time.timeScale = 1f;
-        transform.SetPositionAndRotation(_spawnPosition, _spawnRotation);
+        transform.position = _spawnPosition;
         _isRespawning = false;
+        if (SceneLoader.Instance.difficulty != Difficulty.Easy)
+        {
+            livesPopup.SetText($"Lives Left: {_numLives}", Color.yellow);
+            livesPopup.StartPopup();
+        }
+        healthSystem.SetHealth(healthSystem.GetMaxHealth());
+        OnRespawn?.Invoke();
     }
 
     public void Delete()
@@ -142,5 +189,13 @@ public class PlayerControl : CharacterController2D
         Debug.Log($"[{name}: PlayerControl] Deleting Instance.");
         Instance = null;
         Destroy(gameObject);
+    }
+
+    public void SetCheckpoint(Checkpoint checkpoint)
+    {
+        if (_prevCheckpoint != null)
+            _prevCheckpoint.Deactivate();
+        _prevCheckpoint = checkpoint;
+        _spawnPosition = checkpoint.transform.position;
     }
 }

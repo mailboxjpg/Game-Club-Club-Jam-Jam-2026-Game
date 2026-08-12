@@ -71,6 +71,7 @@ public class HealthSystem : MonoBehaviour
 
     public void SetHealth(float health)
     {
+        Debug.Log($"Setting health: {health}");
         if (health <= 0f && this.health > 0f)
             OnDeath?.Invoke();
         this.health = Mathf.Clamp(health, 0f, maxHealth);
@@ -80,6 +81,7 @@ public class HealthSystem : MonoBehaviour
 
     public void AddHealth(float amount)
     {
+        Debug.Log($"Adding health: {amount}");
         if (amount == 0f)
             return;
         if (amount < 0f)
@@ -193,14 +195,7 @@ public class HealthSystem : MonoBehaviour
 
     public void OnPlayerDeath()
     {
-        if (PlayerControl.Instance.KillPlayer(1f))
-        {
-            // Respawning
-            maxHealth = _startMaxHealth;
-            maxArmor = _startMaxArmor;
-            health = _startHealth;
-            armor = _startArmor;
-        }
-        screenTint.StartTint(Color.black, 0.25f, 0.5f);
+        _accumulatedDamage = 0f;
+        PlayerControl.Instance.KillPlayer(1f);
     }
 }

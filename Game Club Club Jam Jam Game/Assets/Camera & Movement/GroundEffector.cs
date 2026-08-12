@@ -48,12 +48,14 @@ public class GroundEffector : MonoBehaviour
         TryGetSurfaceTile();
         characterController.OnJumped += Jump;
         characterController.OnLanded += Land;
+        characterController.OnDashed += Dash;
     }
 
     private void OnDestroy()
     {
         characterController.OnJumped -= Jump;
         characterController.OnLanded -= Land;
+        characterController.OnDashed -= Dash;
     }
 
     private void FixedUpdate()
@@ -73,7 +75,7 @@ public class GroundEffector : MonoBehaviour
             TryGetSurfaceTile();
         }
 
-        if (_currentTile != null)
+        if (_currentTile != null && _currentTile.damagePerSecond != 0f)
         {
             healthSystem.AddHealth(-_currentTile.damagePerSecond * Time.fixedDeltaTime);
         }
@@ -147,6 +149,7 @@ public class GroundEffector : MonoBehaviour
 
     private void Jump()
     {
+        _maxAirY = transform.position.y;
         if (walkAudioSource == null)
             return;
 
@@ -158,6 +161,11 @@ public class GroundEffector : MonoBehaviour
         {
             PlayClipAtPointWithPitch(defaultJumpClip, transform.position, 0.75f, Random.Range(oneShotPitchRange.x, oneShotPitchRange.y));
         }
+    }
+
+    private void Dash()
+    {
+        _maxAirY = transform.position.y;
     }
 
     private void PlayClipAtPointWithPitch(AudioClip clip, Vector3 position, float volume, float pitch)

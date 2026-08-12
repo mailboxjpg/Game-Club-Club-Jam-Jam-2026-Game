@@ -73,7 +73,6 @@ public class Collectible : MonoBehaviour
             newPopup.activeTime = popupActiveTime;
             newPopup.fadeAlphaRange = popupFadeAlphaRange;
             newPopup.driftVelocity = popupDriftVelocity;
-            newPopup.Init();
             if (!string.IsNullOrEmpty(popupMessage))
             {
                 newPopup.SetText(popupMessage, popupTextColor);

@@ -63,6 +63,12 @@ public class Pause_manager : MonoBehaviour
         Time.timeScale = 1;
     }
 
+    public void go_to_menu()
+    {
+        unpause();
+        SceneLoader.Instance.LoadScene("TitleScreen");
+    }
+
     private void ChangeVolume(float value)
     {
         AudioListener.volume = value;

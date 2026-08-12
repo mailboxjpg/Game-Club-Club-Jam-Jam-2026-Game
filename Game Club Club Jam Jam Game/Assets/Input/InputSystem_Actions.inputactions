@@ -122,15 +122,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "ToggleInteract",
-                    "type": "Button",
-                    "id": "74e93d5c-9ab3-4623-9cc9-93cf5527a3ca",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -478,7 +469,7 @@
                 {
                     "name": "",
                     "id": "1c04ea5f-b012-41d1-a6f7-02e963b52893",
-                    "path": "<Keyboard>/e",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -522,7 +513,18 @@
                 {
                     "name": "",
                     "id": "9ebe2aea-e4cd-4f44-80e0-a6c79f492c69",
-                    "path": "<Mouse>/leftButton",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CameraFocus",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ae31a04e-17cd-4c7a-b1c3-aaee4e03bb3b",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -565,23 +567,23 @@
                 },
                 {
                     "name": "",
+                    "id": "80c9a427-e229-4094-b69c-55881b4938ff",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "cc03d57d-6b2d-4dfc-afdf-bc2cbfaa209a",
                     "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Reset",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "06c39f98-17e8-4ea8-b6ab-3e0560156b5f",
-                    "path": "<Keyboard>/backquote",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ToggleInteract",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
