@@ -155,11 +155,11 @@ public class GroundEffector : MonoBehaviour
 
         if (_currentTile != null && _currentTile.jumpClip != null)
         {
-            PlayClipAtPointWithPitch(_currentTile.jumpClip, transform.position, 0.75f, Random.Range(oneShotPitchRange.x, oneShotPitchRange.y));
+            PlayClipAtPointWithPitch(_currentTile.jumpClip, transform.position, 0.35f, Random.Range(oneShotPitchRange.x, oneShotPitchRange.y));
         }
         else if (defaultJumpClip != null)
         {
-            PlayClipAtPointWithPitch(defaultJumpClip, transform.position, 0.75f, Random.Range(oneShotPitchRange.x, oneShotPitchRange.y));
+            PlayClipAtPointWithPitch(defaultJumpClip, transform.position, 0.35f, Random.Range(oneShotPitchRange.x, oneShotPitchRange.y));
         }
     }
 

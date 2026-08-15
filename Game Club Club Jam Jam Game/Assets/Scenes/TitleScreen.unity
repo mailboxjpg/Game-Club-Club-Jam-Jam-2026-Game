@@ -451,6 +451,10 @@ PrefabInstance:
       value: SceneLoader
       objectReference: {fileID: 0}
     - target: {fileID: 6744543339082922930, guid: 472c90decb65f4848a49a155f9441aa9, type: 3}
+      propertyPath: hardScale
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6744543339082922930, guid: 472c90decb65f4848a49a155f9441aa9, type: 3}
       propertyPath: difficulty
       value: 1
       objectReference: {fileID: 0}

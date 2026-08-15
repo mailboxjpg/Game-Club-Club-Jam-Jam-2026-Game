@@ -48,7 +48,7 @@ public class PlayerControl : CharacterController2D
         base.Awake();
         if (SceneLoader.Instance.difficulty != Difficulty.Easy)
         {
-            _numLives = Mathf.CeilToInt(baseLives / SceneLoader.Instance.DifficultyScale);
+            _numLives = Mathf.FloorToInt(baseLives / SceneLoader.Instance.DifficultyScale);
             livesPopup.SetText($"Lives Left: {_numLives}", Color.yellow);
             livesPopup.StartPopup();
         }
@@ -176,6 +176,7 @@ public class PlayerControl : CharacterController2D
     public void Delete()
     {
         Debug.Log($"[{name}: PlayerControl] Deleting Instance.");
+        inputActions.Disable();
         Instance = null;
         Destroy(gameObject);
     }

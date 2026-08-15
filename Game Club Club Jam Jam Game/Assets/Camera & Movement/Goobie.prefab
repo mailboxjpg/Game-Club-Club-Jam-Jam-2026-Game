@@ -233,8 +233,7 @@ MonoBehaviour:
   autoJumpWithHold: 1
   allowJumpCanceling: 1
   livesPopup: {fileID: 2140449962249147983}
-  normalLives: 8
-  hardLives: 3
+  baseLives: 6
   resetHoldTime: 0.75
   resetSlider: {fileID: 6107124421720507156}
 --- !u!114 &731122144605664964
@@ -249,8 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2e74c7ab695bbe46b8e42d07837f25c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterController2D: {fileID: 7121374073756744338}
-  shakeCameraOnDamage: 1
+  scaleWithDifficulty: 0
   health: 20
   maxHealth: 20
   healthIndicator: {fileID: 3315703298398777806}
@@ -264,11 +262,15 @@ MonoBehaviour:
   armorIndicator: {fileID: 1346072874640145342}
   armorDamageReductionFactor: 0.01
   armorDurability: 1
+  shakeCameraOnDamage: 1
   damageShakeIntensity: 0.03
   damageShakeSpeed: 8
   damageShakeDuration: 0.3
   damageCooldown: 0.5
   immuneDuringCooldown: 0
+  OnHurt:
+    m_PersistentCalls:
+      m_Calls: []
   OnDeath:
     m_PersistentCalls:
       m_Calls:

@@ -24,7 +24,7 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] private bool takeOverInstance;
     [SerializeField] private float easyScale = 0.5f;
     [SerializeField] private float normalScale = 1f;
-    [SerializeField] private float hardScale = 1.5f;
+    [SerializeField] private float hardScale = 2f;
     public Difficulty difficulty;
     public float DifficultyScale => difficulty switch
     {

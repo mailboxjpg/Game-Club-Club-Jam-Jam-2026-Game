@@ -335,6 +335,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 542517014390601191, guid: 707bf4788d6a93546b860b30188c98ad, type: 3}
+      propertyPath: allowResets
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 542517014390601191, guid: 707bf4788d6a93546b860b30188c98ad, type: 3}
       propertyPath: activeOnStart
       value: 0
       objectReference: {fileID: 0}
@@ -259672,6 +259676,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 542517014390601191, guid: 707bf4788d6a93546b860b30188c98ad, type: 3}
+      propertyPath: allowResets
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 542517014390601191, guid: 707bf4788d6a93546b860b30188c98ad, type: 3}
       propertyPath: activeOnStart
       value: 0
       objectReference: {fileID: 0}
@@ -260605,6 +260613,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 542517014390601191, guid: 707bf4788d6a93546b860b30188c98ad, type: 3}
+      propertyPath: allowResets
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 542517014390601191, guid: 707bf4788d6a93546b860b30188c98ad, type: 3}
       propertyPath: activeOnStart
       value: 0
@@ -261620,7 +261632,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fc15bdc7dbab4741a9e6a168b7bd6e6, type: 3}
---- !u!43 &1594649322
+--- !u!43 &1589410071
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -261785,7 +261797,7 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!43 &1615082248
+--- !u!43 &1591244795
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

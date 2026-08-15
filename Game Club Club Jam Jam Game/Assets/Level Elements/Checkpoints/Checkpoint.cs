@@ -13,9 +13,11 @@ public class Checkpoint : MonoBehaviour
     [ColorUsage(true, true)]
     [SerializeField] private Color activeEmission;
     [SerializeField] private bool activeOnStart;
+    [SerializeField] private bool allowResets;
     [SerializeField] private bool teleportOnStart;
 
     private Material _activeMaterial;
+    private bool _activated;
 
     public UnityEvent OnActivate;
 
@@ -42,6 +44,9 @@ public class Checkpoint : MonoBehaviour
 
     public void Activate()
     {
+        if (_activated && !allowResets)
+            return;
+        _activated = true;
         PlayerControl.Instance.SetCheckpoint(this);
         
         if (_activeMaterial != null)
