@@ -1,0 +1,104 @@
+using System.Collections;
+using UnityEngine;
+
+public class BubbleColumn : MonoBehaviour
+{
+    public BoxCollider2D triggerCollider;
+    public float pushForce = 16f;
+    [Tooltip("Time in seconds the bubble column is active.")]
+    public float burstTime = 2f;
+    [Tooltip("Time between bursts.")]
+    public float burstCooldown = 4f;
+    [Tooltip("Percentage of original height to lerp towards during burst.")]
+    [Range(0, 1)]
+    public float burstMinHeight = 1f;
+    [Tooltip("Speed at which to expand the trigger collider's height.")]
+    public float burstHeightSpeed = 2f;
+    [SerializeField] private bool playOnAwake = true;
+    [SerializeField] private ParticleSystem bubbleParticles;
+    [Tooltip("Particle speed is set to pushForce*particleSpeedScale.")]
+    public float particleSpeedScale = 0.25f;
+    [Tooltip("Particle lifetime is set to height*particleLifetimeScale.")]
+    public float particleLifetimeScale = 0.1f;
+    [SerializeField] private AudioSource bubbleAudioSource;
+
+    private Coroutine _burstRoutine;
+    private bool _isEmitting;
+    private Vector2 _originalSize;
+    private Vector2 _originalOffset;
+    private ParticleSystem.MainModule _bubbleParticlesMain;
+
+    private void Awake()
+    {
+        _originalSize = triggerCollider.size;
+        _originalOffset = triggerCollider.offset;
+        if (bubbleParticles != null)
+            _bubbleParticlesMain = bubbleParticles.main;
+        if (playOnAwake)
+            Play();
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
+        
+    }
+
+    public void Play()
+    {
+        if (_burstRoutine != null)
+            return;
+        _burstRoutine = StartCoroutine(BurstLoop());
+    }
+
+    public void Stop()
+    {
+        if (_burstRoutine == null)
+            return;
+        StopCoroutine(_burstRoutine);
+        bubbleAudioSource.Stop();
+        bubbleParticles.Stop();
+        _burstRoutine = null;
+    }
+
+    private IEnumerator BurstLoop()
+    {
+        while (true)
+        {
+            _isEmitting = true;
+            _bubbleParticlesMain.startSpeed = pushForce * particleSpeedScale;
+            bubbleAudioSource.Play();
+            bubbleParticles.Play();
+            float time = burstTime;
+            while (time > 0)
+            {
+                float t = time / burstTime;
+                float heightPercent = Mathf.Lerp(burstMinHeight, 1f, t);
+                float targetHeight = _originalSize.y * heightPercent;
+                float newHeight = Mathf.Lerp(triggerCollider.size.y, targetHeight, burstHeightSpeed * Time.deltaTime);
+                float heightDiff = _originalSize.y - newHeight;
+                float targetOffsetY = _originalOffset.y - heightDiff * 0.5f;
+                triggerCollider.size = new Vector2(_originalSize.x, newHeight);
+                triggerCollider.offset = new Vector2(_originalOffset.x, targetOffsetY);
+                _bubbleParticlesMain.startLifetime = targetHeight * particleLifetimeScale;
+
+                time -= Time.deltaTime;
+                yield return null;
+            }
+            _isEmitting = false;
+            bubbleAudioSource.Stop();
+            bubbleParticles.Stop();
+            triggerCollider.size = new Vector2(_originalSize.x, 0f);
+
+            yield return new WaitForSeconds(burstCooldown);
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (!_isEmitting || collision.isTrigger || collision.attachedRigidbody == null)
+            return;
+
+        collision.attachedRigidbody.AddForce(transform.up * pushForce, ForceMode2D.Force);
+    }
+}
